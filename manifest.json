@@ -1,0 +1,19 @@
+{
+  "name": "F1 Grand Prix Tracker",
+  "short_name": "F1 Tracker",
+  "description": "F1赛季实时追踪：积分榜、比赛结果、预测、车队升级、知识测试",
+  "start_url": "/F1.github.io/",
+  "scope": "/F1.github.io/",
+  "display": "standalone",
+  "background_color": "#f4f5f7",
+  "theme_color": "#e10600",
+  "lang": "zh-CN",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23e10600'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>F1</text></svg>",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

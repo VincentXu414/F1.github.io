@@ -420,14 +420,15 @@ CSS = """
     .theme-toggle {{
         position: fixed; top: 16px; right: 16px;
         width: 40px; height: 40px; border-radius: 50%;
-        background: var(--surface); border: 1px solid var(--border);
+        background: var(--surface); border: 1px solid #999;
         cursor: pointer; z-index: 999;
         box-shadow: 0 2px 8px var(--shadow-md);
         display: flex; align-items: center; justify-content: center;
         padding: 0; transition: all 0.2s;
-        font-size: 20px; line-height: 1; color: var(--text);
+        font-size: 20px; line-height: 1; color: #1a1a1a;
     }}
     .theme-toggle:hover {{ transform: scale(1.1); box-shadow: 0 4px 12px var(--shadow-md); }}
+    [data-theme="dark"] .theme-toggle {{ border-color: #666; color: #fff; }}
 
     /* Countdown timer */
     .countdown-timer { display: flex; justify-content: center; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
@@ -731,6 +732,9 @@ def generate_html(data: dict) -> str:
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <script>if(localStorage.getItem('f1-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>F1 {season} 赛季追踪报告 - {report_date}</title>

@@ -756,7 +756,7 @@ def generate_html(data: dict) -> str:
 </style>
 </head>
 <body>
-<button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换深色/浅色模式">&#9728;</button>
+<button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换深色/浅色模式">&#9790;</button>
 <button id="backToTop" onclick="scrollToTop()" title="返回顶部">&#8593;</button>
 <div class="container">
 
@@ -1155,10 +1155,10 @@ def generate_html(data: dict) -> str:
         const next = current === 'dark' ? 'light' : 'dark';
         if (next === 'dark') {{
             html.setAttribute('data-theme', 'dark');
-            if (btn) btn.innerHTML = '&#9790;';
+            if (btn) btn.innerHTML = '&#9728;';
         }} else {{
             html.removeAttribute('data-theme');
-            if (btn) btn.innerHTML = '&#9728;';
+            if (btn) btn.innerHTML = '&#9790;';
         }}
         localStorage.setItem('f1-theme', next);
     }}
@@ -1167,7 +1167,7 @@ def generate_html(data: dict) -> str:
         const btn = document.getElementById('themeToggle');
         if (saved === 'dark') {{
             document.documentElement.setAttribute('data-theme', 'dark');
-            if (btn) btn.innerHTML = '&#9790;';
+            if (btn) btn.innerHTML = '&#9728;';
         }}
     }})();
 

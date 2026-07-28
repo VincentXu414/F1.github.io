@@ -416,7 +416,7 @@ CSS = """
     #backToTop.show { opacity: 1; visibility: visible; }
     #backToTop:hover { transform: translateY(-2px); }
 
-    /* Dark mode toggle - simple circular button */
+    /* Dark mode toggle */
     .theme-toggle {{
         position: fixed; top: 16px; right: 16px;
         width: 40px; height: 40px; border-radius: 50%;
@@ -428,7 +428,6 @@ CSS = """
         font-size: 20px; line-height: 1; color: var(--text);
     }}
     .theme-toggle:hover {{ transform: scale(1.1); box-shadow: 0 4px 12px var(--shadow-md); }}
-    [data-theme="dark"] .theme-toggle {{ color: #fff; }}
 
     /* Countdown timer */
     .countdown-timer { display: flex; justify-content: center; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
@@ -756,7 +755,7 @@ def generate_html(data: dict) -> str:
 </style>
 </head>
 <body>
-<button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换深色/浅色模式">&#9790;</button>
+<button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换深色/浅色模式">&#9728;</button>
 <button id="backToTop" onclick="scrollToTop()" title="返回顶部">&#8593;</button>
 <div class="container">
 
@@ -1155,10 +1154,10 @@ def generate_html(data: dict) -> str:
         const next = current === 'dark' ? 'light' : 'dark';
         if (next === 'dark') {{
             html.setAttribute('data-theme', 'dark');
-            if (btn) btn.innerHTML = '&#9728;';
+            if (btn) btn.innerHTML = '&#9790;';
         }} else {{
             html.removeAttribute('data-theme');
-            if (btn) btn.innerHTML = '&#9790;';
+            if (btn) btn.innerHTML = '&#9728;';
         }}
         localStorage.setItem('f1-theme', next);
     }}
@@ -1167,7 +1166,7 @@ def generate_html(data: dict) -> str:
         const btn = document.getElementById('themeToggle');
         if (saved === 'dark') {{
             document.documentElement.setAttribute('data-theme', 'dark');
-            if (btn) btn.innerHTML = '&#9728;';
+            if (btn) btn.innerHTML = '&#9790;';
         }}
     }})();
 

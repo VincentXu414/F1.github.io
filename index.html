@@ -91,6 +91,11 @@
 
     .disclaimer { font-size: 12px; color: #999; text-align: center; padding: 16px; border-top: 1px solid #eee; margin-top: 24px; }
 
+    .visitor-stats { display: flex; justify-content: center; gap: 24px; margin-top: 12px; flex-wrap: wrap; }
+    .visitor-stats .vs-item { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #999; }
+    .visitor-stats .vs-item .vs-ico { font-size: 16px; }
+    .visitor-stats .vs-item .vs-num { color: #e10600; font-weight: 700; font-size: 15px; }
+
     /* Quiz */
     .quiz-banner { display: flex; align-items: center; gap: 12px; background: linear-gradient(135deg, #e10600 0%, #b00500 100%); color: #fff; padding: 14px 20px; border-radius: 10px; margin-bottom: 24px; cursor: pointer; transition: opacity 0.2s; }
     .quiz-banner:hover { opacity: 0.92; }
@@ -924,6 +929,11 @@
     </div>
 
 
+    <div class="visitor-stats">
+        <div class="vs-item"><span class="vs-ico">&#128064;</span> 本页浏览 <span class="vs-num" id="busuanzi_value_page_pv"></span> 次</div>
+        <div class="vs-item"><span class="vs-ico">&#128101;</span> 总访客 <span class="vs-num" id="busuanzi_value_site_uv"></span> 人</div>
+        <div class="vs-item"><span class="vs-ico">&#128202;</span> 总浏览 <span class="vs-num" id="busuanzi_value_site_pv"></span> 次</div>
+    </div>
     <div class="disclaimer">
         数据来源: F1.com 官方数据 | 报告生成时间: 2026-07-27<br>
         预测基于历史数据和近期表现，实际结果受众多不可控因素影响 (天气、安全车、事故、策略、可靠性等)<br>
@@ -1213,5 +1223,6 @@
             '<table><thead><tr><th>排名</th><th>昵称</th><th>分数</th><th>时间</th></tr></thead><tbody>' + rows + '</tbody></table>';
     }
 </script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </body>
 </html>

@@ -416,19 +416,19 @@ CSS = """
     #backToTop.show { opacity: 1; visibility: visible; }
     #backToTop:hover { transform: translateY(-2px); }
 
-    /* Dark mode toggle */
+    /* Dark mode toggle - dark gray bg + white sun (light mode), white bg + black moon (dark mode) */
     .theme-toggle {{
         position: fixed; top: 16px; right: 16px;
-        width: 40px; height: 40px; border-radius: 50%;
-        background: var(--surface); border: 1px solid #999;
+        width: 44px; height: 44px; border-radius: 50%;
+        background: #333; border: none;
         cursor: pointer; z-index: 999;
-        box-shadow: 0 2px 8px var(--shadow-md);
+        box-shadow: 0 2px 10px rgba(0,0,0,0.3);
         display: flex; align-items: center; justify-content: center;
-        padding: 0; transition: all 0.2s;
-        font-size: 20px; line-height: 1; color: #1a1a1a;
+        padding: 0; transition: all 0.25s;
+        font-size: 22px; line-height: 1; color: #fff;
     }}
-    .theme-toggle:hover {{ transform: scale(1.1); box-shadow: 0 4px 12px var(--shadow-md); }}
-    [data-theme="dark"] .theme-toggle {{ border-color: #666; color: #fff; }}
+    .theme-toggle:hover {{ transform: scale(1.1); box-shadow: 0 4px 14px rgba(0,0,0,0.4); }}
+    [data-theme="dark"] .theme-toggle {{ background: #fff; color: #1a1a1a; box-shadow: 0 2px 10px rgba(255,255,255,0.2); }}
 
     /* Countdown timer */
     .countdown-timer { display: flex; justify-content: center; gap: 12px; margin-top: 12px; flex-wrap: wrap; }

@@ -36,7 +36,7 @@ TEAM_COLORS = {
     "Sauber": "#52E252",
     "Audi": "#C4FF4F",
     "Haas": "#B6BABD",
-    "Cadillac": "#1A1A1A",
+    "Cadillac": "#5A5A5A",
     "Kick Sauber": "#52E252",
 }
 
@@ -225,14 +225,37 @@ def build_track_characteristics(next_race):
 # CSS
 # ---------------------------------------------------------------------------
 CSS = """
+    :root {
+        --bg: #f4f5f7; --surface: #fff; --text: #1a1a1a; --text-muted: #666; --text-light: #999;
+        --border: #e8e8e8; --border-light: #f0f0f0; --hover-bg: #f8f9fa; --podium-bg: #fff9e6;
+        --info-bg: #f8f9fa; --track-bg: #f0f4f8; --upgrade-bg: #fafbfc; --accent: #e10600;
+        --th-bg: #f8f9fa; --th-color: #555; --shadow: rgba(0,0,0,0.08); --shadow-md: rgba(0,0,0,0.15);
+        --disclaimer-color: #999; --disclaimer-border: #eee;
+        --quiz-opt-border: #e0e0e0; --quiz-opt-bg: #fff;
+        --score-track: #e9ecef; --feedback-ok-bg: #d1e7dd; --feedback-ok-color: #0f5132;
+        --feedback-no-bg: #f8d7da; --feedback-no-color: #842029;
+        --upgrade-impact-bg: #fff3cd;
+    }
+    [data-theme="dark"] {
+        --bg: #0d1117; --surface: #161b22; --text: #e6edf3; --text-muted: #8b949e; --text-light: #6e7681;
+        --border: #30363d; --border-light: #21262d; --hover-bg: #1c2128; --podium-bg: #2d2a0e;
+        --info-bg: #1c2128; --track-bg: #1c2128; --upgrade-bg: #1c2128; --accent: #ff1744;
+        --th-bg: #1c2128; --th-color: #8b949e; --shadow: rgba(0,0,0,0.3); --shadow-md: rgba(0,0,0,0.5);
+        --disclaimer-color: #6e7681; --disclaimer-border: #21262d;
+        --quiz-opt-border: #30363d; --quiz-opt-bg: #0d1117;
+        --score-track: #21262d; --feedback-ok-bg: #0d2818; --feedback-ok-color: #3fb950;
+        --feedback-no-bg: #2d0a0a; --feedback-no-color: #f85149;
+        --upgrade-impact-bg: #2d2a0e;
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; background: #f4f5f7; color: #1a1a1a; line-height: 1.6; }
+    body { font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; transition: background 0.3s, color 0.3s; }
     .container { max-width: 1100px; margin: 0 auto; padding: 24px; }
 
-    .report-header { text-align: center; padding: 32px 0; border-bottom: 3px solid #e10600; margin-bottom: 32px; }
-    .report-header h1 { font-size: 28px; color: #1a1a1a; margin-bottom: 8px; }
-    .report-header .subtitle { color: #666; font-size: 15px; }
-    .report-header .race-badge { display: inline-block; background: #e10600; color: #fff; padding: 4px 16px; border-radius: 4px; font-size: 13px; margin-top: 8px; font-weight: 600; }
+    .report-header { text-align: center; padding: 32px 0; border-bottom: 3px solid var(--accent); margin-bottom: 32px; }
+    .report-header h1 { font-size: 28px; color: var(--text); margin-bottom: 8px; }
+    .report-header .subtitle { color: var(--text-muted); font-size: 15px; }
+    .report-header .race-badge { display: inline-block; background: var(--accent); color: #fff; padding: 4px 16px; border-radius: 4px; font-size: 13px; margin-top: 8px; font-weight: 600; }
 
     .offseason-banner { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #fff; text-align: center; padding: 48px 24px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
     .offseason-banner .icon { font-size: 48px; display: block; margin-bottom: 12px; }
@@ -245,45 +268,48 @@ CSS = """
     .summerbreak-banner .sb-text { font-size: 16px; font-weight: 600; }
     .summerbreak-banner .sb-countdown { background: rgba(255,255,255,0.2); padding: 4px 14px; border-radius: 20px; font-size: 14px; font-weight: 700; }
 
-    .section { background: #fff; border-radius: 12px; padding: 24px; margin-bottom: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
-    .section h2 { font-size: 20px; color: #1a1a1a; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #f0f0f0; display: flex; align-items: center; gap: 8px; }
+    .section { background: var(--surface); border-radius: 12px; padding: 24px; margin-bottom: 24px; box-shadow: 0 1px 4px var(--shadow); transition: background 0.3s; }
+    .section h2 { font-size: 20px; color: var(--text); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid var(--border-light); display: flex; align-items: center; gap: 8px; }
     .section h2 .icon { font-size: 22px; }
 
     table { width: 100%; border-collapse: collapse; font-size: 14px; }
-    th { text-align: left; padding: 10px 12px; background: #f8f9fa; color: #555; font-weight: 600; border-bottom: 2px solid #e0e0e0; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
-    td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; }
-    tr:hover { background: #f8f9fa; }
-    tr.podium td { background: #fff9e6; }
-    tr.podium:hover td { background: #fff5d6; }
-    .pos-cell { font-weight: 700; font-size: 16px; color: #e10600; width: 50px; text-align: center; }
+    th { text-align: left; padding: 10px 12px; background: var(--th-bg); color: var(--th-color); font-weight: 600; border-bottom: 2px solid var(--border); font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; user-select: none; white-space: nowrap; }
+    th:hover { color: var(--accent); }
+    th.sort-asc::after { content: ' \\25B2'; font-size: 10px; }
+    th.sort-desc::after { content: ' \\25BC'; font-size: 10px; }
+    td { padding: 10px 12px; border-bottom: 1px solid var(--border-light); }
+    tr:hover { background: var(--hover-bg); }
+    tr.podium td { background: var(--podium-bg); }
+    tr.podium:hover td { background: var(--podium-bg); filter: brightness(0.95); }
+    .pos-cell { font-weight: 700; font-size: 16px; color: var(--accent); width: 50px; text-align: center; }
     .driver-cell { font-weight: 600; display: flex; align-items: center; gap: 8px; }
     .team-bar { display: inline-block; width: 4px; height: 20px; border-radius: 2px; flex-shrink: 0; }
     .mono { font-family: 'Consolas', 'Courier New', monospace; }
     .points-cell { font-weight: 700; font-size: 16px; }
 
     .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 16px; }
-    .info-item { background: #f8f9fa; padding: 12px 16px; border-radius: 8px; }
-    .info-item .label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
-    .info-item .value { font-size: 15px; font-weight: 600; }
+    .info-item { background: var(--info-bg); padding: 12px 16px; border-radius: 8px; }
+    .info-item .label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .info-item .value { font-size: 15px; font-weight: 600; color: var(--text); }
 
     .track-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin-top: 12px; }
-    .track-item { background: #f0f4f8; padding: 8px 12px; border-radius: 6px; }
-    .track-label { display: block; font-size: 11px; color: #666; margin-bottom: 2px; }
-    .track-value { display: block; font-size: 14px; font-weight: 600; }
+    .track-item { background: var(--track-bg); padding: 8px 12px; border-radius: 6px; }
+    .track-label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 2px; }
+    .track-value { display: block; font-size: 14px; font-weight: 600; color: var(--text); }
 
-    .pred-card { border: 1px solid #e8e8e8; border-radius: 10px; padding: 16px; margin-bottom: 12px; transition: box-shadow 0.2s; }
-    .pred-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.1); }
+    .pred-card { border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 12px; transition: box-shadow 0.2s; background: var(--surface); }
+    .pred-card:hover { box-shadow: 0 2px 12px var(--shadow); }
     .pred-header { display: flex; align-items: center; gap: 12px; padding-left: 12px; margin-bottom: 12px; }
-    .pred-pos { font-size: 20px; font-weight: 800; color: #e10600; min-width: 40px; }
-    .pred-driver { font-size: 17px; font-weight: 700; }
-    .pred-team { color: #666; font-size: 13px; flex-grow: 1; }
-    .pred-score { font-size: 20px; font-weight: 800; color: #1a1a1a; }
+    .pred-pos { font-size: 20px; font-weight: 800; color: var(--accent); min-width: 40px; }
+    .pred-driver { font-size: 17px; font-weight: 700; color: var(--text); }
+    .pred-team { color: var(--text-muted); font-size: 13px; flex-grow: 1; }
+    .pred-score { font-size: 20px; font-weight: 800; color: var(--text); }
     .badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 600; }
 
     .pred-scores { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 24px; margin-bottom: 12px; }
     .score-bar { display: flex; align-items: center; gap: 8px; }
     .score-bar label { font-size: 12px; color: #666; width: 70px; flex-shrink: 0; }
-    .bar-track { flex-grow: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden; }
+    .bar-track { flex-grow: 1; height: 8px; background: var(--score-track); border-radius: 4px; overflow: hidden; }
     .bar-fill { height: 100%; border-radius: 4px; transition: width 0.3s; }
     .score-bar span { font-size: 13px; font-weight: 600; width: 28px; text-align: right; }
 
@@ -293,11 +319,11 @@ CSS = """
     .pred-factors li { font-size: 13px; color: #555; margin-bottom: 2px; }
     .pred-factors.risk li { color: #c0392b; }
 
-    .upgrade-card { background: #fafbfc; border: 1px solid #e8e8e8; border-radius: 10px; padding: 16px; margin-bottom: 12px; }
+    .upgrade-card { background: var(--upgrade-bg); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 12px; }
     .upgrade-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; flex-wrap: wrap; }
-    .upgrade-team { font-size: 16px; font-weight: 700; }
-    .upgrade-desc { font-size: 14px; color: #555; margin-bottom: 8px; }
-    .upgrade-impact { font-size: 13px; color: #333; background: #fff3cd; padding: 8px 12px; border-radius: 6px; }
+    .upgrade-team { font-size: 16px; font-weight: 700; color: var(--text); }
+    .upgrade-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 8px; }
+    .upgrade-impact { font-size: 13px; color: var(--text); background: var(--upgrade-impact-bg); padding: 8px 12px; border-radius: 6px; }
 
     .dark-horse-card { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #fff; border-radius: 12px; padding: 24px; margin-bottom: 24px; text-align: center; }
     .dark-horse-card h3 { color: #ffd700; margin-bottom: 12px; font-size: 18px; }
@@ -307,12 +333,7 @@ CSS = """
     .chart-container { position: relative; height: 400px; margin-top: 16px; }
     .chart-container-sm { position: relative; height: 300px; margin-top: 16px; }
 
-    .disclaimer { font-size: 12px; color: #999; text-align: center; padding: 16px; border-top: 1px solid #eee; margin-top: 24px; }
-
-    .visitor-stats { display: flex; justify-content: center; gap: 24px; margin-top: 12px; flex-wrap: wrap; }
-    .visitor-stats .vs-item { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #999; }
-    .visitor-stats .vs-item .vs-ico { font-size: 16px; }
-    .visitor-stats .vs-item .vs-num { color: #e10600; font-weight: 700; font-size: 15px; }
+    .disclaimer { font-size: 12px; color: var(--disclaimer-color); text-align: center; padding: 16px; border-top: 1px solid var(--disclaimer-border); margin-top: 24px; }
 
     /* Quiz */
     .quiz-banner { display: flex; align-items: center; gap: 12px; background: linear-gradient(135deg, #e10600 0%, #b00500 100%); color: #fff; padding: 14px 20px; border-radius: 10px; margin-bottom: 24px; cursor: pointer; transition: opacity 0.2s; }
@@ -328,21 +349,21 @@ CSS = """
     .quiz-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
     .quiz-tab { padding: 8px 20px; border: 1px solid #e0e0e0; border-radius: 8px; background: #fff; font-size: 13px; cursor: pointer; font-weight: 600; color: #666; }
     .quiz-tab.active { background: #e10600; color: #fff; border-color: #e10600; }
-    .quiz-card { background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+    .quiz-card { background: var(--surface); border-radius: 12px; padding: 24px; box-shadow: 0 1px 4px var(--shadow); }
     .quiz-progress { height: 6px; background: #f0f0f0; border-radius: 3px; margin-bottom: 16px; overflow: hidden; }
     .quiz-progress-fill { height: 100%; background: #e10600; border-radius: 3px; transition: width 0.3s; }
     .quiz-q-num { font-size: 12px; color: #999; margin-bottom: 4px; }
     .quiz-q-text { font-size: 15px; font-weight: 600; margin-bottom: 16px; line-height: 1.5; }
-    .quiz-opt { display: block; width: 100%; text-align: left; padding: 12px 14px; margin-bottom: 8px; border: 1px solid #e0e0e0; border-radius: 8px; background: #fff; font-size: 14px; cursor: pointer; transition: all 0.15s; }
-    .quiz-opt:hover:not(.locked) { border-color: #e10600; background: #fff5f5; }
+    .quiz-opt { display: block; width: 100%; text-align: left; padding: 12px 14px; margin-bottom: 8px; border: 1px solid var(--quiz-opt-border); border-radius: 8px; background: var(--quiz-opt-bg); font-size: 14px; cursor: pointer; transition: all 0.15s; color: var(--text); }
+    .quiz-opt:hover:not(.locked) { border-color: var(--accent); background: var(--hover-bg); }
     .quiz-opt.locked { cursor: default; }
-    .quiz-opt.correct { border-color: #198754; background: #d1e7dd; color: #0f5132; }
-    .quiz-opt.wrong { border-color: #dc3545; background: #f8d7da; color: #842029; }
+    .quiz-opt.correct { border-color: #198754; background: var(--feedback-ok-bg); color: var(--feedback-ok-color); }
+    .quiz-opt.wrong { border-color: #dc3545; background: var(--feedback-no-bg); color: var(--feedback-no-color); }
     .quiz-opt.dim { opacity: 0.4; }
     .quiz-feedback { font-size: 13px; margin-top: 12px; padding: 10px 14px; border-radius: 8px; display: none; }
     .quiz-feedback.show { display: block; }
-    .quiz-feedback.ok { background: #d1e7dd; color: #0f5132; }
-    .quiz-feedback.no { background: #f8d7da; color: #842029; }
+    .quiz-feedback.ok { background: var(--feedback-ok-bg); color: var(--feedback-ok-color); }
+    .quiz-feedback.no { background: var(--feedback-no-bg); color: var(--feedback-no-color); }
     .quiz-next-btn { margin-top: 16px; padding: 10px 24px; border: 1px solid #e0e0e0; border-radius: 8px; background: #fff; font-size: 14px; cursor: pointer; display: none; }
     .quiz-next-btn.show { display: inline-block; }
     .quiz-next-btn:hover { border-color: #e10600; background: #fff5f5; }
@@ -385,6 +406,44 @@ CSS = """
     .lb-tabs { display: flex; gap: 6px; margin-bottom: 10px; }
     .lb-tab { padding: 6px 14px; border: 1px solid #e0e0e0; border-radius: 6px; background: #fff; font-size: 12px; cursor: pointer; }
     .lb-tab.active { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+    [data-theme="dark"] .lb-tab.active { background: var(--text); color: var(--bg); }
+
+    /* Table wrap for mobile */
+    .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+    /* Back to top button */
+    #backToTop { position: fixed; bottom: 24px; right: 24px; width: 44px; height: 44px; border-radius: 50%; background: var(--accent); color: #fff; border: none; font-size: 20px; cursor: pointer; box-shadow: 0 2px 8px var(--shadow-md); opacity: 0; visibility: hidden; transition: all 0.3s; z-index: 999; }
+    #backToTop.show { opacity: 1; visibility: visible; }
+    #backToTop:hover { transform: translateY(-2px); }
+
+    /* Dark mode toggle */
+    .theme-toggle { position: fixed; top: 16px; right: 16px; width: 40px; height: 40px; border-radius: 50%; background: var(--surface); border: 1px solid var(--border); font-size: 18px; cursor: pointer; box-shadow: 0 1px 4px var(--shadow); z-index: 999; transition: all 0.2s; }
+    .theme-toggle:hover { border-color: var(--accent); }
+
+    /* Countdown timer */
+    .countdown-timer { display: flex; justify-content: center; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
+    .cd-unit { background: rgba(255,255,255,0.15); padding: 6px 14px; border-radius: 8px; text-align: center; min-width: 60px; }
+    .cd-num { font-size: 22px; font-weight: 800; color: #fff; line-height: 1; }
+    .cd-label { font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 2px; }
+
+    /* Prediction accuracy */
+    .acc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; margin-bottom: 16px; }
+    .acc-card { background: var(--info-bg); padding: 16px; border-radius: 10px; text-align: center; }
+    .acc-card .acc-num { font-size: 28px; font-weight: 800; color: var(--accent); }
+    .acc-card .acc-label { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+    .acc-table th { cursor: default; }
+
+    /* Quiz share card */
+    .quiz-share-btn { margin-top: 12px; padding: 10px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; font-size: 13px; cursor: pointer; color: var(--text); }
+    .quiz-share-btn:hover { border-color: var(--accent); }
+
+    @media print {
+        body { background: #fff !important; color: #000 !important; }
+        .quiz-banner, .quiz-panel, #backToTop, .theme-toggle, .quiz-share-btn, .quiz-save-row { display: none !important; }
+        .section { box-shadow: none !important; border: 1px solid #ccc !important; page-break-inside: avoid; }
+        .chart-container, .chart-container-sm { page-break-inside: avoid; }
+        a { color: #000 !important; text-decoration: none !important; }
+    }
 
     @media (max-width: 768px) {
         .pred-scores { grid-template-columns: 1fr; }
@@ -440,11 +499,22 @@ def generate_html(data: dict) -> str:
         <span class="sb-icon">🏖️</span>
         <span class="sb-text">夏休期中 — 赛季未结束</span>
         <span class="sb-countdown">{offseason_msg or f"下场比赛: {next_race_name} ({next_race_date})"}</span>
+        <div class="countdown-timer" id="countdownTimer" data-target="{next_race_date}">
+            <div class="cd-unit"><div class="cd-num" id="cdDays">--</div><div class="cd-label">天</div></div>
+            <div class="cd-unit"><div class="cd-num" id="cdHours">--</div><div class="cd-label">时</div></div>
+            <div class="cd-unit"><div class="cd-num" id="cdMins">--</div><div class="cd-label">分</div></div>
+            <div class="cd-unit"><div class="cd-num" id="cdSecs">--</div><div class="cd-label">秒</div></div>
+        </div>
     </div>"""
 
     pred_labels, pred_recent, pred_track, pred_car, pred_practice, pred_total = \
         generate_bar_chart_data(prediction)
     pts_labels, pts_points, pts_colors = generate_points_chart_data(driver_standings)
+
+    # Constructor chart data
+    const_labels = [c["team"].split()[-1] if " " in c["team"] else c["team"] for c in constructor_standings[:10]]
+    const_points = [c["points"] for c in constructor_standings[:10]]
+    const_colors = [get_team_color(c["team"]) for c in constructor_standings[:10]]
 
     # ---- Build individual section HTML blocks ----
     header_html = f"""
@@ -463,19 +533,19 @@ def generate_html(data: dict) -> str:
             <div class="info-item"><div class="label">赛道</div><div class="value">{last_race.get("circuit", "N/A")}</div></div>
             <div class="info-item"><div class="label">日期</div><div class="value">{last_race.get("date", "N/A")}</div></div>
         </div>
-        <table>
+        <div class="table-wrap"><table>
             <thead><tr><th>名次</th><th>车手</th><th>车队</th><th>用时/状态</th><th>积分</th></tr></thead>
             <tbody>{last_race_rows}</tbody>
-        </table>
+        </table></div>
     </div>"""
 
     driver_standings_html = f"""
     <div class="section">
         <h2><span class="icon">🏆</span> 车手积分榜</h2>
-        <table>
+        <div class="table-wrap"><table>
             <thead><tr><th>名次</th><th>车手</th><th>车队</th><th>积分</th></tr></thead>
             <tbody>{driver_rows}</tbody>
-        </table>
+        </table></div>
         <div class="chart-container-sm">
             <canvas id="driverPointsChart"></canvas>
         </div>
@@ -484,10 +554,13 @@ def generate_html(data: dict) -> str:
     constructor_standings_html = f"""
     <div class="section">
         <h2><span class="icon">🏭</span> 车队积分榜</h2>
-        <table>
+        <div class="table-wrap"><table>
             <thead><tr><th>名次</th><th>车队</th><th>积分</th></tr></thead>
             <tbody>{constructor_rows}</tbody>
-        </table>
+        </table></div>
+        <div class="chart-container-sm">
+            <canvas id="constructorPointsChart"></canvas>
+        </div>
     </div>"""
 
     recent_races_html = ""
@@ -495,10 +568,10 @@ def generate_html(data: dict) -> str:
         recent_races_html = f"""
     <div class="section">
         <h2><span class="icon">📊</span> 近期比赛回顾</h2>
-        <table>
+        <div class="table-wrap"><table>
             <thead><tr><th>日期</th><th>大奖赛</th><th>冠军</th><th>最快圈速</th></tr></thead>
             <tbody>{recent_rows}</tbody>
-        </table>
+        </table></div>
     </div>"""
 
     upgrades_html = ""
@@ -533,15 +606,37 @@ def generate_html(data: dict) -> str:
         notes_html = f"""
     <div class="section">
         <h2><span class="icon">📝</span> 备注</h2>
-        <p style="font-size:14px;color:#555;">{notes}</p>
+        <p style="font-size:14px;color:var(--text-muted);">{notes}</p>
+    </div>"""
+
+    # ---- Prediction accuracy tracking ----
+    pred_accuracy = data.get("prediction_accuracy", {})
+    accuracy_html = ""
+    if pred_accuracy.get("race_name"):
+        acc_race = pred_accuracy.get("race_name", "")
+        acc_top10 = pred_accuracy.get("top10_hits", 0)
+        acc_top3 = pred_accuracy.get("podium_hits", 0)
+        acc_total = pred_accuracy.get("total_predicted", 10)
+        acc_pct = round(acc_top10 / acc_total * 100) if acc_total else 0
+        acc_comparisons = pred_accuracy.get("comparisons", [])
+        acc_rows = ""
+        for c in acc_comparisons:
+            diff = c.get("predicted", 0) - c.get("actual", 0)
+            diff_str = f"+{diff}" if diff > 0 else str(diff) if diff != 0 else "="
+            diff_color = "#198754" if diff == 0 else "#e10600" if abs(diff) > 3 else "#FFC107"
+            acc_rows += f"""<tr><td class="mono">{c.get('driver','')}</td><td class="mono">P{c.get('predicted','')}</td><td class="mono">P{c.get('actual','')}</td><td class="mono" style="color:{diff_color};font-weight:700;">{diff_str}</td></tr>"""
+        accuracy_html = f"""
+    <div class="section">
+        <h2><span class="icon">🎯</span> 预测准确度: {acc_race}</h2>
+        <div class="acc-grid">
+            <div class="acc-card"><div class="acc-num">{acc_top10}/{acc_total}</div><div class="acc-label">Top10 命中</div></div>
+            <div class="acc-card"><div class="acc-num">{acc_top3}/3</div><div class="acc-label">领奖台命中</div></div>
+            <div class="acc-card"><div class="acc-num">{acc_pct}%</div><div class="acc-label">总准确率</div></div>
+        </div>
+        {f'<div class="table-wrap"><table class="acc-table"><thead><tr><th>车手</th><th>预测</th><th>实际</th><th>偏差</th></tr></thead><tbody>{acc_rows}</tbody></table></div>' if acc_rows else ""}
     </div>"""
 
     disclaimer_html = f"""
-    <div class="visitor-stats">
-        <div class="vs-item"><span class="vs-ico">&#128064;</span> 本页浏览 <span class="vs-num" id="busuanzi_value_page_pv"></span> 次</div>
-        <div class="vs-item"><span class="vs-ico">&#128101;</span> 总访客 <span class="vs-num" id="busuanzi_value_site_uv"></span> 人</div>
-        <div class="vs-item"><span class="vs-ico">&#128202;</span> 总浏览 <span class="vs-num" id="busuanzi_value_site_pv"></span> 次</div>
-    </div>
     <div class="disclaimer">
         数据来源: F1.com 官方数据 | 报告生成时间: {report_date}<br>
         预测基于历史数据和近期表现，实际结果受众多不可控因素影响 (天气、安全车、事故、策略、可靠性等)<br>
@@ -587,6 +682,7 @@ def generate_html(data: dict) -> str:
                 <div class="quiz-save-msg" id="fqSaveMsg"></div>
                 <div class="quiz-stats" id="fqStats"></div>
                 <div class="quiz-lb" id="fqLeaderboard"></div>
+                <button class="quiz-share-btn" onclick="fqShareCard()">&#128247; 保存成绩卡片</button>
                 <button class="quiz-retry-btn" onclick="fqStart()">再试一次</button>
             </div>
         </div>
@@ -598,6 +694,7 @@ def generate_html(data: dict) -> str:
         body_sections = "\n\n".join(filter(None, [
             offseason_html, header_html, quiz_html,
             prediction_html, upgrades_html, notes_html,
+            accuracy_html,
             last_race_html, driver_standings_html,
             constructor_standings_html, recent_races_html,
             disclaimer_html,
@@ -607,14 +704,15 @@ def generate_html(data: dict) -> str:
         body_sections = "\n\n".join(filter(None, [
             offseason_html, header_html, quiz_html,
             driver_standings_html, constructor_standings_html, notes_html,
-            last_race_html, recent_races_html,
+            accuracy_html, last_race_html, recent_races_html,
             disclaimer_html,
         ]))
     else:
         # 正常赛季: 比赛结果优先，备注作为承上启下过渡
         body_sections = "\n\n".join(filter(None, [
             offseason_html, header_html, quiz_html,
-            last_race_html, driver_standings_html,
+            last_race_html, accuracy_html,
+            driver_standings_html,
             constructor_standings_html, recent_races_html, notes_html,
             upgrades_html, prediction_html,
             disclaimer_html,
@@ -626,12 +724,29 @@ def generate_html(data: dict) -> str:
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>F1 {season} 赛季追踪报告 - {report_date}</title>
+<meta name="description" content="F1 {season}赛季实时追踪：车手积分榜、车队积分榜、比赛结果、下一场预测、车队升级动态。含F1知识测试，每日更新题目。">
+<meta name="keywords" content="F1,Formula 1,大奖赛,车手积分,车队积分,赛车预测,F1知识测试,2026赛季">
+<meta name="author" content="F1 Grand Prix Tracker">
+<meta property="og:title" content="F1 {season} 赛季追踪报告">
+<meta property="og:description" content="车手积分榜 | 比赛结果 | 下一场预测 | 车队升级 | F1知识测试">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://vincentxu414.github.io/F1.github.io/">
+<meta property="og:site_name" content="F1 Grand Prix Tracker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="F1 {season} 赛季追踪报告">
+<meta name="twitter:description" content="车手积分榜 | 比赛结果 | 下一场预测 | 车队升级 | F1知识测试">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23e10600'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>F1</text></svg>">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23e10600'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>F1</text></svg>">
+<meta name="theme-color" content="#e10600">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <style>
 {CSS}
 </style>
 </head>
 <body>
+<button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换深色/浅色模式">&#9790;</button>
+<button id="backToTop" onclick="scrollToTop()" title="返回顶部">&#8593;</button>
 <div class="container">
 
     {body_sections}
@@ -658,7 +773,7 @@ def generate_html(data: dict) -> str:
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {{ legend: {{ display: false }} }},
-                scales: {{ x: {{ beginAtZero: true, grid: {{ color: '#f0f0f0' }} }} }}
+                scales: {{ x: {{ beginAtZero: true, grid: {{ color: 'rgba(128,128,128,0.1)' }} }} }}
             }}
         }});
     }}
@@ -685,9 +800,33 @@ def generate_html(data: dict) -> str:
                     legend: {{ position: 'bottom', labels: {{ boxWidth: 12, font: {{ size: 11 }} }} }},
                 }},
                 scales: {{
-                    y: {{ beginAtZero: true, max: 100, grid: {{ color: '#f0f0f0' }} }},
+                    y: {{ beginAtZero: true, max: 100, grid: {{ color: 'rgba(128,128,128,0.1)' }} }},
                     x: {{ grid: {{ display: false }}, ticks: {{ font: {{ size: 10 }} }} }}
                 }}
+            }}
+        }});
+    }}
+
+    // Constructor Points Chart
+    const ctxConst = document.getElementById('constructorPointsChart');
+    if (ctxConst) {{
+        new Chart(ctxConst, {{
+            type: 'bar',
+            data: {{
+                labels: {json.dumps(const_labels)},
+                datasets: [{{
+                    label: '积分',
+                    data: {json.dumps(const_points)},
+                    backgroundColor: {json.dumps(const_colors)},
+                    borderRadius: 4,
+                }}]
+            }},
+            options: {{
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {{ legend: {{ display: false }} }},
+                scales: {{ x: {{ beginAtZero: true, grid: {{ color: 'rgba(128,128,128,0.1)' }} }} }}
             }}
         }});
     }}
@@ -918,8 +1057,132 @@ def generate_html(data: dict) -> str:
         lbEl.innerHTML = '<h4><span>&#127942;</span> 我的 ' + fqData[fqSet].name + ' 排行榜</h4>' +
             '<table><thead><tr><th>排名</th><th>昵称</th><th>分数</th><th>时间</th></tr></thead><tbody>' + rows + '</tbody></table>';
     }}
+
+    // ---- Quiz Share Card ----
+    function fqShareCard() {{
+        const score = document.getElementById('fqScore').textContent;
+        const setName = fqData[fqSet].name;
+        const today = new Date().toLocaleDateString('zh-CN');
+        const canvas = document.createElement('canvas');
+        canvas.width = 600; canvas.height = 340;
+        const ctx = canvas.getContext('2d');
+        // Background
+        const grad = ctx.createLinearGradient(0, 0, 600, 340);
+        grad.addColorStop(0, '#e10600'); grad.addColorStop(1, '#1a1a2e');
+        ctx.fillStyle = grad; ctx.fillRect(0, 0, 600, 340);
+        // Border
+        ctx.strokeStyle = '#ffd700'; ctx.lineWidth = 3;
+        ctx.strokeRect(10, 10, 580, 320);
+        // Title
+        ctx.fillStyle = '#ffd700'; ctx.font = 'bold 24px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('F1 知识测试', 300, 50);
+        // Score
+        ctx.fillStyle = '#fff'; ctx.font = 'bold 56px Arial';
+        ctx.fillText(score, 300, 130);
+        // Level
+        ctx.font = '16px Arial'; ctx.fillStyle = '#ccc';
+        ctx.fillText(setName + ' | ' + today, 300, 165);
+        // Rating
+        const rating = document.getElementById('fqRating').textContent;
+        ctx.font = 'bold 18px Arial'; ctx.fillStyle = '#fff';
+        ctx.fillText(rating, 300, 210);
+        // URL
+        ctx.font = '13px Arial'; ctx.fillStyle = '#888';
+        ctx.fillText('vincentxu414.github.io/F1.github.io', 300, 260);
+        // Checkered flag pattern
+        for (let i = 0; i < 10; i++) {{
+            ctx.fillStyle = i % 2 ? '#fff' : '#1a1a1a';
+            ctx.fillRect(240 + i * 12, 290, 12, 12);
+        }}
+        // Download
+        const link = document.createElement('a');
+        link.download = 'f1-quiz-' + setName + '-' + today.replace(/\\//g, '') + '.png';
+        link.href = canvas.toDataURL();
+        link.click();
+    }}
+
+    // ---- Countdown Timer ----
+    function updateCountdown() {{
+        const el = document.getElementById('countdownTimer');
+        if (!el) return;
+        const target = el.dataset.target;
+        if (!target) return;
+        const targetDate = new Date(target + 'T15:00:00+08:00');
+        const now = new Date();
+        const diff = targetDate - now;
+        if (diff <= 0) return;
+        const d = Math.floor(diff / 86400000);
+        const h = Math.floor(diff % 86400000 / 3600000);
+        const m = Math.floor(diff % 3600000 / 60000);
+        const s = Math.floor(diff % 60000 / 1000);
+        const dEl = document.getElementById('cdDays');
+        const hEl = document.getElementById('cdHours');
+        const mEl = document.getElementById('cdMins');
+        const sEl = document.getElementById('cdSecs');
+        if (dEl) dEl.textContent = d;
+        if (hEl) hEl.textContent = String(h).padStart(2, '0');
+        if (mEl) mEl.textContent = String(m).padStart(2, '0');
+        if (sEl) sEl.textContent = String(s).padStart(2, '0');
+    }}
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    // ---- Back to Top ----
+    const backBtn = document.getElementById('backToTop');
+    window.addEventListener('scroll', function() {{
+        if (window.scrollY > 400) backBtn.classList.add('show');
+        else backBtn.classList.remove('show');
+    }});
+    function scrollToTop() {{ window.scrollTo({{ top: 0, behavior: 'smooth' }}); }}
+
+    // ---- Dark Mode Toggle ----
+    function toggleTheme() {{
+        const html = document.documentElement;
+        const current = html.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('f1-theme', next);
+        document.getElementById('themeToggle').textContent = next === 'dark' ? '\\u2600' : '\\u263E';
+    }}
+    (function() {{
+        const saved = localStorage.getItem('f1-theme');
+        if (saved === 'dark') {{
+            document.documentElement.setAttribute('data-theme', 'dark');
+            document.getElementById('themeToggle').textContent = '\\u2600';
+        }}
+    }})();
+
+    // ---- Table Sorting ----
+    document.querySelectorAll('.table-wrap table thead th').forEach((th, colIdx) => {{
+        const table = th.closest('table');
+        if (!table || table.parentElement.classList.contains('quiz-lb')) return;
+        const tbody = table.querySelector('tbody');
+        if (!tbody) return;
+        let asc = true;
+        th.addEventListener('click', function() {{
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            const isNumeric = rows.some(r => {{
+                const v = r.cells[colIdx]?.textContent?.trim() || '';
+                return /^-?\\d+/.test(v);
+            }});
+            rows.sort((a, b) => {{
+                let av = a.cells[colIdx]?.textContent?.trim() || '';
+                let bv = b.cells[colIdx]?.textContent?.trim() || '';
+                if (isNumeric) {{
+                    av = parseFloat(av.replace(/[^0-9.-]/g, '')) || 0;
+                    bv = parseFloat(bv.replace(/[^0-9.-]/g, '')) || 0;
+                    return asc ? av - bv : bv - av;
+                }}
+                return asc ? av.localeCompare(bv) : bv.localeCompare(av);
+            }});
+            table.querySelectorAll('th').forEach(t => t.classList.remove('sort-asc', 'sort-desc'));
+            th.classList.add(asc ? 'sort-asc' : 'sort-desc');
+            asc = !asc;
+            rows.forEach(r => tbody.appendChild(r));
+        }});
+    }});
 </script>
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </body>
 </html>"""
     return html

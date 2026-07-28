@@ -369,31 +369,17 @@ def generate_html(data: dict) -> str:
         generate_bar_chart_data(prediction)
     pts_labels, pts_points, pts_colors = generate_points_chart_data(driver_standings)
 
-    # Assemble HTML
-    html = f"""<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>F1 {season} 赛季追踪报告 - {report_date}</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-<style>
-{CSS}
-</style>
-</head>
-<body>
-<div class="container">
-
-    {offseason_html}
-
+    # ---- Build individual section HTML blocks ----
+    header_html = f"""
     <div class="report-header">
         <h1>F1 {season} 赛季追踪报告</h1>
         <div class="subtitle">报告生成日期: {report_date}</div>
         {f'<div class="race-badge">最近完赛: {last_race.get("name", "N/A")}</div>' if last_race.get("name") else ""}
-    </div>
+    </div>"""
 
-    {"<!-- Last Race Results -->" if last_race_rows else ""}
-    {f'''
+    last_race_html = ""
+    if last_race_rows:
+        last_race_html = f"""
     <div class="section">
         <h2><span class="icon">🏁</span> {last_race.get("name", "最近一场")} - 比赛结果</h2>
         <div class="info-grid">
@@ -404,10 +390,9 @@ def generate_html(data: dict) -> str:
             <thead><tr><th>名次</th><th>车手</th><th>车队</th><th>用时/状态</th><th>积分</th></tr></thead>
             <tbody>{last_race_rows}</tbody>
         </table>
-    </div>
-    ''' if last_race_rows else ""}
+    </div>"""
 
-    <!-- Driver Standings -->
+    driver_standings_html = f"""
     <div class="section">
         <h2><span class="icon">🏆</span> 车手积分榜</h2>
         <table>
@@ -417,38 +402,39 @@ def generate_html(data: dict) -> str:
         <div class="chart-container-sm">
             <canvas id="driverPointsChart"></canvas>
         </div>
-    </div>
+    </div>"""
 
-    <!-- Constructor Standings -->
+    constructor_standings_html = f"""
     <div class="section">
         <h2><span class="icon">🏭</span> 车队积分榜</h2>
         <table>
             <thead><tr><th>名次</th><th>车队</th><th>积分</th></tr></thead>
             <tbody>{constructor_rows}</tbody>
         </table>
-    </div>
+    </div>"""
 
-    <!-- Recent Races -->
-    {f'''
+    recent_races_html = ""
+    if recent_rows:
+        recent_races_html = f"""
     <div class="section">
         <h2><span class="icon">📊</span> 近期比赛回顾</h2>
         <table>
             <thead><tr><th>日期</th><th>大奖赛</th><th>冠军</th><th>最快圈速</th></tr></thead>
             <tbody>{recent_rows}</tbody>
         </table>
-    </div>
-    ''' if recent_rows else ""}
+    </div>"""
 
-    <!-- Team Upgrades -->
-    {f'''
+    upgrades_html = ""
+    if upgrade_cards:
+        upgrades_html = f"""
     <div class="section">
         <h2><span class="icon">🔧</span> 车队升级动态</h2>
         {upgrade_cards}
-    </div>
-    ''' if upgrade_cards else ""}
+    </div>"""
 
-    <!-- Next Race Prediction -->
-    {f'''
+    prediction_html = ""
+    if next_race.get("name"):
+        prediction_html = f"""
     <div class="section">
         <h2><span class="icon">🔮</span> 下一场预测: {next_race.get("name", "N/A")}</h2>
         <div class="info-grid">
@@ -463,22 +449,66 @@ def generate_html(data: dict) -> str:
         </div>
         {pred_cards}
         {dark_horse_html}
-    </div>
-    ''' if next_race.get("name") else ""}
+    </div>"""
 
-    <!-- Notes -->
-    {f'''
+    notes_html = ""
+    if notes:
+        notes_html = f"""
     <div class="section">
         <h2><span class="icon">📝</span> 备注</h2>
         <p style="font-size:14px;color:#555;">{notes}</p>
-    </div>
-    ''' if notes else ""}
+    </div>"""
 
+    disclaimer_html = f"""
     <div class="disclaimer">
         数据来源: F1.com 官方数据 | 报告生成时间: {report_date}<br>
         预测基于历史数据和近期表现，实际结果受众多不可控因素影响 (天气、安全车、事故、策略、可靠性等)<br>
         本报告仅供信息参考，不建议用于赌博或投注决策。
-    </div>
+    </div>"""
+
+    # ---- Assemble section order based on season status ----
+    if season_status == "summer_break":
+        # 夏休期: 预测和车队升级置顶
+        body_sections = "\n\n".join(filter(None, [
+            offseason_html, header_html,
+            prediction_html, upgrades_html,
+            last_race_html, driver_standings_html,
+            constructor_standings_html, recent_races_html,
+            notes_html, disclaimer_html,
+        ]))
+    elif season_status == "off_season":
+        # 休赛期: 无预测/升级，积分榜优先
+        body_sections = "\n\n".join(filter(None, [
+            offseason_html, header_html,
+            driver_standings_html, constructor_standings_html,
+            last_race_html, recent_races_html,
+            notes_html, disclaimer_html,
+        ]))
+    else:
+        # 正常赛季: 比赛结果优先
+        body_sections = "\n\n".join(filter(None, [
+            offseason_html, header_html,
+            last_race_html, driver_standings_html,
+            constructor_standings_html, recent_races_html,
+            upgrades_html, prediction_html,
+            notes_html, disclaimer_html,
+        ]))
+
+    html = f"""<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>F1 {season} 赛季追踪报告 - {report_date}</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+{CSS}
+</style>
+</head>
+<body>
+<div class="container">
+
+    {body_sections}
 
 </div>
 

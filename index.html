@@ -99,6 +99,8 @@
     .quiz-banner .qb-sub { font-size: 13px; opacity: 0.85; flex-grow: 1; }
     .quiz-banner .qb-arrow { font-size: 14px; transition: transform 0.3s; }
     .quiz-banner .qb-arrow.open { transform: rotate(180deg); }
+    .quiz-banner .qb-updated { background: #ffd700; color: #1a1a1a; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; display: none; animation: fqPulse 1.5s ease-in-out infinite; }
+    @keyframes fqPulse {{ 0%,100% {{ opacity:1; }} 50% {{ opacity:0.6; }} }}
     .quiz-panel { display: none; margin-bottom: 24px; }
     .quiz-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
     .quiz-tab { padding: 8px 20px; border: 1px solid #e0e0e0; border-radius: 8px; background: #fff; font-size: 13px; cursor: pointer; font-weight: 600; color: #666; }
@@ -190,7 +192,8 @@
     <div class="quiz-banner" onclick="fqToggle()">
         <span class="qb-icon">&#127937;</span>
         <span class="qb-text">F1 知识测试</span>
-        <span class="qb-sub">两套题库 &#183; 点击展开挑战自己</span>
+        <span class="qb-sub">两套题库 &#183; 每日更新 &#183; 点击展开挑战自己</span>
+        <span class="qb-updated" id="fqUpdated">&#10024; 已更新题库</span>
         <span class="qb-arrow" id="fqArrow">&#9660;</span>
     </div>
     <div class="quiz-panel" id="fqPanel">
@@ -987,7 +990,7 @@
     const fqData = {
         A: {
             name: '入门级',
-            questions: [
+            pool: [
                 { q: 'F1 正赛冠军获得多少积分？', options: ['20分', '25分', '30分', '18分'], answer: 1, explain: 'F1积分系统：冠军25分，亚军18分，季军15分，第4-10名分别为12/10/8/6/4/2/1分。' },
                 { q: '2026赛季Mercedes车队的领骑车手是谁？', options: ['George Russell', 'Lewis Hamilton', 'Kimi Antonelli', 'Valtteri Bottas'], answer: 2, explain: 'Kimi Antonelli在2026赛季以219分领跑车手积分榜，Mercedes本赛季11场拿下9胜。' },
                 { q: '2026赛季F1有多少支车队、多少辆赛车？', options: ['10队 / 20辆', '11队 / 22辆', '12队 / 24辆', '10队 / 18辆'], answer: 1, explain: '2026赛季有11支车队每队2辆赛车，共22辆赛车。Cadillac作为第11支车队新加入。' },
@@ -997,12 +1000,27 @@
                 { q: 'F1中"杆位"(Pole Position)是什么意思？', options: ['最后发车的位置', '排位赛第一名的发车位置', '维修区出口', '领奖台最高位置'], answer: 1, explain: '杆位指排位赛中成绩最快的车手，在正赛中从最前排发车。' },
                 { q: '一场F1正赛通常持续多长时间？', options: ['约45分钟', '约1小时', '约1.5-2小时', '约3小时'], answer: 2, explain: 'F1正赛通常持续约1.5-2小时，比赛距离约305公里，设有2小时时间限制。' },
                 { q: 'F1比赛中"DNF"代表什么？', options: ['Did Not Finish (未完赛)', 'Did Not Start (未发车)', 'Drive No Faster (减速)', 'Daily News Flash'], answer: 0, explain: 'DNF = Did Not Finish，表示车手因事故、故障或其他原因未能完成比赛。' },
-                { q: '2026赛季夏休期后谁以219分领跑车手积分榜？', options: ['Max Verstappen', 'Lando Norris', 'Kimi Antonelli', 'Lewis Hamilton'], answer: 2, explain: 'Kimi Antonelli以219分领跑，Hamilton 169分第二，Russell 160分第三。' }
+                { q: '2026赛季夏休期后谁以219分领跑车手积分榜？', options: ['Max Verstappen', 'Lando Norris', 'Kimi Antonelli', 'Lewis Hamilton'], answer: 2, explain: 'Kimi Antonelli以219分领跑，Hamilton 169分第二，Russell 160分第三。' },
+                { q: 'F1安全车出场时允许超车吗？', options: ['允许，只要在安全车后面', '不允许，必须保持队形', '只在直道允许', '只允许领先车手超车'], answer: 1, explain: '安全车出场后禁止超车，所有赛车必须保持队形跟在安全车后方，直到安全车回维修区。' },
+                { q: 'F1排位赛分为几个阶段？', options: ['2个', '3个 (Q1/Q2/Q3)', '4个', '只有1个'], answer: 1, explain: 'F1排位赛分为Q1、Q2、Q3三个阶段，分别淘汰慢车并决定最终发车顺序。' },
+                { q: '正赛发车前的暖胎圈英文叫什么？', options: ['Warm-up Lap', 'Formation Lap', 'Installation Lap', 'Flying Lap'], answer: 1, explain: 'Formation Lap（编队圈）是正赛前车手绕场一圈暖胎并到达发车格的圈。' },
+                { q: 'F1比赛中蓝旗表示什么？', options: ['前方有危险', '允许超车', '后方快车要套圈，必须让路', '比赛暂停'], answer: 2, explain: '蓝旗表示后方快车即将套圈，被套圈车手必须让路，不让路可能被处罚。' },
+                { q: '大奖赛周末通常有几次练习赛？', options: ['1次', '2次', '3次', '4次'], answer: 2, explain: '大奖赛周末通常有3次自由练习赛（FP1、FP2、FP3），排位赛前还有一次。' },
+                { q: 'F1中格子旗代表什么？', options: ['比赛开始', '比赛暂停', '比赛结束', '安全车出场'], answer: 2, explain: '黑白格子旗挥动表示比赛正式结束，最先冲过终点线的车手为冠军。' },
+                { q: 'F1车手在高速弯道承受的G力约多少？', options: ['约1-2G', '约3-4G', '约5-6G', '约10G'], answer: 2, explain: 'F1车手在高速弯道中可承受约5-6G的横向力，相当于5-6倍体重压在身上。' },
+                { q: 'F1比赛中黄旗表示什么？', options: ['赛道畅通', '前方有危险，减速且禁止超车', '比赛取消', '进站信号'], answer: 1, explain: '黄旗表示前方有危险（如事故、碎片），车手必须减速并禁止超车。双黄旗表示更大危险。' },
+                { q: 'F1赛车方向盘上大约有多少个按钮和旋钮？', options: ['约5个', '约10个', '约25个以上', '没有按钮'], answer: 2, explain: '现代F1方向盘功能极为复杂，约有25个以上的按钮和旋钮，控制差速器、刹车平衡、能量回收等。' },
+                { q: '维修区(Pit Lane)限速通常是多少？', options: ['60km/h', '80km/h', '100km/h', '无限制'], answer: 1, explain: '维修区限速通常为80km/h（部分赛道为60km/h），超速将被罚款或处罚。' },
+                { q: 'F1引擎是几缸的？', options: ['4缸直列', '6缸V型 (V6)', '8缸V型 (V8)', '12缸V型 (V12)'], answer: 1, explain: '2014年起F1使用1.6升V6涡轮增压混合动力引擎，取代了之前的2.4升V8自然吸气引擎。' },
+                { q: '每支F1车队每赛季有几位正式车手？', options: ['1位', '2位', '3位', '无限制'], answer: 1, explain: '每支F1车队每赛季有2位正式车手，各驾驶一辆赛车参赛。' },
+                { q: '遇到大雨时F1正赛通常如何开始？', options: ['正常静止起步', '安全车带领滚动起步', '取消比赛', '延后一周'], answer: 1, explain: '遇到大雨等恶劣天气时，通常会由安全车带领进行滚动起步，等赛道条件改善后再正式开始。' },
+                { q: 'F1比赛中红旗表示什么？', options: ['赛道畅通', '减速禁止超车', '比赛暂停，车手回维修区', '比赛结束'], answer: 2, explain: '红旗表示比赛因严重事故或恶劣天气暂停，车手必须减速回到维修区等待重新开始。' },
+                { q: 'F1车手头盔最重要的功能是什么？', options: ['通风散热', '保护头部并防火', '减少风阻', '通信'], answer: 1, explain: 'F1头盔必须通过FIA严格认证，核心功能是保护头部并在火灾中提供足够时间的防护。' }
             ]
         },
         B: {
             name: '进阶级',
-            questions: [
+            pool: [
                 { q: '2026赛季F1用什么系统取代了DRS？', options: ['KERS能量回收', '主动空气动力学 (Active Aero)', '可变尾翼手动开关', '无任何替代系统'], answer: 1, explain: '2026新规则用主动空气动力学取代DRS。车手可手动切换Z-Mode(低阻直道)和X-Mode(高下压力弯道)，不再限于特定DRS区域。' },
                 { q: '2026新规则下动力单元中电力占比目标约为多少？', options: ['约10%', '约30%', '约50%', '约70%'], answer: 2, explain: '2026规则将电力占比提升至约50%，MGU-K功率从120kW大幅增至350kW，接近内燃机功率。' },
                 { q: '获得F1超级驾照(Super Licence)需要至少多少积分？', options: ['30分 (3年内)', '40分 (3年内)', '50分 (2年内)', '无需积分'], answer: 1, explain: 'FIA规定车手需在3年内在指定初级赛事中累计至少40个超级驾照积分，且年满18岁方可获得。' },
@@ -1012,12 +1030,59 @@
                 { q: '赞德沃特赛道两个倾斜弯的角度分别是？', options: ['10度和15度', '18度和19度', '20度和25度', '15度和20度'], answer: 1, explain: 'T3 Hugenholtz弯倾斜18度，T14 Arie Luyendyk弯倾斜19度，是赞德沃特的标志性弯道。' },
                 { q: '2026规则中MGU-K功率提升至多少？', options: ['120kW', '200kW', '350kW', '500kW'], answer: 2, explain: '2026规则将MGU-K功率从120kW提升至350kW，使电力输出接近内燃机功率，电力占比达约50%。' },
                 { q: 'F1正赛最常用的起步方式是什么？', options: ['滚动起步 (Rolling Start)', '静止起步 (Standing Start)', '安全车后起步', '追逐起步'], answer: 1, explain: 'F1正赛通常使用静止起步，所有赛车在发车格停好后同时起步。滚动起步仅在安全车后重启等特殊情况下使用。' },
-                { q: 'Audi在2026赛季接管了哪支车队的班底？', options: ['Haas', 'Williams', 'Sauber', 'Alpine'], answer: 2, explain: 'Audi在2026赛季接管了原Sauber（Kick Sauber）车队的班底和设施，作为厂队参赛。' }
+                { q: 'Audi在2026赛季接管了哪支车队的班底？', options: ['Haas', 'Williams', 'Sauber', 'Alpine'], answer: 2, explain: 'Audi在2026赛季接管了原Sauber（Kick Sauber）车队的班底和设施，作为厂队参赛。' },
+                { q: '地效底盘(Ground Effect)是哪一年回归F1的？', options: ['2019年', '2021年', '2022年', '2026年'], answer: 2, explain: '2022年F1引入全新技术规则，地面效应底盘时隔40年回归，通过底板文丘里管产生下压力。' },
+                { q: 'F1刹车盘的工作温度可达多少？', options: ['约200°C', '约500°C', '约700°C', '约1000°C'], answer: 3, explain: 'F1碳纤维刹车盘工作温度可达约1000°C，在高温下才能提供最佳制动力，所以入弯前需要预热。' },
+                { q: '"Undercut"策略是什么？', options: ['晚进站用旧胎跑快圈', '提前进站换新胎利用速度差超越前车', '不进站跑完全程', '进站只换前胎'], answer: 1, explain: 'Undercut是提前进站换新胎，利用新胎的速度优势在对手进站时超越对手的经典策略。' },
+                { q: 'F1前翼的主要功能是什么？', options: ['仅用于美观', '产生前部下压力并引导气流', '储存燃油', '散热'], answer: 1, explain: '前翼是F1最重要的空气动力学部件之一，产生约25-30%的总下压力，同时引导气流走向影响整车气动效率。' },
+                { q: '红旗暂停期间可以换胎吗？', options: ['不可以', '可以（2022年规则更新后允许）', '只能换前胎', '需赛会批准'], answer: 1, explain: '2022年规则更新后，红旗暂停期间允许换胎和维修，但所有车手享有同等权利。' },
+                { q: 'F1的三种干地轮胎配方是什么？', options: ['超软、软、中', '硬(H)、中性(M)、软(S)', '雨胎、半雨胎、干胎', '红、黄、白'], answer: 1, explain: '倍耐力提供三种干地配方：硬胎(H/白色)、中性胎(M/黄色)、软胎(S/红色)，颜色越红越软越快但磨损越快。' },
+                { q: '正赛第4名获得多少积分？', options: ['10分', '12分', '15分', '18分'], answer: 1, explain: 'F1积分系统：1-10名分别为25/18/15/12/10/8/6/4/2/1分，第4名获得12分。' },
+                { q: 'F1车手的最低参赛年龄是多少？', options: ['16岁', '18岁', '21岁', '无限制'], answer: 1, explain: 'FIA规定F1车手最低参赛年龄为18岁，且需持有超级驾照。' },
+                { q: '2026规则下内燃机排量是多少？', options: ['1.6升V6', '2.0升V4', '1.5升V6', '3.0升V10'], answer: 0, explain: '2026规则维持1.6升V6涡轮增压内燃机，但取消了MGU-H，将更多电力分配给MGU-K。' },
+                { q: 'F1的Halo装置能承受约多少重量？', options: ['约1吨', '约5吨', '约12吨', '约50吨'], answer: 2, explain: 'Halo驾驶舱保护装置能承受约12吨的冲击力，由钛合金制成，2018年起成为F1强制装备。' },
+                { q: '"Overcut"策略是什么？', options: ['提前进站换胎', '晚进站用旧胎跑快圈保住位置', '不进站', '退赛'], answer: 1, explain: 'Overcut是晚进站策略，车手用旧胎多跑几圈做出快圈速，出站后仍在对手前面。与Undercut相反。' },
+                { q: '地面效应通过什么装置实现？', options: ['前翼', '尾翼', '文丘里管(Venturi隧道)', '扩散器'], answer: 2, explain: '2022规则下地面效应通过底板的文丘里管隧道实现，空气流经收缩-扩张的通道产生低压区，将赛车吸向地面。' },
+                { q: 'F1比赛中绿旗表示什么？', options: ['比赛暂停', '前方有危险', '赛道畅通，恢复正常比赛', '比赛结束'], answer: 2, explain: '绿旗表示赛道状况恢复正常，之前黄旗区域的限制解除，可以恢复正常比赛节奏。' },
+                { q: '2024赛季F1有多少站大奖赛？', options: ['20站', '22站', '24站', '26站'], answer: 2, explain: '2024赛季F1共设24站大奖赛，是历史上站数最多的赛季，2025赛季同样为24站。' },
+                { q: 'F1赛车的HANS系统是什么？', options: ['头盔通风系统', '头颈支撑系统，防止甩鞭伤', '心率监测器', '无线电通信系统'], answer: 1, explain: 'HANS(Head and Neck Support)系统固定在车手肩部连接头盔，在碰撞时限制头部前移，防止致命的头颈甩鞭伤。' }
             ]
         }
     };
-    let fqSet = 'A', fqQ = 0, fqScore = 0, fqAns = [], fqFinalScore = 0;
+    let fqSet = 'A', fqQ = 0, fqScore = 0, fqAns = [], fqFinalScore = 0, fqDailyQs = [];
     const FQ_LB_KEY = 'f1_quiz_scores_v1';
+    const FQ_DATE_KEY = 'f1_quiz_last_date';
+    function fqDateSeed() {
+        const d = new Date();
+        return d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
+    }
+    function fqSeededShuffle(arr, seed) {
+        const r = [...arr];
+        let s = seed;
+        for (let i = r.length - 1; i > 0; i--) {
+            s = (s * 9301 + 49297) % 233280;
+            const j = Math.floor(s / 233280 * (i + 1));
+            const tmp = r[i]; r[i] = r[j]; r[j] = tmp;
+        }
+        return r;
+    }
+    function fqGetDaily(setKey) {
+        const pool = fqData[setKey].pool;
+        const seed = fqDateSeed() + (setKey === 'A' ? 0 : 77777);
+        return fqSeededShuffle(pool, seed).slice(0, 10);
+    }
+    function fqCheckUpdated() {
+        const today = new Date().toDateString();
+        let last = '';
+        try { last = localStorage.getItem(FQ_DATE_KEY) || ''; } catch(e) {}
+        if (last !== today) {
+            const el = document.getElementById('fqUpdated');
+            if (el) el.style.display = 'inline-block';
+            try { localStorage.setItem(FQ_DATE_KEY, today); } catch(e) {}
+            setTimeout(function() { const e = document.getElementById('fqUpdated'); if (e) e.style.display = 'none'; }, 10000);
+        }
+    }
+    fqCheckUpdated();
     function fqToggle() {
         const p = document.getElementById('fqPanel');
         const a = document.getElementById('fqArrow');
@@ -1031,6 +1096,7 @@
         fqStart();
     }
     function fqStart() {
+        fqDailyQs = fqGetDaily(fqSet);
         fqQ = 0; fqScore = 0; fqAns = [];
         document.getElementById('fqStartScreen').style.display = 'none';
         document.getElementById('fqResult').style.display = 'none';
@@ -1038,10 +1104,10 @@
         fqShow();
     }
     function fqShow() {
-        const set = fqData[fqSet], q = set.questions[fqQ];
-        document.getElementById('fqQNum').textContent = '第 ' + (fqQ + 1) + ' / ' + set.questions.length + ' 题 [' + set.name + ']';
+        const set = fqData[fqSet], q = fqDailyQs[fqQ];
+        document.getElementById('fqQNum').textContent = '第 ' + (fqQ + 1) + ' / ' + fqDailyQs.length + ' 题 [' + set.name + ']';
         document.getElementById('fqQText').textContent = q.q;
-        document.getElementById('fqProgFill').style.width = (fqQ / set.questions.length * 100) + '%';
+        document.getElementById('fqProgFill').style.width = (fqQ / fqDailyQs.length * 100) + '%';
         const opts = document.getElementById('fqOptions');
         opts.innerHTML = '';
         q.options.forEach((opt, i) => {
@@ -1054,7 +1120,7 @@
         document.getElementById('fqNextBtn').classList.remove('show');
     }
     function fqSelect(idx, btn) {
-        const set = fqData[fqSet], q = set.questions[fqQ];
+        const set = fqData[fqSet], q = fqDailyQs[fqQ];
         const all = document.querySelectorAll('#fqOptions .quiz-opt');
         all.forEach(b => b.classList.add('locked'));
         if (idx === q.answer) {
@@ -1069,12 +1135,11 @@
             document.getElementById('fqFeedback').className = 'quiz-feedback show no';
         }
         document.getElementById('fqNextBtn').classList.add('show');
-        document.getElementById('fqNextBtn').textContent = fqQ === set.questions.length - 1 ? '查看结果' : '下一题';
-        document.getElementById('fqProgFill').style.width = ((fqQ + 1) / set.questions.length * 100) + '%';
+        document.getElementById('fqNextBtn').textContent = fqQ === fqDailyQs.length - 1 ? '查看结果' : '下一题';
+        document.getElementById('fqProgFill').style.width = ((fqQ + 1) / fqDailyQs.length * 100) + '%';
     }
     function fqNext() {
-        const set = fqData[fqSet];
-        if (fqQ < set.questions.length - 1) { fqQ++; fqShow(); }
+        if (fqQ < fqDailyQs.length - 1) { fqQ++; fqShow(); }
         else { fqResult(); }
     }
     function fqResult() {
@@ -1091,8 +1156,7 @@
         else r = '刚入门吧？多看几场比赛就熟了';
         document.getElementById('fqRating').textContent = r;
         let bd = '';
-        const set = fqData[fqSet];
-        set.questions.forEach((q, i) => {
+        fqDailyQs.forEach((q, i) => {
             bd += '<div class="breakdown-item"><span class="bk-ico ' + (fqAns[i] ? 'bk-ok' : 'bk-no') + '">' + (fqAns[i] ? '+' : '-') + '</span><span>第' + (i+1) + '题: ' + (fqAns[i] ? '正确' : '错误') + '</span></div>';
         });
         document.getElementById('fqBreakdown').innerHTML = bd;

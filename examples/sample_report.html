@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>F1 2026 赛季追踪报告 - 2026-07-27</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; background: #f4f5f7; color: #1a1a1a; line-height: 1.6; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 24px; }
+
+    .report-header { text-align: center; padding: 32px 0; border-bottom: 3px solid #e10600; margin-bottom: 32px; }
+    .report-header h1 { font-size: 28px; color: #1a1a1a; margin-bottom: 8px; }
+    .report-header .subtitle { color: #666; font-size: 15px; }
+    .report-header .race-badge { display: inline-block; background: #e10600; color: #fff; padding: 4px 16px; border-radius: 4px; font-size: 13px; margin-top: 8px; font-weight: 600; }
+
+    .section { background: #fff; border-radius: 12px; padding: 24px; margin-bottom: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+    .section h2 { font-size: 20px; color: #1a1a1a; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #f0f0f0; display: flex; align-items: center; gap: 8px; }
+    .section h2 .icon { font-size: 22px; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th { text-align: left; padding: 10px 12px; background: #f8f9fa; color: #555; font-weight: 600; border-bottom: 2px solid #e0e0e0; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+    td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; }
+    tr:hover { background: #f8f9fa; }
+    tr.podium td { background: #fff9e6; }
+    tr.podium:hover td { background: #fff5d6; }
+    .pos-cell { font-weight: 700; font-size: 16px; color: #e10600; width: 50px; text-align: center; }
+    .driver-cell { font-weight: 600; display: flex; align-items: center; gap: 8px; }
+    .team-bar { display: inline-block; width: 4px; height: 20px; border-radius: 2px; flex-shrink: 0; }
+    .mono { font-family: 'Consolas', 'Courier New', monospace; }
+    .points-cell { font-weight: 700; font-size: 16px; }
+
+    .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 16px; }
+    .info-item { background: #f8f9fa; padding: 12px 16px; border-radius: 8px; }
+    .info-item .label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .info-item .value { font-size: 15px; font-weight: 600; }
+
+    .track-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin-top: 12px; }
+    .track-item { background: #f0f4f8; padding: 8px 12px; border-radius: 6px; }
+    .track-label { display: block; font-size: 11px; color: #666; margin-bottom: 2px; }
+    .track-value { display: block; font-size: 14px; font-weight: 600; }
+
+    .pred-card { border: 1px solid #e8e8e8; border-radius: 10px; padding: 16px; margin-bottom: 12px; transition: box-shadow 0.2s; }
+    .pred-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.1); }
+    .pred-header { display: flex; align-items: center; gap: 12px; padding-left: 12px; margin-bottom: 12px; }
+    .pred-pos { font-size: 20px; font-weight: 800; color: #e10600; min-width: 40px; }
+    .pred-driver { font-size: 17px; font-weight: 700; }
+    .pred-team { color: #666; font-size: 13px; flex-grow: 1; }
+    .pred-score { font-size: 20px; font-weight: 800; color: #1a1a1a; }
+    .badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 600; }
+
+    .pred-scores { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 24px; margin-bottom: 12px; }
+    .score-bar { display: flex; align-items: center; gap: 8px; }
+    .score-bar label { font-size: 12px; color: #666; width: 70px; flex-shrink: 0; }
+    .bar-track { flex-grow: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 4px; transition: width 0.3s; }
+    .score-bar span { font-size: 13px; font-weight: 600; width: 28px; text-align: right; }
+
+    .pred-details { display: flex; gap: 24px; flex-wrap: wrap; padding-top: 8px; border-top: 1px solid #f0f0f0; }
+    .pred-factors { flex: 1; min-width: 200px; }
+    .pred-factors ul { margin-left: 16px; margin-top: 4px; }
+    .pred-factors li { font-size: 13px; color: #555; margin-bottom: 2px; }
+    .pred-factors.risk li { color: #c0392b; }
+
+    .upgrade-card { background: #fafbfc; border: 1px solid #e8e8e8; border-radius: 10px; padding: 16px; margin-bottom: 12px; }
+    .upgrade-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; flex-wrap: wrap; }
+    .upgrade-team { font-size: 16px; font-weight: 700; }
+    .upgrade-desc { font-size: 14px; color: #555; margin-bottom: 8px; }
+    .upgrade-impact { font-size: 13px; color: #333; background: #fff3cd; padding: 8px 12px; border-radius: 6px; }
+
+    .dark-horse-card { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #fff; border-radius: 12px; padding: 24px; margin-bottom: 24px; text-align: center; }
+    .dark-horse-card h3 { color: #ffd700; margin-bottom: 12px; font-size: 18px; }
+    .dh-driver { font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+    .dh-reason { font-size: 14px; color: #ccc; }
+
+    .chart-container { position: relative; height: 400px; margin-top: 16px; }
+    .chart-container-sm { position: relative; height: 300px; margin-top: 16px; }
+
+    .disclaimer { font-size: 12px; color: #999; text-align: center; padding: 16px; border-top: 1px solid #eee; margin-top: 24px; }
+
+    @media (max-width: 768px) {
+        .pred-scores { grid-template-columns: 1fr; }
+        .pred-details { flex-direction: column; }
+        .info-grid { grid-template-columns: 1fr; }
+    }
+
+</style>
+</head>
+<body>
+<div class="container">
+
+    <div class="report-header">
+        <h1>F1 2026 赛季追踪报告</h1>
+        <div class="subtitle">报告生成日期: 2026-07-27</div>
+        <div class="race-badge">最近完赛: 匈牙利大奖赛</div>
+    </div>
+
+    <!-- Last Race Results -->
+    
+    <div class="section">
+        <h2><span class="icon">🏁</span> 匈牙利大奖赛 - 比赛结果</h2>
+        <div class="info-grid">
+            <div class="info-item"><div class="label">赛道</div><div class="value">匈格罗宁赛道，布达佩斯</div></div>
+            <div class="info-item"><div class="label">日期</div><div class="value">2026-07-26</div></div>
+        </div>
+        <table>
+            <thead><tr><th>名次</th><th>车手</th><th>车队</th><th>用时/状态</th><th>积分</th></tr></thead>
+            <tbody>
+                <tr class="podium">
+                    <td class="pos-cell">1</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#FF8000"></span>Lando Norris</td>
+                    <td>McLaren</td>
+                    <td class="mono">1:39:56.180</td>
+                    <td class="mono">25</td>
+                </tr>
+                <tr class="podium">
+                    <td class="pos-cell">2</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#1E2B5E"></span>Max Verstappen</td>
+                    <td>Red Bull</td>
+                    <td class="mono">+15.080s</td>
+                    <td class="mono">18</td>
+                </tr>
+                <tr class="podium">
+                    <td class="pos-cell">3</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#00D2BE"></span>Kimi Antonelli</td>
+                    <td>Mercedes</td>
+                    <td class="mono">+18.728s</td>
+                    <td class="mono">15</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">4</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#DC0000"></span>Charles Leclerc</td>
+                    <td>Ferrari</td>
+                    <td class="mono">+23.840s</td>
+                    <td class="mono">12</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">5</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#DC0000"></span>Lewis Hamilton</td>
+                    <td>Ferrari</td>
+                    <td class="mono">+24.540s (5s penalty)</td>
+                    <td class="mono">10</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">6</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#1E2B5E"></span>Isack Hadjar</td>
+                    <td>Red Bull</td>
+                    <td class="mono">+55.488s</td>
+                    <td class="mono">8</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">7</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#00D2BE"></span>George Russell</td>
+                    <td>Mercedes</td>
+                    <td class="mono">+57.503s</td>
+                    <td class="mono">6</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">8</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#6692FF"></span>Liam Lawson</td>
+                    <td>Racing Bulls</td>
+                    <td class="mono">+1 lap</td>
+                    <td class="mono">4</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">9</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#C4FF4F"></span>Nico Hulkenberg</td>
+                    <td>Audi</td>
+                    <td class="mono">+1 lap</td>
+                    <td class="mono">2</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">10</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#6692FF"></span>Arvid Lindblad</td>
+                    <td>Racing Bulls</td>
+                    <td class="mono">+1 lap</td>
+                    <td class="mono">1</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">11</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#C4FF4F"></span>Gabriel Bortoleto</td>
+                    <td>Audi</td>
+                    <td class="mono">+1 lap</td>
+                    <td class="mono">0</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">12</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#0090FF"></span>Pierre Gasly</td>
+                    <td>Alpine</td>
+                    <td class="mono">+1 lap</td>
+                    <td class="mono">0</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">13</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#006F62"></span>Lance Stroll</td>
+                    <td>Aston Martin</td>
+                    <td class="mono">+1 lap</td>
+                    <td class="mono">0</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">14</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#006F62"></span>Fernando Alonso</td>
+                    <td>Aston Martin</td>
+                    <td class="mono">+1 lap</td>
+                    <td class="mono">0</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">15</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#0090FF"></span>Franco Colapinto</td>
+                    <td>Alpine</td>
+                    <td class="mono">+2 laps</td>
+                    <td class="mono">0</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">16</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#B6BABD"></span>Esteban Ocon</td>
+                    <td>Haas</td>
+                    <td class="mono">+2 laps</td>
+                    <td class="mono">0</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">17</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#005AFF"></span>Alexander Albon</td>
+                    <td>Williams</td>
+                    <td class="mono">+2 laps</td>
+                    <td class="mono">0</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">18</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#005AFF"></span>Carlos Sainz</td>
+                    <td>Williams</td>
+                    <td class="mono">+2 laps</td>
+                    <td class="mono">0</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">19</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#B6BABD"></span>Oliver Bearman</td>
+                    <td>Haas</td>
+                    <td class="mono">+2 laps (5s penalty)</td>
+                    <td class="mono">0</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">20</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#FF8000"></span>Oscar Piastri</td>
+                    <td>McLaren</td>
+                    <td class="mono">DNF (gearbox)</td>
+                    <td class="mono">0</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">21</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#1A1A1A"></span>Sergio Perez</td>
+                    <td>Cadillac</td>
+                    <td class="mono">DNF (front-left)</td>
+                    <td class="mono">0</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">22</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#1A1A1A"></span>Valtteri Bottas</td>
+                    <td>Cadillac</td>
+                    <td class="mono">DNF (overheating brakes)</td>
+                    <td class="mono">0</td>
+                </tr></tbody>
+        </table>
+    </div>
+    
+
+    <!-- Driver Standings -->
+    <div class="section">
+        <h2><span class="icon">🏆</span> 车手积分榜</h2>
+        <table>
+            <thead><tr><th>名次</th><th>车手</th><th>车队</th><th>积分</th></tr></thead>
+            <tbody>
+                <tr class="podium">
+                    <td class="pos-cell">1</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#00D2BE"></span>Kimi Antonelli</td>
+                    <td>Mercedes</td>
+                    <td class="mono points-cell">219</td>
+                </tr>
+                <tr class="podium">
+                    <td class="pos-cell">2</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#DC0000"></span>Lewis Hamilton</td>
+                    <td>Ferrari</td>
+                    <td class="mono points-cell">169</td>
+                </tr>
+                <tr class="podium">
+                    <td class="pos-cell">3</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#00D2BE"></span>George Russell</td>
+                    <td>Mercedes</td>
+                    <td class="mono points-cell">160</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">4</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#DC0000"></span>Charles Leclerc</td>
+                    <td>Ferrari</td>
+                    <td class="mono points-cell">138</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">5</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#FF8000"></span>Lando Norris</td>
+                    <td>McLaren</td>
+                    <td class="mono points-cell">128</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">6</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#1E2B5E"></span>Max Verstappen</td>
+                    <td>Red Bull</td>
+                    <td class="mono points-cell">109</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">7</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#FF8000"></span>Oscar Piastri</td>
+                    <td>McLaren</td>
+                    <td class="mono points-cell">92</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">8</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#1E2B5E"></span>Isack Hadjar</td>
+                    <td>Red Bull</td>
+                    <td class="mono points-cell">68</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">9</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#6692FF"></span>Liam Lawson</td>
+                    <td>Racing Bulls</td>
+                    <td class="mono points-cell">43</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">10</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#0090FF"></span>Pierre Gasly</td>
+                    <td>Alpine</td>
+                    <td class="mono points-cell">42</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">11</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#6692FF"></span>Arvid Lindblad</td>
+                    <td>Racing Bulls</td>
+                    <td class="mono points-cell">23</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">12</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#0090FF"></span>Franco Colapinto</td>
+                    <td>Alpine</td>
+                    <td class="mono points-cell">19</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">13</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#B6BABD"></span>Oliver Bearman</td>
+                    <td>Haas</td>
+                    <td class="mono points-cell">18</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">14</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#C4FF4F"></span>Gabriel Bortoleto</td>
+                    <td>Audi</td>
+                    <td class="mono points-cell">10</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">15</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#005AFF"></span>Carlos Sainz</td>
+                    <td>Williams</td>
+                    <td class="mono points-cell">6</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">16</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#005AFF"></span>Alexander Albon</td>
+                    <td>Williams</td>
+                    <td class="mono points-cell">5</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">17</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#B6BABD"></span>Esteban Ocon</td>
+                    <td>Haas</td>
+                    <td class="mono points-cell">3</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">18</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#C4FF4F"></span>Nico Hulkenberg</td>
+                    <td>Audi</td>
+                    <td class="mono points-cell">2</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">19</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#006F62"></span>Fernando Alonso</td>
+                    <td>Aston Martin</td>
+                    <td class="mono points-cell">1</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">20</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#1A1A1A"></span>Sergio Perez</td>
+                    <td>Cadillac</td>
+                    <td class="mono points-cell">0</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">21</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#1A1A1A"></span>Valtteri Bottas</td>
+                    <td>Cadillac</td>
+                    <td class="mono points-cell">0</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">22</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#006F62"></span>Lance Stroll</td>
+                    <td>Aston Martin</td>
+                    <td class="mono points-cell">0</td>
+                </tr></tbody>
+        </table>
+        <div class="chart-container-sm">
+            <canvas id="driverPointsChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Constructor Standings -->
+    <div class="section">
+        <h2><span class="icon">🏭</span> 车队积分榜</h2>
+        <table>
+            <thead><tr><th>名次</th><th>车队</th><th>积分</th></tr></thead>
+            <tbody>
+                <tr class="podium">
+                    <td class="pos-cell">1</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#00D2BE"></span>Mercedes</td>
+                    
+                    <td class="mono points-cell">379</td>
+                </tr>
+                <tr class="podium">
+                    <td class="pos-cell">2</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#DC0000"></span>Ferrari</td>
+                    
+                    <td class="mono points-cell">307</td>
+                </tr>
+                <tr class="podium">
+                    <td class="pos-cell">3</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#FF8000"></span>McLaren</td>
+                    
+                    <td class="mono points-cell">220</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">4</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#1E2B5E"></span>Red Bull</td>
+                    
+                    <td class="mono points-cell">177</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">5</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#6692FF"></span>Racing Bulls</td>
+                    
+                    <td class="mono points-cell">66</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">6</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#0090FF"></span>Alpine</td>
+                    
+                    <td class="mono points-cell">61</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">7</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#B6BABD"></span>Haas</td>
+                    
+                    <td class="mono points-cell">21</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">8</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#C4FF4F"></span>Audi</td>
+                    
+                    <td class="mono points-cell">12</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">9</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#005AFF"></span>Williams</td>
+                    
+                    <td class="mono points-cell">11</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">10</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#006F62"></span>Aston Martin</td>
+                    
+                    <td class="mono points-cell">1</td>
+                </tr>
+                <tr class="">
+                    <td class="pos-cell">11</td>
+                    <td class="driver-cell"><span class="team-bar" style="background:#1A1A1A"></span>Cadillac</td>
+                    
+                    <td class="mono points-cell">0</td>
+                </tr></tbody>
+        </table>
+    </div>
+
+    <!-- Recent Races -->
+    
+    <div class="section">
+        <h2><span class="icon">📊</span> 近期比赛回顾</h2>
+        <table>
+            <thead><tr><th>日期</th><th>大奖赛</th><th>冠军</th><th>最快圈速</th></tr></thead>
+            <tbody>
+                <tr>
+                    <td class="mono">2026-07-26</td>
+                    <td>匈牙利大奖赛</td>
+                    <td class="driver-cell">Lando Norris</td>
+                    <td class="mono">Leclerc 1:22.000 (L58)</td>
+                </tr>
+                <tr>
+                    <td class="mono">2026-07-19</td>
+                    <td>比利时大奖赛</td>
+                    <td class="driver-cell">Kimi Antonelli</td>
+                    <td class="mono">Norris 1:48.890 (L44)</td>
+                </tr>
+                <tr>
+                    <td class="mono">2026-07-05</td>
+                    <td>英国大奖赛</td>
+                    <td class="driver-cell">Charles Leclerc</td>
+                    <td class="mono">Antonelli 1:31.777 (L37)</td>
+                </tr>
+                <tr>
+                    <td class="mono">2026-06-28</td>
+                    <td>奥地利大奖赛</td>
+                    <td class="driver-cell">George Russell</td>
+                    <td class="mono">Antonelli 1:10.374 (L59)</td>
+                </tr>
+                <tr>
+                    <td class="mono">2026-06-14</td>
+                    <td>西班牙大奖赛</td>
+                    <td class="driver-cell">Lewis Hamilton</td>
+                    <td class="mono">Hamilton 1:20.122 (L44)</td>
+                </tr></tbody>
+        </table>
+    </div>
+    
+
+    <!-- Team Upgrades -->
+    
+    <div class="section">
+        <h2><span class="icon">🔧</span> 车队升级动态</h2>
+        
+            <div class="upgrade-card" style="border-left:4px solid #006F62">
+                <div class="upgrade-header">
+                    <span class="upgrade-team">Aston Martin (Honda PU)</span>
+                </div>
+                <div class="upgrade-desc">Honda在赞德沃特带来重大动力单元升级。重点改进燃烧室形状和预燃室设计以提升燃烧效率；润滑系统全面改造以减少摩擦。所有改动均为内部修改，无需更改AMR26底盘安装。Honda在ADUO机制下获得了最多发展token，此PU被评估为当前网格最弱。</div>
+                <div class="upgrade-impact"><strong>预期影响:</strong> Honda目标为'合理大幅提升而非小步改进'，但明确表示'F1没有魔法，一步无法追上Mercedes或RBPT'。预计马力增加可感知但非颠覆性。这是Honda追赶计划的第一步，后续还有进一步升级。风险：冲刺赛周末仅1次FP1，新PU无测试缓冲。</div>
+            </div>
+            <div class="upgrade-card" style="border-left:4px solid #006F62">
+                <div class="upgrade-header">
+                    <span class="upgrade-team">Aston Martin (Chassis)</span>
+                </div>
+                <div class="upgrade-desc">Adrian Newey主导的底盘升级已在匈牙利站(夏休前最后一场)部署。匈牙利站Alonso凭升级进入Q2，车队表现明显改善，从赛季最差之一提升至超越Haas和Williams。</div>
+                <div class="upgrade-impact"><strong>预期影响:</strong> 弯角性能大幅改善，已验证有效。为Honda PU升级打好基础，赞德沃特可同时评估底盘+PU的综合效果。</div>
+            </div>
+            <div class="upgrade-card" style="border-left:4px solid #1E2B5E">
+                <div class="upgrade-header">
+                    <span class="upgrade-team">Red Bull</span>
+                </div>
+                <div class="upgrade-desc">Red Bull为赞德沃特高下压力需求带来新前翼，加长襟翼弦长以增加下压力载荷。据FIA升级表确认。</div>
+                <div class="upgrade-impact"><strong>预期影响:</strong> 针对赞德沃特高下压力特性优化，预计弯角下压力提升。Verstappen主场作战，前翼升级可能助其在排位赛中提升竞争力。</div>
+            </div>
+            <div class="upgrade-card" style="border-left:4px solid #0090FF">
+                <div class="upgrade-header">
+                    <span class="upgrade-team">Alpine</span>
+                </div>
+                <div class="upgrade-desc">Alpine重新设计后刹车通风道内部翼片，优化后轮尾流清理。</div>
+                <div class="upgrade-impact"><strong>预期影响:</strong> 改善后轮尾流管理，对扩散器气流有正面影响，后轮平衡和轮胎温度管理改善。</div>
+            </div>
+            <div class="upgrade-card" style="border-left:4px solid #C4FF4F">
+                <div class="upgrade-header">
+                    <span class="upgrade-team">Audi</span>
+                </div>
+                <div class="upgrade-desc">Audi(原Sauber)更新后刹车通风道导流片，旨在影响扩散器气流和后部平衡。</div>
+                <div class="upgrade-impact"><strong>预期影响:</strong> 扩散器气流效率改善，后部下压力和平衡优化。</div>
+            </div>
+            <div class="upgrade-card" style="border-left:4px solid #DC0000">
+                <div class="upgrade-header">
+                    <span class="upgrade-team">McLaren/Ferrari/Mercedes</span>
+                </div>
+                <div class="upgrade-desc">三大顶尖车队均未为荷兰站带来新升级，主要受预算帽限制和2027年规则更替影响。将依靠现有套件和赞德沃特设定优化。</div>
+                <div class="upgrade-impact"><strong>预期影响:</strong> 无新升级但现有赛车竞争力充足。Mercedes(379分)、Ferrari(307分)、McLaren(220分)分别列车队前3，无需升级即可竞争。Haas暗示赛季后期可能有更大升级包。</div>
+            </div>
+    </div>
+    
+
+    <!-- Next Race Prediction -->
+    
+    <div class="section">
+        <h2><span class="icon">🔮</span> 下一场预测: 荷兰大奖赛（赞德沃特告别战）</h2>
+        <div class="info-grid">
+            <div class="info-item"><div class="label">赛道</div><div class="value">赞德沃特赛道</div></div>
+            <div class="info-item"><div class="label">日期</div><div class="value">2026-08-23</div></div>
+            <div class="info-item"><div class="label">国家</div><div class="value">荷兰</div></div>
+            <div class="info-item"><div class="label">天气预测</div><div class="value">8月21-23日 赞德沃特: 气温20-24°C/14-16°C, 8月平均7个雨天, 有降雨可能性, 海风影响空气动力学设定</div></div>
+        </div>
+        <div class='track-grid'><div class='track-item'><span class='track-label'>类型</span><span class='track-value'>永久赛道/混合赛道</span></div><div class='track-item'><span class='track-label'>长度</span><span class='track-value'>4.259 km</span></div><div class='track-item'><span class='track-label'>圈数</span><span class='track-value'>72</span></div><div class='track-item'><span class='track-label'>比赛距离</span><span class='track-value'>306.587 km</span></div><div class='track-item'><span class='track-label'>弯道</span><span class='track-value'>14 (10右弯 + 4左弯)</span></div><div class='track-item'><span class='track-label'>下压力</span><span class='track-value'>高下压力</span></div><div class='track-item'><span class='track-label'>轮胎磨损</span><span class='track-value'>中等</span></div><div class='track-item'><span class='track-label'>超车难度</span><span class='track-value'>困难</span></div><div class='track-item'><span class='track-label'>DRS区域</span><span class='track-value'>2</span></div><div class='track-item'><span class='track-label'>倾斜弯道</span><span class='track-value'>T3 Hugenholtz (18度) + T14 Arie Luyendyk (19度)</span></div><div class='track-item'><span class='track-label'>圈速纪录</span><span class='track-value'>1:11.097 (Hamilton 2021)</span></div><div class='track-item'><span class='track-label'>赛制</span><span class='track-value'>冲刺赛周末 (Sprint)</span></div></div>
+        <div class="chart-container">
+            <canvas id="predictionChart"></canvas>
+        </div>
+        
+            <div class="pred-card">
+                <div class="pred-header" style="border-left:4px solid #00D2BE">
+                    <span class="pred-pos">P1</span>
+                    <span class="pred-driver">Kimi Antonelli</span>
+                    <span class="pred-team">Mercedes</span>
+                    <span class="badge" style="background:#d1e7dd;color:#198754;border:1px solid #198754;">HIGH</span>
+                    <span class="pred-score">87.9</span>
+                </div>
+                <div class="pred-scores">
+                    <div class="score-bar"><label>近期状态</label><div class="bar-track"><div class="bar-fill" style="width:92%;background:#0d6efd"></div></div><span>92</span></div>
+                    <div class="score-bar"><label>赛道历史</label><div class="bar-track"><div class="bar-fill" style="width:70%;background:#6610f2"></div></div><span>70</span></div>
+                    <div class="score-bar"><label>赛车性能</label><div class="bar-track"><div class="bar-fill" style="width:95%;background:#fd7e14"></div></div><span>95</span></div>
+                    <div class="score-bar"><label>练习赛</label><div class="bar-track"><div class="bar-fill" style="width:95%;background:#20c997"></div></div><span>95</span></div>
+                </div>
+                <div class="pred-details">
+                    <div class='pred-factors'><strong>有利因素</strong><ul><li>赛季7胜领跑积分榜</li><li>Mercedes本赛季11场9胜统治级表现</li><li>比利时站冠军+匈牙利站季军</li></ul></div>
+                    <div class='pred-factors risk'><strong>风险因素</strong><ul><li>赞德沃特无历史胜绩</li><li>冲刺赛周末仅1次练习赛</li></ul></div>
+                </div>
+            </div>
+            <div class="pred-card">
+                <div class="pred-header" style="border-left:4px solid #FF8000">
+                    <span class="pred-pos">P2</span>
+                    <span class="pred-driver">Lando Norris</span>
+                    <span class="pred-team">McLaren</span>
+                    <span class="badge" style="background:#fff3cd;color:#FFC107;border:1px solid #FFC107;">MEDIUM</span>
+                    <span class="pred-score">84.9</span>
+                </div>
+                <div class="pred-scores">
+                    <div class="score-bar"><label>近期状态</label><div class="bar-track"><div class="bar-fill" style="width:85%;background:#0d6efd"></div></div><span>85</span></div>
+                    <div class="score-bar"><label>赛道历史</label><div class="bar-track"><div class="bar-fill" style="width:90%;background:#6610f2"></div></div><span>90</span></div>
+                    <div class="score-bar"><label>赛车性能</label><div class="bar-track"><div class="bar-fill" style="width:82%;background:#fd7e14"></div></div><span>82</span></div>
+                    <div class="score-bar"><label>练习赛</label><div class="bar-track"><div class="bar-fill" style="width:82%;background:#20c997"></div></div><span>82</span></div>
+                </div>
+                <div class="pred-details">
+                    <div class='pred-factors'><strong>有利因素</strong><ul><li>2024赞德沃特冠军</li><li>匈牙利站刚夺冠士气正旺</li><li>McLaren近2年统治赞德沃特(2024+2025)</li></ul></div>
+                    <div class='pred-factors risk'><strong>风险因素</strong><ul><li>McLaren赛车速度不及Mercedes</li></ul></div>
+                </div>
+            </div>
+            <div class="pred-card">
+                <div class="pred-header" style="border-left:4px solid #00D2BE">
+                    <span class="pred-pos">P3</span>
+                    <span class="pred-driver">George Russell</span>
+                    <span class="pred-team">Mercedes</span>
+                    <span class="badge" style="background:#fff3cd;color:#FFC107;border:1px solid #FFC107;">MEDIUM</span>
+                    <span class="pred-score">84.7</span>
+                </div>
+                <div class="pred-scores">
+                    <div class="score-bar"><label>近期状态</label><div class="bar-track"><div class="bar-fill" style="width:83%;background:#0d6efd"></div></div><span>83</span></div>
+                    <div class="score-bar"><label>赛道历史</label><div class="bar-track"><div class="bar-fill" style="width:68%;background:#6610f2"></div></div><span>68</span></div>
+                    <div class="score-bar"><label>赛车性能</label><div class="bar-track"><div class="bar-fill" style="width:95%;background:#fd7e14"></div></div><span>95</span></div>
+                    <div class="score-bar"><label>练习赛</label><div class="bar-track"><div class="bar-fill" style="width:95%;background:#20c997"></div></div><span>95</span></div>
+                </div>
+                <div class="pred-details">
+                    <div class='pred-factors'><strong>有利因素</strong><ul><li>Mercedes赛车统治力</li><li>本赛季2胜(澳洲+奥地利)</li><li>英国站P2近期状态佳</li></ul></div>
+                    <div class='pred-factors risk'><strong>风险因素</strong><ul><li>赞德沃特历史成绩一般</li><li>匈牙利起步故障P7需反弹</li></ul></div>
+                </div>
+            </div>
+            <div class="pred-card">
+                <div class="pred-header" style="border-left:4px solid #DC0000">
+                    <span class="pred-pos">P4</span>
+                    <span class="pred-driver">Lewis Hamilton</span>
+                    <span class="pred-team">Ferrari</span>
+                    <span class="badge" style="background:#fff3cd;color:#FFC107;border:1px solid #FFC107;">MEDIUM</span>
+                    <span class="pred-score">83.1</span>
+                </div>
+                <div class="pred-scores">
+                    <div class="score-bar"><label>近期状态</label><div class="bar-track"><div class="bar-fill" style="width:80%;background:#0d6efd"></div></div><span>80</span></div>
+                    <div class="score-bar"><label>赛道历史</label><div class="bar-track"><div class="bar-fill" style="width:78%;background:#6610f2"></div></div><span>78</span></div>
+                    <div class="score-bar"><label>赛车性能</label><div class="bar-track"><div class="bar-fill" style="width:88%;background:#fd7e14"></div></div><span>88</span></div>
+                    <div class="score-bar"><label>练习赛</label><div class="bar-track"><div class="bar-fill" style="width:88%;background:#20c997"></div></div><span>88</span></div>
+                </div>
+                <div class="pred-details">
+                    <div class='pred-factors'><strong>有利因素</strong><ul><li>赞德沃特圈速纪录保持者(2021)</li><li>Ferrari赛季2胜竞争力强</li><li>巴塞罗那站冠军</li></ul></div>
+                    <div class='pred-factors risk'><strong>风险因素</strong><ul><li>匈牙利5秒罚时跌至P5</li><li>年龄因素长距离耐力</li></ul></div>
+                </div>
+            </div>
+            <div class="pred-card">
+                <div class="pred-header" style="border-left:4px solid #1E2B5E">
+                    <span class="pred-pos">P5</span>
+                    <span class="pred-driver">Max Verstappen</span>
+                    <span class="pred-team">Red Bull</span>
+                    <span class="badge" style="background:#fff3cd;color:#FFC107;border:1px solid #FFC107;">MEDIUM</span>
+                    <span class="pred-score">82.2</span>
+                </div>
+                <div class="pred-scores">
+                    <div class="score-bar"><label>近期状态</label><div class="bar-track"><div class="bar-fill" style="width:85%;background:#0d6efd"></div></div><span>85</span></div>
+                    <div class="score-bar"><label>赛道历史</label><div class="bar-track"><div class="bar-fill" style="width:97%;background:#6610f2"></div></div><span>97</span></div>
+                    <div class="score-bar"><label>赛车性能</label><div class="bar-track"><div class="bar-fill" style="width:72%;background:#fd7e14"></div></div><span>72</span></div>
+                    <div class="score-bar"><label>练习赛</label><div class="bar-track"><div class="bar-fill" style="width:72%;background:#20c997"></div></div><span>72</span></div>
+                </div>
+                <div class="pred-details">
+                    <div class='pred-factors'><strong>有利因素</strong><ul><li>赞德沃特3连冠(2021-2023)主场作战</li><li>最后一届荷兰大奖赛情感加持</li><li>近5站3次领奖台状态稳定</li></ul></div>
+                    <div class='pred-factors risk'><strong>风险因素</strong><ul><li>Red Bull仅列车队第4速度不足</li><li>本赛季0胜</li></ul></div>
+                </div>
+            </div>
+            <div class="pred-card">
+                <div class="pred-header" style="border-left:4px solid #DC0000">
+                    <span class="pred-pos">P6</span>
+                    <span class="pred-driver">Charles Leclerc</span>
+                    <span class="pred-team">Ferrari</span>
+                    <span class="badge" style="background:#fff3cd;color:#FFC107;border:1px solid #FFC107;">MEDIUM</span>
+                    <span class="pred-score">81.7</span>
+                </div>
+                <div class="pred-scores">
+                    <div class="score-bar"><label>近期状态</label><div class="bar-track"><div class="bar-fill" style="width:82%;background:#0d6efd"></div></div><span>82</span></div>
+                    <div class="score-bar"><label>赛道历史</label><div class="bar-track"><div class="bar-fill" style="width:70%;background:#6610f2"></div></div><span>70</span></div>
+                    <div class="score-bar"><label>赛车性能</label><div class="bar-track"><div class="bar-fill" style="width:88%;background:#fd7e14"></div></div><span>88</span></div>
+                    <div class="score-bar"><label>练习赛</label><div class="bar-track"><div class="bar-fill" style="width:88%;background:#20c997"></div></div><span>88</span></div>
+                </div>
+                <div class="pred-details">
+                    <div class='pred-factors'><strong>有利因素</strong><ul><li>Ferrari赛车竞争力</li><li>英国站冠军+比利时站P2</li></ul></div>
+                    <div class='pred-factors risk'><strong>风险因素</strong><ul><li>赞德沃特无突出历史成绩</li><li>法拉利策略不确定性</li></ul></div>
+                </div>
+            </div>
+            <div class="pred-card">
+                <div class="pred-header" style="border-left:4px solid #FF8000">
+                    <span class="pred-pos">P7</span>
+                    <span class="pred-driver">Oscar Piastri</span>
+                    <span class="pred-team">McLaren</span>
+                    <span class="badge" style="background:#fff3cd;color:#FFC107;border:1px solid #FFC107;">MEDIUM</span>
+                    <span class="pred-score">81.5</span>
+                </div>
+                <div class="pred-scores">
+                    <div class="score-bar"><label>近期状态</label><div class="bar-track"><div class="bar-fill" style="width:72%;background:#0d6efd"></div></div><span>72</span></div>
+                    <div class="score-bar"><label>赛道历史</label><div class="bar-track"><div class="bar-fill" style="width:92%;background:#6610f2"></div></div><span>92</span></div>
+                    <div class="score-bar"><label>赛车性能</label><div class="bar-track"><div class="bar-fill" style="width:82%;background:#fd7e14"></div></div><span>82</span></div>
+                    <div class="score-bar"><label>练习赛</label><div class="bar-track"><div class="bar-fill" style="width:82%;background:#20c997"></div></div><span>82</span></div>
+                </div>
+                <div class="pred-details">
+                    <div class='pred-factors'><strong>有利因素</strong><ul><li>2025赞德沃特卫冕冠军</li><li>2025赞德沃特排位赛纪录保持者</li><li>McLaren近2年统治此赛道</li></ul></div>
+                    <div class='pred-factors risk'><strong>风险因素</strong><ul><li>匈牙利站DNF(变速箱故障)</li><li>本赛季0胜积分仅92</li></ul></div>
+                </div>
+            </div>
+            <div class="pred-card">
+                <div class="pred-header" style="border-left:4px solid #1E2B5E">
+                    <span class="pred-pos">P8</span>
+                    <span class="pred-driver">Isack Hadjar</span>
+                    <span class="pred-team">Red Bull</span>
+                    <span class="badge" style="background:#f8d7da;color:#DC3545;border:1px solid #DC3545;">LOW</span>
+                    <span class="pred-score">65.7</span>
+                </div>
+                <div class="pred-scores">
+                    <div class="score-bar"><label>近期状态</label><div class="bar-track"><div class="bar-fill" style="width:65%;background:#0d6efd"></div></div><span>65</span></div>
+                    <div class="score-bar"><label>赛道历史</label><div class="bar-track"><div class="bar-fill" style="width:55%;background:#6610f2"></div></div><span>55</span></div>
+                    <div class="score-bar"><label>赛车性能</label><div class="bar-track"><div class="bar-fill" style="width:72%;background:#fd7e14"></div></div><span>72</span></div>
+                    <div class="score-bar"><label>练习赛</label><div class="bar-track"><div class="bar-fill" style="width:72%;background:#20c997"></div></div><span>72</span></div>
+                </div>
+                <div class="pred-details">
+                    <div class='pred-factors'><strong>有利因素</strong><ul><li>匈牙利站P6稳定得分</li></ul></div>
+                    <div class='pred-factors risk'><strong>风险因素</strong><ul><li>赞德沃特无历史经验</li><li>Red Bull二号为车队贡献有限</li></ul></div>
+                </div>
+            </div>
+            <div class="pred-card">
+                <div class="pred-header" style="border-left:4px solid #6692FF">
+                    <span class="pred-pos">P9</span>
+                    <span class="pred-driver">Liam Lawson</span>
+                    <span class="pred-team">Racing Bulls</span>
+                    <span class="badge" style="background:#f8d7da;color:#DC3545;border:1px solid #DC3545;">LOW</span>
+                    <span class="pred-score">56.9</span>
+                </div>
+                <div class="pred-scores">
+                    <div class="score-bar"><label>近期状态</label><div class="bar-track"><div class="bar-fill" style="width:58%;background:#0d6efd"></div></div><span>58</span></div>
+                    <div class="score-bar"><label>赛道历史</label><div class="bar-track"><div class="bar-fill" style="width:50%;background:#6610f2"></div></div><span>50</span></div>
+                    <div class="score-bar"><label>赛车性能</label><div class="bar-track"><div class="bar-fill" style="width:60%;background:#fd7e14"></div></div><span>60</span></div>
+                    <div class="score-bar"><label>练习赛</label><div class="bar-track"><div class="bar-fill" style="width:60%;background:#20c997"></div></div><span>60</span></div>
+                </div>
+                <div class="pred-details">
+                    <div class='pred-factors'><strong>有利因素</strong><ul><li>匈牙利站P8得分</li></ul></div>
+                    <div class='pred-factors risk'><strong>风险因素</strong><ul><li>Racing Bulls中游竞争力有限</li></ul></div>
+                </div>
+            </div>
+            <div class="pred-card">
+                <div class="pred-header" style="border-left:4px solid #0090FF">
+                    <span class="pred-pos">P10</span>
+                    <span class="pred-driver">Pierre Gasly</span>
+                    <span class="pred-team">Alpine</span>
+                    <span class="badge" style="background:#f8d7da;color:#DC3545;border:1px solid #DC3545;">LOW</span>
+                    <span class="pred-score">55.1</span>
+                </div>
+                <div class="pred-scores">
+                    <div class="score-bar"><label>近期状态</label><div class="bar-track"><div class="bar-fill" style="width:55%;background:#0d6efd"></div></div><span>55</span></div>
+                    <div class="score-bar"><label>赛道历史</label><div class="bar-track"><div class="bar-fill" style="width:50%;background:#6610f2"></div></div><span>50</span></div>
+                    <div class="score-bar"><label>赛车性能</label><div class="bar-track"><div class="bar-fill" style="width:58%;background:#fd7e14"></div></div><span>58</span></div>
+                    <div class="score-bar"><label>练习赛</label><div class="bar-track"><div class="bar-fill" style="width:58%;background:#20c997"></div></div><span>58</span></div>
+                </div>
+                <div class="pred-details">
+                    <div class='pred-factors'><strong>有利因素</strong><ul><li>摩纳哥站P3赛季亮点</li></ul></div>
+                    <div class='pred-factors risk'><strong>风险因素</strong><ul><li>Alpine竞争力不足</li><li>匈牙利站仅P12</li></ul></div>
+                </div>
+            </div>
+        
+        <div class="dark-horse-card">
+            <h3>Dark Horse - 黑马预测</h3>
+            <div class="dh-driver">Fernando Alonso (Aston Martin)</div>
+            <div class="dh-reason">阿斯顿马丁在匈牙利站已部署底盘升级(Adrian Newey主导)， Alonso凭实力进入Q2。荷兰站Honda将带来重大动力单元升级(燃烧室形状修改+预燃室改进+润滑系统优化减摩)。如果Honda兑现'合理大幅提升'承诺， Alonso有望从匈牙利P14跃升至积分区甚至Q3。赞德沃特冲刺赛周末意味着新PU没有测试缓冲，风险与机遇并存。</div>
+        </div>
+    </div>
+    
+
+    <!-- Notes -->
+    
+    <div class="section">
+        <h2><span class="icon">📝</span> 备注</h2>
+        <p style="font-size:14px;color:#555;">2026赛季夏休期结束后的首场比赛，也是赞德沃特赛道举办F1的最后一届荷兰大奖赛。Max Verstappen的主场告别战，且首次在此引入冲刺赛赛制。本赛季Mercedes统治级表现(11场9胜)，Antonelli以219分领跑。McLaren近2年统治赞德沃特(2024 Norris, 2025 Piastri)。Aston Martin/Honda的PU升级是本站最大技术看点。冲刺赛周末意味着仅有1次FP1，排位赛和冲刺赛之间的策略空间极小。</p>
+    </div>
+    
+
+    <div class="disclaimer">
+        数据来源: F1.com 官方数据 | 报告生成时间: 2026-07-27<br>
+        预测基于历史数据和近期表现，实际结果受众多不可控因素影响 (天气、安全车、事故、策略、可靠性等)<br>
+        本报告仅供信息参考，不建议用于赌博或投注决策。
+    </div>
+
+</div>
+
+<script>
+    // Driver Points Chart
+    const ctxPts = document.getElementById('driverPointsChart');
+    if (ctxPts) {
+        new Chart(ctxPts, {
+            type: 'bar',
+            data: {
+                labels: ["Antonelli", "Hamilton", "Russell", "Leclerc", "Norris", "Verstappen", "Piastri", "Hadjar", "Lawson", "Gasly"],
+                datasets: [{
+                    label: '积分',
+                    data: [219, 169, 160, 138, 128, 109, 92, 68, 43, 42],
+                    backgroundColor: ["#00D2BE", "#DC0000", "#00D2BE", "#DC0000", "#FF8000", "#1E2B5E", "#FF8000", "#1E2B5E", "#6692FF", "#0090FF"],
+                    borderRadius: 4,
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { x: { beginAtZero: true, grid: { color: '#f0f0f0' } } }
+            }
+        });
+    }
+
+    // Prediction Scores Chart
+    const ctxPred = document.getElementById('predictionChart');
+    if (ctxPred) {
+        new Chart(ctxPred, {
+            type: 'bar',
+            data: {
+                labels: ["1. Kimi Antonelli", "2. Lando Norris", "3. George Russell", "4. Lewis Hamilton", "5. Max Verstappen", "6. Charles Leclerc", "7. Oscar Piastri", "8. Isack Hadjar", "9. Liam Lawson", "10. Pierre Gasly"],
+                datasets: [
+                    { label: '近期状态', data: [92, 85, 83, 80, 85, 82, 72, 65, 58, 55], backgroundColor: '#0d6efd', borderRadius: 3 },
+                    { label: '赛道历史', data: [70, 90, 68, 78, 97, 70, 92, 55, 50, 50], backgroundColor: '#6610f2', borderRadius: 3 },
+                    { label: '赛车性能', data: [95, 82, 95, 88, 72, 88, 82, 72, 60, 58], backgroundColor: '#fd7e14', borderRadius: 3 },
+                    { label: '练习赛', data: [95, 82, 95, 88, 72, 88, 82, 72, 60, 58], backgroundColor: '#20c997', borderRadius: 3 },
+                    { label: '综合评分', data: [87.9, 84.9, 84.7, 83.1, 82.2, 81.7, 81.5, 65.7, 56.9, 55.1], backgroundColor: '#e10600', borderRadius: 3 },
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } },
+                },
+                scales: {
+                    y: { beginAtZero: true, max: 100, grid: { color: '#f0f0f0' } },
+                    x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>

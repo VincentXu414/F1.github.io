@@ -1,0 +1,5 @@
+# F1 Grand Prix Tracker - Dependencies
+# No third-party packages required.
+# The report generator uses only Python standard library (json, sys, os, datetime).
+#
+# Chart.js is loaded via CDN in the generated HTML, so no npm install needed.

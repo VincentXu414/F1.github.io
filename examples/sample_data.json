@@ -1,8 +1,8 @@
 {
     "season": 2026,
     "report_date": "2026-07-27",
-    "season_status": "in_season",
-    "offseason_message": "",
+    "season_status": "summer_break",
+    "offseason_message": "下场比赛: 荷兰大奖赛 (2026-08-23)",
     "last_race": {
         "name": "匈牙利大奖赛",
         "circuit": "匈格罗宁赛道，布达佩斯",

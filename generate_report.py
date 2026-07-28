@@ -240,6 +240,11 @@ CSS = """
     .offseason-banner p { color: #ccc; font-size: 16px; max-width: 500px; margin: 0 auto; }
     .offseason-banner .countdown { margin-top: 16px; font-size: 18px; color: #00D2BE; font-weight: 700; }
 
+    .summerbreak-banner { background: linear-gradient(135deg, #e74c3c 0%, #f39c12 100%); color: #fff; text-align: center; padding: 20px 24px; border-radius: 10px; margin-bottom: 24px; box-shadow: 0 2px 12px rgba(231,76,60,0.2); display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
+    .summerbreak-banner .sb-icon { font-size: 28px; }
+    .summerbreak-banner .sb-text { font-size: 16px; font-weight: 600; }
+    .summerbreak-banner .sb-countdown { background: rgba(255,255,255,0.2); padding: 4px 14px; border-radius: 20px; font-size: 14px; font-weight: 700; }
+
     .section { background: #fff; border-radius: 12px; padding: 24px; margin-bottom: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
     .section h2 { font-size: 20px; color: #1a1a1a; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #f0f0f0; display: flex; align-items: center; gap: 8px; }
     .section h2 .icon { font-size: 22px; }
@@ -341,7 +346,7 @@ def generate_html(data: dict) -> str:
     dark_horse_html = build_dark_horse(dark_horse)
     track_html = build_track_characteristics(next_race)
 
-    # Off-season banner
+    # Off-season / summer break banner
     offseason_html = ""
     if season_status == "off_season":
         offseason_html = f"""
@@ -349,6 +354,15 @@ def generate_html(data: dict) -> str:
         <span class="icon">🏁</span>
         <h2>休赛期</h2>
         <p>{offseason_msg or "当前处于F1休赛期，赛季期间将自动恢复实时更新。"}</p>
+    </div>"""
+    elif season_status == "summer_break":
+        next_race_name = next_race.get("name", "下一场大奖赛")
+        next_race_date = next_race.get("date", "")
+        offseason_html = f"""
+    <div class="summerbreak-banner">
+        <span class="sb-icon">🏖️</span>
+        <span class="sb-text">夏休期中 — 赛季未结束</span>
+        <span class="sb-countdown">{offseason_msg or f"下场比赛: {next_race_name} ({next_race_date})"}</span>
     </div>"""
 
     pred_labels, pred_recent, pred_track, pred_car, pred_practice, pred_total = \

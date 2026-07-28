@@ -25,8 +25,9 @@ env/
 Thumbs.db
 desktop.ini
 
-# Generated reports (keep examples, ignore ad-hoc outputs)
+# Generated reports (keep index.html + examples, ignore ad-hoc outputs)
 *.html
+!index.html
 !examples/sample_report.html
 
 # WorkBuddy internal

@@ -1149,6 +1149,16 @@ def generate_html(data: dict) -> str:
         }});
     }});
 </script>
+<!-- Baidu Analytics -->
+<script>
+var _hmt = _hmt || [];
+(function() {{
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?24cd5904a979c407c84007960f24a850";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+}})();
+</script>
 </body>
 </html>"""
     return html

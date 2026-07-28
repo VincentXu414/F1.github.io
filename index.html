@@ -139,6 +139,28 @@
     .quiz-retry-btn { padding: 10px 24px; background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 13px; cursor: pointer; }
     .quiz-retry-btn:hover { border-color: #e10600; }
 
+    /* Quiz Leaderboard */
+    .quiz-save-row { display: flex; gap: 8px; justify-content: center; margin: 16px 0; flex-wrap: wrap; }
+    .quiz-save-row input { padding: 10px 14px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 14px; width: 160px; }
+    .quiz-save-row button { padding: 10px 18px; background: #e10600; color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
+    .quiz-save-row button:hover { background: #c00500; }
+    .quiz-save-msg { font-size: 13px; color: #198754; min-height: 20px; }
+    .quiz-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 16px 0; }
+    .quiz-stat { background: #f8f9fa; padding: 12px; border-radius: 8px; }
+    .quiz-stat .num { font-size: 22px; font-weight: 800; color: #e10600; }
+    .quiz-stat .label { font-size: 12px; color: #666; }
+    .quiz-lb { margin-top: 20px; text-align: left; }
+    .quiz-lb h4 { font-size: 15px; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+    .quiz-lb table { font-size: 13px; }
+    .quiz-lb th { background: #f8f9fa; }
+    .quiz-lb .lb-rank { font-weight: 800; color: #e10600; width: 50px; text-align: center; }
+    .quiz-lb .lb-score { font-weight: 700; width: 70px; }
+    .quiz-lb .lb-me { background: #fff9e6; }
+    .quiz-lb-empty { font-size: 13px; color: #999; text-align: center; padding: 16px; background: #f8f9fa; border-radius: 8px; }
+    .lb-tabs { display: flex; gap: 6px; margin-bottom: 10px; }
+    .lb-tab { padding: 6px 14px; border: 1px solid #e0e0e0; border-radius: 6px; background: #fff; font-size: 12px; cursor: pointer; }
+    .lb-tab.active { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+
     @media (max-width: 768px) {
         .pred-scores { grid-template-columns: 1fr; }
         .pred-details { flex-direction: column; }
@@ -195,6 +217,13 @@
                 <div class="score-big" id="fqScore"></div>
                 <div class="rating" id="fqRating"></div>
                 <div class="breakdown" id="fqBreakdown"></div>
+                <div class="quiz-save-row">
+                    <input type="text" id="fqName" placeholder="输入昵称" maxlength="12">
+                    <button onclick="fqSaveScore()">保存成绩</button>
+                </div>
+                <div class="quiz-save-msg" id="fqSaveMsg"></div>
+                <div class="quiz-stats" id="fqStats"></div>
+                <div class="quiz-lb" id="fqLeaderboard"></div>
                 <button class="quiz-retry-btn" onclick="fqStart()">再试一次</button>
             </div>
         </div>
@@ -987,7 +1016,8 @@
             ]
         }
     };
-    let fqSet = 'A', fqQ = 0, fqScore = 0, fqAns = [];
+    let fqSet = 'A', fqQ = 0, fqScore = 0, fqAns = [], fqFinalScore = 0;
+    const FQ_LB_KEY = 'f1_quiz_scores_v1';
     function fqToggle() {
         const p = document.getElementById('fqPanel');
         const a = document.getElementById('fqArrow');
@@ -1050,13 +1080,14 @@
     function fqResult() {
         document.getElementById('fqMain').style.display = 'none';
         document.getElementById('fqResult').style.display = 'block';
-        const total = fqScore * 10;
-        document.getElementById('fqScore').textContent = total + ' / 100';
+        fqFinalScore = fqScore * 10;
+        document.getElementById('fqScore').textContent = fqFinalScore + ' / 100';
+        document.getElementById('fqSaveMsg').textContent = '';
         let r;
-        if (total === 100) r = '完美！你就是F1百科全书';
-        else if (total >= 80) r = '资深车迷！知识面很广';
-        else if (total >= 60) r = '不错的车迷，还有提升空间';
-        else if (total >= 40) r = '继续关注F1，你会越来越懂';
+        if (fqFinalScore === 100) r = '完美！你就是F1百科全书';
+        else if (fqFinalScore >= 80) r = '资深车迷！知识面很广';
+        else if (fqFinalScore >= 60) r = '不错的车迷，还有提升空间';
+        else if (fqFinalScore >= 40) r = '继续关注F1，你会越来越懂';
         else r = '刚入门吧？多看几场比赛就熟了';
         document.getElementById('fqRating').textContent = r;
         let bd = '';
@@ -1065,6 +1096,57 @@
             bd += '<div class="breakdown-item"><span class="bk-ico ' + (fqAns[i] ? 'bk-ok' : 'bk-no') + '">' + (fqAns[i] ? '+' : '-') + '</span><span>第' + (i+1) + '题: ' + (fqAns[i] ? '正确' : '错误') + '</span></div>';
         });
         document.getElementById('fqBreakdown').innerHTML = bd;
+        fqRenderLeaderboard();
+    }
+    function fqLoadScores() {
+        try { return JSON.parse(localStorage.getItem(FQ_LB_KEY) || '[]'); }
+        catch (e) { return []; }
+    }
+    function fqSaveScores(list) {
+        try { localStorage.setItem(FQ_LB_KEY, JSON.stringify(list)); return true; }
+        catch (e) { return false; }
+    }
+    function fqSaveScore() {
+        const nameInput = document.getElementById('fqName');
+        const name = (nameInput.value || '匿名车手').trim().slice(0, 12);
+        const list = fqLoadScores();
+        list.push({
+            name: name,
+            score: fqFinalScore,
+            quizType: fqSet,
+            date: new Date().toLocaleString('zh-CN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
+            ts: Date.now()
+        });
+        if (fqSaveScores(list)) {
+            document.getElementById('fqSaveMsg').textContent = '成绩已保存到本地排名榜';
+            nameInput.value = '';
+            fqRenderLeaderboard();
+        } else {
+            document.getElementById('fqSaveMsg').textContent = '保存失败，浏览器可能禁用了本地存储';
+        }
+    }
+    function fqRenderLeaderboard() {
+        const list = fqLoadScores().filter(s => s.quizType === fqSet).sort((a, b) => b.score - a.score || a.ts - b.ts);
+        const statsEl = document.getElementById('fqStats');
+        const lbEl = document.getElementById('fqLeaderboard');
+        if (list.length === 0) {
+            statsEl.innerHTML = '';
+            lbEl.innerHTML = '<div class="quiz-lb-empty">还没有成绩记录，完成测试并保存后就会出现在这里</div>';
+            return;
+        }
+        const best = Math.max(...list.map(s => s.score));
+        const avg = Math.round(list.reduce((a, s) => a + s.score, 0) / list.length);
+        statsEl.innerHTML = '<div class="quiz-stat"><div class="num">' + list.length + '</div><div class="label">挑战次数</div></div>' +
+            '<div class="quiz-stat"><div class="num">' + best + '</div><div class="label">最佳成绩</div></div>' +
+            '<div class="quiz-stat"><div class="num">' + avg + '</div><div class="label">平均分</div></div>';
+        let rows = '';
+        const newestTs = list.length ? Math.max(...list.map(s => s.ts)) : 0;
+        list.slice(0, 10).forEach((s, i) => {
+            const me = s.ts === newestTs ? 'lb-me' : '';
+            rows += '<tr class="' + me + '"><td class="lb-rank">#' + (i + 1) + '</td><td>' + s.name + '</td><td class="lb-score">' + s.score + '分</td><td>' + s.date + '</td></tr>';
+        });
+        lbEl.innerHTML = '<h4><span>&#127942;</span> 我的 ' + fqData[fqSet].name + ' 排行榜</h4>' +
+            '<table><thead><tr><th>排名</th><th>昵称</th><th>分数</th><th>时间</th></tr></thead><tbody>' + rows + '</tbody></table>';
     }
 </script>
 </body>

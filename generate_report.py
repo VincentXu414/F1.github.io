@@ -727,6 +727,16 @@ def generate_html(data: dict) -> str:
 <style>
 {CSS}
 </style>
+<!-- Baidu Analytics -->
+<script>
+var _hmt = _hmt || [];
+(function() {{
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?24cd5904a979c407c84007960f24a850";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+}})();
+</script>
 </head>
 <body>
 <button id="backToTop" onclick="scrollToTop()" title="返回顶部">&#8593;</button>
@@ -1148,16 +1158,6 @@ def generate_html(data: dict) -> str:
             rows.forEach(r => tbody.appendChild(r));
         }});
     }});
-</script>
-<!-- Baidu Analytics -->
-<script>
-var _hmt = _hmt || [];
-(function() {{
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?24cd5904a979c407c84007960f24a850";
-  var s = document.getElementsByTagName("script")[0];
-  s.parentNode.insertBefore(hm, s);
-}})();
 </script>
 </body>
 </html>"""

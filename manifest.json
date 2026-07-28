@@ -5,7 +5,7 @@
   "start_url": "/F1.github.io/",
   "scope": "/F1.github.io/",
   "display": "standalone",
-  "background_color": "#0a0a0a",
+  "background_color": "#f4f5f7",
   "theme_color": "#e10600",
   "lang": "zh-CN",
   "icons": [

@@ -236,20 +236,9 @@ CSS = """
         --feedback-no-bg: #f8d7da; --feedback-no-color: #842029;
         --upgrade-impact-bg: #fff3cd;
     }
-    [data-theme="dark"] {
-        --bg: #0d1117; --surface: #161b22; --text: #e6edf3; --text-muted: #8b949e; --text-light: #6e7681;
-        --border: #30363d; --border-light: #21262d; --hover-bg: #1c2128; --podium-bg: #2d2a0e;
-        --info-bg: #1c2128; --track-bg: #1c2128; --upgrade-bg: #1c2128; --accent: #ff1744;
-        --th-bg: #1c2128; --th-color: #8b949e; --shadow: rgba(0,0,0,0.3); --shadow-md: rgba(0,0,0,0.5);
-        --disclaimer-color: #6e7681; --disclaimer-border: #21262d;
-        --quiz-opt-border: #30363d; --quiz-opt-bg: #0d1117;
-        --score-track: #21262d; --feedback-ok-bg: #0d2818; --feedback-ok-color: #3fb950;
-        --feedback-no-bg: #2d0a0a; --feedback-no-color: #f85149;
-        --upgrade-impact-bg: #2d2a0e;
-    }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; transition: background 0.3s, color 0.3s; }
+    body { font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
     .container { max-width: 1100px; margin: 0 auto; padding: 24px; }
 
     .report-header { text-align: center; padding: 32px 0; border-bottom: 3px solid var(--accent); margin-bottom: 32px; }
@@ -406,7 +395,6 @@ CSS = """
     .lb-tabs { display: flex; gap: 6px; margin-bottom: 10px; }
     .lb-tab { padding: 6px 14px; border: 1px solid #e0e0e0; border-radius: 6px; background: #fff; font-size: 12px; cursor: pointer; }
     .lb-tab.active { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
-    [data-theme="dark"] .lb-tab.active { background: var(--text); color: var(--bg); }
 
     /* Table wrap for mobile */
     .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
@@ -415,20 +403,6 @@ CSS = """
     #backToTop { position: fixed; bottom: 24px; right: 24px; width: 44px; height: 44px; border-radius: 50%; background: var(--accent); color: #fff; border: none; font-size: 20px; cursor: pointer; box-shadow: 0 2px 8px var(--shadow-md); opacity: 0; visibility: hidden; transition: all 0.3s; z-index: 999; }
     #backToTop.show { opacity: 1; visibility: visible; }
     #backToTop:hover { transform: translateY(-2px); }
-
-    /* Dark mode toggle - dark gray bg + white sun (light mode), white bg + black moon (dark mode) */
-    .theme-toggle {{
-        position: fixed; top: 16px; right: 16px;
-        width: 44px; height: 44px; border-radius: 50%;
-        background: #333; border: none;
-        cursor: pointer; z-index: 999;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-        display: flex; align-items: center; justify-content: center;
-        padding: 0; transition: all 0.25s;
-        font-size: 22px; line-height: 1; color: #fff;
-    }}
-    .theme-toggle:hover {{ transform: scale(1.1); box-shadow: 0 4px 14px rgba(0,0,0,0.4); }}
-    [data-theme="dark"] .theme-toggle {{ background: #fff; color: #1a1a1a; box-shadow: 0 2px 10px rgba(255,255,255,0.2); }}
 
     /* Countdown timer */
     .countdown-timer { display: flex; justify-content: center; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
@@ -449,7 +423,7 @@ CSS = """
 
     @media print {
         body { background: #fff !important; color: #000 !important; }
-        .quiz-banner, .quiz-panel, #backToTop, .theme-toggle, .quiz-share-btn, .quiz-save-row { display: none !important; }
+        .quiz-banner, .quiz-panel, #backToTop, .quiz-share-btn, .quiz-save-row { display: none !important; }
         .section { box-shadow: none !important; border: 1px solid #ccc !important; page-break-inside: avoid; }
         .chart-container, .chart-container-sm { page-break-inside: avoid; }
         a { color: #000 !important; text-decoration: none !important; }
@@ -732,10 +706,6 @@ def generate_html(data: dict) -> str:
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
-<script>if(localStorage.getItem('f1-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>F1 {season} 赛季追踪报告 - {report_date}</title>
 <meta name="description" content="F1 {season}赛季实时追踪：车手积分榜、车队积分榜、比赛结果、下一场预测、车队升级动态。含F1知识测试，每日更新题目。">
@@ -759,7 +729,6 @@ def generate_html(data: dict) -> str:
 </style>
 </head>
 <body>
-<button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换深色/浅色模式">&#9728;</button>
 <button id="backToTop" onclick="scrollToTop()" title="返回顶部">&#8593;</button>
 <div class="container">
 
@@ -1149,30 +1118,6 @@ def generate_html(data: dict) -> str:
         else backBtn.classList.remove('show');
     }});
     function scrollToTop() {{ window.scrollTo({{ top: 0, behavior: 'smooth' }}); }}
-
-    // ---- Dark Mode Toggle ----
-    function toggleTheme() {{
-        const html = document.documentElement;
-        const btn = document.getElementById('themeToggle');
-        const current = html.getAttribute('data-theme');
-        const next = current === 'dark' ? 'light' : 'dark';
-        if (next === 'dark') {{
-            html.setAttribute('data-theme', 'dark');
-            if (btn) btn.innerHTML = '&#9790;';
-        }} else {{
-            html.removeAttribute('data-theme');
-            if (btn) btn.innerHTML = '&#9728;';
-        }}
-        localStorage.setItem('f1-theme', next);
-    }}
-    (function() {{
-        const saved = localStorage.getItem('f1-theme');
-        const btn = document.getElementById('themeToggle');
-        if (saved === 'dark') {{
-            document.documentElement.setAttribute('data-theme', 'dark');
-            if (btn) btn.innerHTML = '&#9790;';
-        }}
-    }})();
 
     // ---- Table Sorting ----
     document.querySelectorAll('.table-wrap table thead th').forEach((th, colIdx) => {{

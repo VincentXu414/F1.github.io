@@ -929,7 +929,7 @@
     </div>
 
 
-    <div class="visitor-stats">
+    <div class="visitor-stats" id="visitorStats" style="display:none;">
         <div class="vs-item"><span class="vs-ico">&#128064;</span> 本页浏览 <span class="vs-num" id="busuanzi_value_page_pv"></span> 次</div>
         <div class="vs-item"><span class="vs-ico">&#128101;</span> 总访客 <span class="vs-num" id="busuanzi_value_site_uv"></span> 人</div>
         <div class="vs-item"><span class="vs-ico">&#128202;</span> 总浏览 <span class="vs-num" id="busuanzi_value_site_pv"></span> 次</div>
@@ -1221,6 +1221,10 @@
         });
         lbEl.innerHTML = '<h4><span>&#127942;</span> 我的 ' + fqData[fqSet].name + ' 排行榜</h4>' +
             '<table><thead><tr><th>排名</th><th>昵称</th><th>分数</th><th>时间</th></tr></thead><tbody>' + rows + '</tbody></table>';
+    }
+    if (new URLSearchParams(window.location.search).get('stats') === '1') {
+        const el = document.getElementById('visitorStats');
+        if (el) el.style.display = 'flex';
     }
 </script>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>

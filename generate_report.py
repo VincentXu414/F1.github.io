@@ -416,29 +416,19 @@ CSS = """
     #backToTop.show { opacity: 1; visibility: visible; }
     #backToTop:hover { transform: translateY(-2px); }
 
-    /* Dark mode toggle - pill switch with sliding knob */
+    /* Dark mode toggle - simple circular button */
     .theme-toggle {{
         position: fixed; top: 16px; right: 16px;
-        width: 68px; height: 34px; border-radius: 17px;
-        background: var(--surface); border: 2px solid var(--accent);
+        width: 40px; height: 40px; border-radius: 50%;
+        background: var(--surface); border: 1px solid var(--border);
         cursor: pointer; z-index: 999;
-        box-shadow: 0 2px 10px var(--shadow-md);
-        display: flex; align-items: center; justify-content: space-around;
-        padding: 0; transition: all 0.2s; overflow: hidden;
+        box-shadow: 0 2px 8px var(--shadow-md);
+        display: flex; align-items: center; justify-content: center;
+        padding: 0; transition: all 0.2s;
+        font-size: 20px; line-height: 1; color: var(--text);
     }}
-    .theme-toggle:hover {{ transform: scale(1.06); box-shadow: 0 4px 14px rgba(225,6,0,0.35); }}
-    .theme-toggle .tt-icon {{ font-size: 13px; z-index: 1; line-height: 1; transition: color 0.3s; }}
-    .theme-toggle .tt-sun {{ color: #f59e0b; }}
-    .theme-toggle .tt-moon {{ color: #8b949e; }}
-    [data-theme="dark"] .theme-toggle .tt-sun {{ color: #6e7681; }}
-    [data-theme="dark"] .theme-toggle .tt-moon {{ color: #58a6ff; }}
-    .theme-toggle .tt-knob {{
-        position: absolute; width: 26px; height: 26px; border-radius: 50%;
-        background: var(--accent); top: 2px; left: 2px;
-        transition: left 0.3s cubic-bezier(0.4,0,0.2,1);
-        box-shadow: 0 1px 5px rgba(0,0,0,0.4);
-    }}
-    [data-theme="dark"] .theme-toggle .tt-knob {{ left: 36px; }}
+    .theme-toggle:hover {{ transform: scale(1.1); box-shadow: 0 4px 12px var(--shadow-md); }}
+    [data-theme="dark"] .theme-toggle {{ color: #fff; }}
 
     /* Countdown timer */
     .countdown-timer { display: flex; justify-content: center; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
@@ -766,7 +756,7 @@ def generate_html(data: dict) -> str:
 </style>
 </head>
 <body>
-<button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换深色/浅色模式"><span class="tt-icon tt-sun">&#9728;</span><span class="tt-icon tt-moon">&#9790;</span><span class="tt-knob"></span></button>
+<button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换深色/浅色模式">&#9728;</button>
 <button id="backToTop" onclick="scrollToTop()" title="返回顶部">&#8593;</button>
 <div class="container">
 
@@ -1160,16 +1150,24 @@ def generate_html(data: dict) -> str:
     // ---- Dark Mode Toggle ----
     function toggleTheme() {{
         const html = document.documentElement;
+        const btn = document.getElementById('themeToggle');
         const current = html.getAttribute('data-theme');
         const next = current === 'dark' ? 'light' : 'dark';
-        if (next === 'dark') html.setAttribute('data-theme', 'dark');
-        else html.removeAttribute('data-theme');
+        if (next === 'dark') {{
+            html.setAttribute('data-theme', 'dark');
+            if (btn) btn.innerHTML = '&#9790;';
+        }} else {{
+            html.removeAttribute('data-theme');
+            if (btn) btn.innerHTML = '&#9728;';
+        }}
         localStorage.setItem('f1-theme', next);
     }}
     (function() {{
         const saved = localStorage.getItem('f1-theme');
+        const btn = document.getElementById('themeToggle');
         if (saved === 'dark') {{
             document.documentElement.setAttribute('data-theme', 'dark');
+            if (btn) btn.innerHTML = '&#9790;';
         }}
     }})();
 

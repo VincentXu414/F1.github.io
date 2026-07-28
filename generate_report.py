@@ -468,30 +468,30 @@ def generate_html(data: dict) -> str:
 
     # ---- Assemble section order based on season status ----
     if season_status == "summer_break":
-        # 夏休期: 预测和车队升级置顶
+        # 夏休期: 预测和车队升级置顶，备注紧跟其后作为背景说明
         body_sections = "\n\n".join(filter(None, [
             offseason_html, header_html,
-            prediction_html, upgrades_html,
+            prediction_html, upgrades_html, notes_html,
             last_race_html, driver_standings_html,
             constructor_standings_html, recent_races_html,
-            notes_html, disclaimer_html,
+            disclaimer_html,
         ]))
     elif season_status == "off_season":
-        # 休赛期: 无预测/升级，积分榜优先
+        # 休赛期: 积分榜优先，备注紧随其后
         body_sections = "\n\n".join(filter(None, [
             offseason_html, header_html,
-            driver_standings_html, constructor_standings_html,
+            driver_standings_html, constructor_standings_html, notes_html,
             last_race_html, recent_races_html,
-            notes_html, disclaimer_html,
+            disclaimer_html,
         ]))
     else:
-        # 正常赛季: 比赛结果优先
+        # 正常赛季: 比赛结果优先，备注作为承上启下过渡
         body_sections = "\n\n".join(filter(None, [
             offseason_html, header_html,
             last_race_html, driver_standings_html,
-            constructor_standings_html, recent_races_html,
+            constructor_standings_html, recent_races_html, notes_html,
             upgrades_html, prediction_html,
-            notes_html, disclaimer_html,
+            disclaimer_html,
         ]))
 
     html = f"""<!DOCTYPE html>

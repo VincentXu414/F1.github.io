@@ -234,6 +234,12 @@ CSS = """
     .report-header .subtitle { color: #666; font-size: 15px; }
     .report-header .race-badge { display: inline-block; background: #e10600; color: #fff; padding: 4px 16px; border-radius: 4px; font-size: 13px; margin-top: 8px; font-weight: 600; }
 
+    .offseason-banner { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #fff; text-align: center; padding: 48px 24px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
+    .offseason-banner .icon { font-size: 48px; display: block; margin-bottom: 12px; }
+    .offseason-banner h2 { font-size: 36px; color: #ffd700; margin-bottom: 12px; border: none; padding: 0; display: block; }
+    .offseason-banner p { color: #ccc; font-size: 16px; max-width: 500px; margin: 0 auto; }
+    .offseason-banner .countdown { margin-top: 16px; font-size: 18px; color: #00D2BE; font-weight: 700; }
+
     .section { background: #fff; border-radius: 12px; padding: 24px; margin-bottom: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
     .section h2 { font-size: 20px; color: #1a1a1a; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #f0f0f0; display: flex; align-items: center; gap: 8px; }
     .section h2 .icon { font-size: 22px; }
@@ -322,6 +328,8 @@ def generate_html(data: dict) -> str:
     weather = data.get("weather_forecast", "N/A")
     upgrades = data.get("upgrades", [])
     notes = data.get("notes", "")
+    season_status = data.get("season_status", "in_season")
+    offseason_msg = data.get("offseason_message", "")
 
     # Build sections
     last_race_rows = build_race_results_table(last_race)
@@ -332,6 +340,16 @@ def generate_html(data: dict) -> str:
     upgrade_cards = build_upgrade_cards(upgrades)
     dark_horse_html = build_dark_horse(dark_horse)
     track_html = build_track_characteristics(next_race)
+
+    # Off-season banner
+    offseason_html = ""
+    if season_status == "off_season":
+        offseason_html = f"""
+    <div class="offseason-banner">
+        <span class="icon">🏁</span>
+        <h2>休赛期</h2>
+        <p>{offseason_msg or "当前处于F1休赛期，赛季期间将自动恢复实时更新。"}</p>
+    </div>"""
 
     pred_labels, pred_recent, pred_track, pred_car, pred_practice, pred_total = \
         generate_bar_chart_data(prediction)
@@ -351,6 +369,8 @@ def generate_html(data: dict) -> str:
 </head>
 <body>
 <div class="container">
+
+    {offseason_html}
 
     <div class="report-header">
         <h1>F1 {season} 赛季追踪报告</h1>

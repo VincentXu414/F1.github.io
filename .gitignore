@@ -30,5 +30,8 @@ desktop.ini
 !index.html
 !examples/sample_report.html
 
+# Push scripts (contain tokens)
+push_to_github.bat
+
 # WorkBuddy internal
 .workbuddy/

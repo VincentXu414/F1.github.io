@@ -1,6 +1,8 @@
 {
     "season": 2026,
     "report_date": "2026-07-27",
+    "season_status": "in_season",
+    "offseason_message": "",
     "last_race": {
         "name": "匈牙利大奖赛",
         "circuit": "匈格罗宁赛道，布达佩斯",

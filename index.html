@@ -377,11 +377,11 @@ var _hmt = _hmt || [];
 <nav class="f1-nav">
   <div class="f1-logo">F1</div>
   <div class="f1-nav-links">
-    <a href="#sec-prediction">赛程</a>
-    <a href="#sec-drivers">车手榜</a>
-    <a href="#sec-constructors">车队榜</a>
-    <a href="#sec-recent">回顾</a>
-    <a href="#sec-quiz">答题</a>
+    <a href="#sec-prediction"><span class="zh">赛程</span><span class="en">Schedule</span></a>
+    <a href="#sec-drivers"><span class="zh">车手榜</span><span class="en">Drivers</span></a>
+    <a href="#sec-constructors"><span class="zh">车队榜</span><span class="en">Constructors</span></a>
+    <a href="#sec-recent"><span class="zh">回顾</span><span class="en">Recap</span></a>
+    <a href="#sec-quiz"><span class="zh">答题</span><span class="en">Quiz</span></a>
   </div>
 </nav>
 
@@ -401,7 +401,7 @@ var _hmt = _hmt || [];
 
     <div class="report-header"><div class="lang-switch" role="group" aria-label="Language"><button type="button" class="lang-btn active" data-lang="zh">中文</button><button type="button" class="lang-btn" data-lang="en">EN</button></div>
         <h1><span class="zh">F1 2026 赛季追踪报告</span><span class="en">F1 2026 Season Tracking Report</span></h1>
-        <div class="subtitle"><span class="zh">报告生成日期: 2026-07-29 18:26（北京时间）</span><span class="en">Report generated: 2026-07-29 18:26 (Beijing Time)</span></div>
+        <div class="subtitle"><span class="zh">报告生成日期: 2026-07-29 18:30（北京时间）</span><span class="en">Report generated: 2026-07-29 18:30 (Beijing Time)</span></div>
         <div class="race-badge"><span class="zh">最近完赛: 匈牙利大奖赛</span><span class="en">Last race: Hungarian GP</span></div>
     </div>
 
@@ -968,7 +968,7 @@ var _hmt = _hmt || [];
     </div>
 
 
-    <div class="disclaimer"><span class="zh">数据来源: F1.com 官方数据 | 报告生成时间: 2026-07-29 18:26（北京时间）</span><span class="en">Data source: F1.com official | Report generated: 2026-07-29 18:26 (Beijing Time)</span><br><span class="zh">预测基于历史数据和近期表现，实际结果受众多不可控因素影响 (天气、安全车、事故、策略、可靠性等)</span><span class="en">Predictions are based on historical data and recent form; actual results are affected by many uncontrollable factors (weather, safety car, accidents, strategy, reliability, etc.)</span><br><span class="zh">本报告仅供信息参考，不建议用于赌博或投注决策。</span><span class="en">This report is for informational reference only; not intended for gambling or betting decisions.</span>    </div>
+    <div class="disclaimer"><span class="zh">数据来源: F1.com 官方数据 | 报告生成时间: 2026-07-29 18:30（北京时间）</span><span class="en">Data source: F1.com official | Report generated: 2026-07-29 18:30 (Beijing Time)</span><br><span class="zh">预测基于历史数据和近期表现，实际结果受众多不可控因素影响 (天气、安全车、事故、策略、可靠性等)</span><span class="en">Predictions are based on historical data and recent form; actual results are affected by many uncontrollable factors (weather, safety car, accidents, strategy, reliability, etc.)</span><br><span class="zh">本报告仅供信息参考，不建议用于赌博或投注决策。</span><span class="en">This report is for informational reference only; not intended for gambling or betting decisions.</span>    </div>
 
     <div class="section" style="margin-top:8px;" id="sec-discussion">
         <h2><span class="icon">💬</span><span class="zh">讨论区</span><span class="en">Discussion</span></h2>
@@ -1192,7 +1192,7 @@ function fqShareCard(){ const score=document.getElementById('fqScore').textConte
         '<div class="dname">'+name+(code?'<span class="dflag-badge">'+code+'</span>':'')+'</div>'+
         '<div class="dteam">'+team+'</div>'+
         '<div class="dpoints" data-target="'+pts+'">0</div>'+
-        '<div class="dplabel">PTS</div>';
+        '<div class="dplabel"><span class="zh">积分</span><span class="en">PTS</span></div>';
       grid.appendChild(card);
     });
     sec.insertBefore(grid, tbl);
@@ -1204,21 +1204,21 @@ function fqShareCard(){ const score=document.getElementById('fqScore').textConte
   if(sp){
     var h2=sp.querySelector("h2");
     var sched=document.createElement("div"); sched.id="schedule-track"; sched.className="schedule-track";
-    var keyMap={"荷兰 GP":"netherlands","意大利 GP":"italy","阿塞拜疆 GP":"azerbaijan","新加坡 GP":"singapore","美国 GP":"usa","阿布扎比 GP":"abudhabi"};
+    var keyMap={"匈牙利 GP":"hungary","荷兰 GP":"netherlands","意大利 GP":"italy","阿塞拜疆 GP":"azerbaijan","新加坡 GP":"singapore","美国 GP":"usa","阿布扎比 GP":"abudhabi"};
     var nodes=[
-      {n:"匈牙利 GP",d:"2026-07-26",s:"done"},
-      {n:"荷兰 GP",d:"2026-08-23",s:"next"},
-      {n:"意大利 GP",d:"2026-09-06",s:"todo"},
-      {n:"阿塞拜疆 GP",d:"待定",s:"todo"},
-      {n:"新加坡 GP",d:"待定",s:"todo"},
-      {n:"美国 GP",d:"待定",s:"todo"},
-      {n:"阿布扎比 GP",d:"待定",s:"todo"}
+      {n:"匈牙利 GP",e:"Hungarian GP",d:"2026-07-26",s:"done"},
+      {n:"荷兰 GP",e:"Dutch GP",d:"2026-08-23",s:"next"},
+      {n:"意大利 GP",e:"Italian GP",d:"2026-09-06",s:"todo"},
+      {n:"阿塞拜疆 GP",e:"Azerbaijan GP",d:"待定",s:"todo"},
+      {n:"新加坡 GP",e:"Singapore GP",d:"待定",s:"todo"},
+      {n:"美国 GP",e:"United States GP",d:"待定",s:"todo"},
+      {n:"阿布扎比 GP",e:"Abu Dhabi GP",d:"待定",s:"todo"}
     ];
     sched.innerHTML=nodes.map(function(x){
       var cls=x.s==="done"?"sch-done":x.s==="next"?"sch-next":"sch-todo";
       var key=keyMap[x.n]||"";
       var click = key ? ' onclick="switchRace(&quot;'+key+'&quot;)"' : '';
-      return '<div class="sch-node '+cls+'"'+click+'><div class="sch-name">'+x.n+'</div><div class="sch-date">'+x.d+'</div></div>';
+      return '<div class="sch-node '+cls+'"'+click+'><div class="sch-name"><span class="zh">'+x.n+'</span><span class="en">'+x.e+'</span></div><div class="sch-date">'+x.d+'</div></div>';
     }).join("");
     h2.insertAdjacentElement("afterend",sched);
   }

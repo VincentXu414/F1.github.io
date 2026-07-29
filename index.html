@@ -102,8 +102,9 @@
 
     /* Language switcher */
     .report-header { position: relative; }
-    .lang-switch { position: absolute; top: 0; right: 0; display: inline-flex; gap: 4px; background: #f1f1f4; border-radius: 20px; padding: 3px; }
-    .lang-btn { border: none; background: transparent; padding: 5px 14px; border-radius: 16px; cursor: pointer; font-size: 13px; color: #666; font-family: inherit; }
+    .lang-switch { position: absolute; top: 0; right: 0; display: inline-flex; gap: 4px; background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.18); border-radius: 20px; padding: 3px; }
+    .lang-btn { border: none; background: transparent; padding: 5px 14px; border-radius: 16px; cursor: pointer; font-size: 13px; color: #cfcfcf; font-family: inherit; transition: background .2s, color .2s; }
+    .lang-btn:hover { color: #fff; }
     .lang-btn.active { background: #e10600; color: #fff; font-weight: 600; }
     .zh, .en { display: inline; }
     body.lang-en .zh { display: none; }

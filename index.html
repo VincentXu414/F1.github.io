@@ -26,6 +26,8 @@
     .summerbreak-banner .sb-icon { font-size: 28px; }
     .summerbreak-banner .sb-text { font-size: 16px; font-weight: 600; }
     .summerbreak-banner .sb-countdown { background: rgba(255,255,255,0.2); padding: 4px 14px; border-radius: 20px; font-size: 14px; font-weight: 700; }
+    .summerbreak-banner .race-timer { display: block; width: 100%; margin-top: 8px; font-size: 22px; font-weight: 800; color: #fff; letter-spacing: 0.5px; text-shadow: 0 1px 3px rgba(0,0,0,0.25); }
+    .summerbreak-banner .race-timer .num { display: inline-block; min-width: 1.1em; text-align: center; color: #ffd700; }
 
     .section { background: #fff; border-radius: 12px; padding: 24px; margin-bottom: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
     .section h2 { font-size: 20px; color: #1a1a1a; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #f0f0f0; display: flex; align-items: center; gap: 8px; }
@@ -126,6 +128,10 @@ var _hmt = _hmt || [];
         <span class="sb-icon">🏖️</span>
         <span class="sb-text"><span class="zh">夏休期中 — 赛季未结束</span><span class="en">Summer break -- season not over</span></span>
         <span class="sb-countdown"><span class="zh">下场比赛: 荷兰大奖赛 (2026-08-23)</span><span class="en">Next race: Dutch GP (2026-08-23)</span></span>
+        <div id="race-countdown" class="race-timer">
+            <span class="zh" id="rc-zh">距荷兰大奖赛开赛还有 --</span>
+            <span class="en" id="rc-en">Dutch GP starts in --</span>
+        </div>
     </div>
 
 
@@ -961,6 +967,32 @@ var _hmt = _hmt || [];
         var l = 'zh';
         try { l = localStorage.getItem('f1lang') || 'zh'; } catch(e) {}
         applyLang(l);
+    })();
+
+    (function(){
+        var target = new Date(Date.UTC(2026, 7, 23, 13, 0, 0)).getTime(); // 荷兰大奖赛正赛 = 北京时间 2026-08-23 21:00
+        function pad(n){ return (n < 10 ? '0' : '') + n; }
+        var timer = null;
+        function tick(){
+            var zh = document.getElementById('rc-zh');
+            var en = document.getElementById('rc-en');
+            if(!zh || !en) return;
+            var diff = target - Date.now();
+            if(diff <= 0){
+                zh.textContent = '荷兰大奖赛正在进行中！';
+                en.textContent = 'The Dutch GP is LIVE now!';
+                if(timer) clearInterval(timer);
+                return;
+            }
+            var s = Math.floor(diff / 1000);
+            var d = Math.floor(s / 86400); s -= d * 86400;
+            var h = Math.floor(s / 3600); s -= h * 3600;
+            var m = Math.floor(s / 60); s -= m * 60;
+            zh.textContent = '距荷兰大奖赛开赛还有 ' + d + ' 天 ' + pad(h) + ' 时 ' + pad(m) + ' 分 ' + pad(s) + ' 秒';
+            en.textContent = 'Dutch GP starts in ' + d + 'd ' + pad(h) + 'h ' + pad(m) + 'm ' + pad(s) + 's';
+        }
+        timer = setInterval(tick, 1000);
+        tick();
     })();
 </script>
 </body>

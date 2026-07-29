@@ -859,13 +859,21 @@ var _hmt = _hmt || [];
             <span class="zh">无需登录，直接填写昵称即可在下方评论；评论对所有访客可见。</span>
             <span class="en">No login required — just enter a nickname to comment below; comments are visible to all visitors.</span>
         </p>
-        <div id="hyvor-talk-view"></div>
+        <div id="waline"></div>
         <script type="module">
-            import { init } from "https://talk.hyvor.com/embed/embed.js";
-            init({
-                "website-id": 0, // TODO: 替换为你的 Hyvor Talk 网站 ID（在 https://hyvor.com/talk 注册后获取）
-                "widget-language": "zh-CN"
-            });
+            const WALINE_SERVER = "REPLACE_WITH_SERVER_URL"; // TODO: 部署 Waline 后替换为真实地址，例如 https://your-waline.vercel.app
+            if (WALINE_SERVER.indexOf("REPLACE_WITH_SERVER_URL") !== -1) {
+                document.getElementById('waline').innerHTML = '<p style="color:#888;font-size:14px;padding:8px 0;">💬 评论功能部署中，敬请期待…</p>';
+            } else {
+                const { init } = await import("https://unpkg.com/@waline/client@v3/dist/waline.js");
+                init({
+                    el: "#waline",
+                    serverURL: WALINE_SERVER,
+                    lang: "zh-CN",
+                    reaction: true,
+                    locale: { nick: "昵称", mail: "邮箱（可选，不会公开）", link: "网站（可选）" }
+                });
+            }
         </script>
     </div>
 

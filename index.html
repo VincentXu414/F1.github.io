@@ -201,6 +201,11 @@
     .f1-search-empty a { color: #E10600; cursor: pointer; text-decoration: underline; }
     .f1-search-highlight { animation: f1sh 1.4s ease; }
     @keyframes f1sh { 0%,100% { background: #fff; } 30% { background: #fff0f0; } }
+
+    /* Back to top button */
+    #backToTop { position: fixed; bottom: 28px; right: 24px; width: 46px; height: 46px; border-radius: 50%; background: #E10600; color: #fff; border: none; font-size: 22px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.3); opacity: 0; visibility: hidden; transition: opacity .3s, transform .2s; z-index: 999; }
+    #backToTop.show { opacity: 1; visibility: visible; }
+    #backToTop:hover { transform: translateY(-3px); }
 </style>
 <!-- Baidu Analytics -->
 <script>
@@ -230,7 +235,7 @@ var _hmt = _hmt || [];
 
     <div class="report-header"><div class="lang-switch" role="group" aria-label="Language"><button type="button" class="lang-btn active" data-lang="zh">中文</button><button type="button" class="lang-btn" data-lang="en">EN</button></div>
         <h1><span class="zh">F1 2026 赛季追踪报告</span><span class="en">F1 2026 Season Tracking Report</span></h1>
-        <div class="subtitle"><span class="zh">报告生成日期: 2026-07-29 17:11（北京时间）</span><span class="en">Report generated: 2026-07-29 17:11 (Beijing Time)</span></div>
+        <div class="subtitle"><span class="zh">报告生成日期: 2026-07-29 17:18（北京时间）</span><span class="en">Report generated: 2026-07-29 17:18 (Beijing Time)</span></div>
         <div class="race-badge"><span class="zh">最近完赛: 匈牙利大奖赛</span><span class="en">Last race: Hungarian GP</span></div>
     </div>
 
@@ -1013,7 +1018,7 @@ var _hmt = _hmt || [];
     </div>
 
 
-    <div class="disclaimer"><span class="zh">数据来源: F1.com 官方数据 | 报告生成时间: 2026-07-29 17:11（北京时间）</span><span class="en">Data source: F1.com official | Report generated: 2026-07-29 17:11 (Beijing Time)</span><br><span class="zh">预测基于历史数据和近期表现，实际结果受众多不可控因素影响 (天气、安全车、事故、策略、可靠性等)</span><span class="en">Predictions are based on historical data and recent form; actual results are affected by many uncontrollable factors (weather, safety car, accidents, strategy, reliability, etc.)</span><br><span class="zh">本报告仅供信息参考，不建议用于赌博或投注决策。</span><span class="en">This report is for informational reference only; not intended for gambling or betting decisions.</span>    </div>
+    <div class="disclaimer"><span class="zh">数据来源: F1.com 官方数据 | 报告生成时间: 2026-07-29 17:18（北京时间）</span><span class="en">Data source: F1.com official | Report generated: 2026-07-29 17:18 (Beijing Time)</span><br><span class="zh">预测基于历史数据和近期表现，实际结果受众多不可控因素影响 (天气、安全车、事故、策略、可靠性等)</span><span class="en">Predictions are based on historical data and recent form; actual results are affected by many uncontrollable factors (weather, safety car, accidents, strategy, reliability, etc.)</span><br><span class="zh">本报告仅供信息参考，不建议用于赌博或投注决策。</span><span class="en">This report is for informational reference only; not intended for gambling or betting decisions.</span>    </div>
 
     <div class="section" style="margin-top:8px;" id="sec-discussion">
         <h2><span class="icon">💬</span><span class="zh">讨论区</span><span class="en">Discussion</span></h2>
@@ -1241,6 +1246,21 @@ function f1Search(q){
   document.title = '[' + q + '] - ' + suffix;
 }
 
+</script>
+
+<button id="backToTop" onclick="f1ScrollTop()" title="返回顶部 / Back to Top">&#8593;</button>
+<script>
+// ---- Back to Top ----
+(function(){
+  var btn = document.getElementById('backToTop');
+  if(btn){
+    window.addEventListener('scroll', function(){
+      if(window.scrollY > 300) btn.classList.add('show');
+      else btn.classList.remove('show');
+    });
+  }
+  window.f1ScrollTop = function(){ window.scrollTo({ top: 0, behavior: 'smooth' }); };
+})();
 </script>
 </body>
 </html>

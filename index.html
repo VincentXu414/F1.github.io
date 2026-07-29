@@ -179,6 +179,28 @@
     .quiz-share-btn { margin-top: 12px; padding: 10px 20px; background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 13px; cursor: pointer; color: #1a1a1a; font-family: inherit; }
     .quiz-share-btn:hover { border-color: #e10600; }
     @media print { .quiz-banner, .quiz-panel, .quiz-share-btn, .quiz-save-row { display: none !important; } }
+
+    /* F1 Site Search */
+    .f1-search { margin: 8px 0 24px; }
+    .f1-search-box { display: flex; gap: 8px; }
+    .f1-search-input { flex: 1; padding: 12px 16px; border: 2px solid #E10600; border-radius: 10px; font-size: 15px; font-family: inherit; color: #1a1a1a; background: #fff; }
+    .f1-search-input::placeholder { color: #b0b0b0; }
+    .f1-search-input:focus { outline: none; box-shadow: 0 0 0 3px rgba(225,6,0,.15); }
+    .f1-search-btn { padding: 0 20px; background: #E10600; color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; white-space: nowrap; }
+    .f1-search-btn:hover { background: #c00500; }
+    .f1-search-suggest { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .f1-search-chip { padding: 6px 14px; border: 1px solid #E10600; color: #E10600; border-radius: 20px; font-size: 13px; cursor: pointer; background: #fff; transition: all .15s; font-family: inherit; }
+    .f1-search-chip:hover { background: #E10600; color: #fff; }
+    .f1-search-results { margin-top: 16px; }
+    .f1-search-res-title { font-size: 15px; font-weight: 700; color: #E10600; margin-bottom: 12px; }
+    .f1-search-result { display: block; padding: 12px 14px; border: 1px solid #eee; border-left: 4px solid #E10600; border-radius: 8px; margin-bottom: 8px; cursor: pointer; color: #1a1a1a; background: #fff; text-decoration: none; }
+    .f1-search-result:hover { background: #fff5f5; }
+    .f1-search-result .r-title { font-weight: 600; font-size: 15px; }
+    .f1-search-result .r-desc { font-size: 13px; color: #666; margin-top: 2px; }
+    .f1-search-empty { padding: 14px 16px; background: #f8f9fa; border-radius: 8px; color: #842029; font-size: 14px; }
+    .f1-search-empty a { color: #E10600; cursor: pointer; text-decoration: underline; }
+    .f1-search-highlight { animation: f1sh 1.4s ease; }
+    @keyframes f1sh { 0%,100% { background: #fff; } 30% { background: #fff0f0; } }
 </style>
 <!-- Baidu Analytics -->
 <script>
@@ -208,12 +230,30 @@ var _hmt = _hmt || [];
 
     <div class="report-header"><div class="lang-switch" role="group" aria-label="Language"><button type="button" class="lang-btn active" data-lang="zh">中文</button><button type="button" class="lang-btn" data-lang="en">EN</button></div>
         <h1><span class="zh">F1 2026 赛季追踪报告</span><span class="en">F1 2026 Season Tracking Report</span></h1>
-        <div class="subtitle"><span class="zh">报告生成日期: 2026-07-29 16:54（北京时间）</span><span class="en">Report generated: 2026-07-29 16:54 (Beijing Time)</span></div>
+        <div class="subtitle"><span class="zh">报告生成日期: 2026-07-29 17:11（北京时间）</span><span class="en">Report generated: 2026-07-29 17:11 (Beijing Time)</span></div>
         <div class="race-badge"><span class="zh">最近完赛: 匈牙利大奖赛</span><span class="en">Last race: Hungarian GP</span></div>
     </div>
 
+
+    <!-- SEARCH_START -->
+    <div class="f1-search" id="f1SearchArea">
+        <div class="f1-search-box">
+            <input type="text" id="f1SearchInput" class="f1-search-input" placeholder="搜索F1资讯、积分榜、赛程..." onkeydown="if(event.key==='Enter')f1Search(document.getElementById('f1SearchInput').value)">
+            <button class="f1-search-btn" onclick="f1Search(document.getElementById('f1SearchInput').value)"><span class="zh">🔍 搜索</span><span class="en">🔍 Search</span></button>
+        </div>
+        <div class="f1-search-suggest">
+            <span class="f1-search-chip" onclick="f1Search('积分榜')"><span class="zh">积分榜</span><span class="en">Standings</span></span>
+            <span class="f1-search-chip" onclick="f1Search('赛程')"><span class="zh">赛程</span><span class="en">Schedule</span></span>
+            <span class="f1-search-chip" onclick="f1Search('车手排名')"><span class="zh">车手排名</span><span class="en">Drivers</span></span>
+            <span class="f1-search-chip" onclick="f1Search('车队排名')"><span class="zh">车队排名</span><span class="en">Constructors</span></span>
+            <span class="f1-search-chip" onclick="f1Search('最新新闻')"><span class="zh">最新新闻</span><span class="en">Latest News</span></span>
+        </div>
+        <div class="f1-search-results" id="f1SearchResults"></div>
+    </div>
+    <!-- SEARCH_END -->
+
     <!-- QUIZ_START -->
-    <div class="quiz-banner" onclick="fqToggle()">
+    <div class="quiz-banner" id="sec-quiz" onclick="fqToggle()">
         <span class="qb-icon">🏁</span>
         <span class="qb-text"><span class="zh">F1 知识测试</span><span class="en">F1 Knowledge Quiz</span></span>
         <span class="qb-sub"><span class="zh">两套题库 · 每日更新 · 点击展开挑战自己</span><span class="en">Two levels · Daily refreshed · Click to challenge</span></span>
@@ -258,7 +298,7 @@ var _hmt = _hmt || [];
     </div>
     <!-- QUIZ_END -->
 
-    <div class="section">
+    <div class="section" id="sec-prediction">
         <h2><span class="icon">🔮</span><span class="zh">下一场预测: 荷兰大奖赛（赞德沃特告别战）</span><span class="en">Next Race Prediction: Dutch GP (Zandvoort Farewell)</span></h2>
         <div class="info-grid">
             <div class="info-item"><div class="label"><span class="zh">赛道</span><span class="en">Circuit</span></div><div class="value"><span class="zh">赞德沃特赛道</span><span class="en">Zandvoort Circuit</span></div></div>
@@ -470,7 +510,7 @@ var _hmt = _hmt || [];
     </div>
 
 
-    <div class="section">
+    <div class="section" id="sec-upgrades">
         <h2><span class="icon">🔧</span><span class="zh">车队升级与技术动态</span><span class="en">Team Upgrades & Technical Updates</span></h2>
         
             <div class="upgrade-card" style="border-left:4px solid #006F62">
@@ -542,7 +582,7 @@ var _hmt = _hmt || [];
     </div>
 
 
-    <div class="section">
+    <div class="section" id="sec-result">
         <h2><span class="icon">🏁</span><span class="zh">匈牙利大奖赛 - 比赛结果</span><span class="en">Hungarian GP - Race Result</span></h2>
         <div class="info-grid">
             <div class="info-item"><div class="label"><span class="zh">赛道</span><span class="en">Circuit</span></div><div class="value"><span class="zh">匈格罗宁赛道，布达佩斯</span><span class="en">Hungaroring, Budapest</span></div></div>
@@ -709,7 +749,7 @@ var _hmt = _hmt || [];
     </div>
 
 
-    <div class="section">
+    <div class="section" id="sec-drivers">
         <h2><span class="icon">🏆</span><span class="zh">车手积分榜</span><span class="en">Drivers' Standings</span></h2>
         <table>
             <thead><tr><th><span class="zh">名次</span><span class="en">Pos</span></th><th><span class="zh">车手</span><span class="en">Driver</span></th><th><span class="zh">车队</span><span class="en">Team</span></th><th><span class="zh">积分</span><span class="en">Points</span></th></tr></thead>
@@ -853,7 +893,7 @@ var _hmt = _hmt || [];
     </div>
 
 
-    <div class="section">
+    <div class="section" id="sec-constructors">
         <h2><span class="icon">🏭</span><span class="zh">车队积分榜</span><span class="en">Constructors' Standings</span></h2>
         <table>
             <thead><tr><th><span class="zh">名次</span><span class="en">Pos</span></th><th><span class="zh">车队</span><span class="en">Team</span></th><th><span class="zh">积分</span><span class="en">Points</span></th></tr></thead>
@@ -928,7 +968,7 @@ var _hmt = _hmt || [];
     </div>
 
 
-    <div class="section">
+    <div class="section" id="sec-recent">
         <h2><span class="icon">📊</span><span class="zh">近期比赛回顾</span><span class="en">Recent Races Review</span></h2>
         <table>
             <thead><tr><th><span class="zh">日期</span><span class="en">Date</span></th><th><span class="zh">大奖赛</span><span class="en">Grand Prix</span></th><th><span class="zh">冠军</span><span class="en">Champion</span></th><th><span class="zh">最快圈速</span><span class="en">Fastest lap</span></th></tr></thead>
@@ -967,15 +1007,15 @@ var _hmt = _hmt || [];
     </div>
 
 
-    <div class="section">
+    <div class="section" id="sec-notes">
         <h2><span class="icon">📝</span><span class="zh">备注</span><span class="en">Notes</span></h2>
         <p style="font-size:14px;color:#555;"><span class="zh">2026赛季夏休期结束后的首场比赛，也是赞德沃特赛道举办F1的最后一届荷兰大奖赛。Max Verstappen的主场告别战，且首次在此引入冲刺赛赛制。本赛季Mercedes统治级表现(11场9胜)，Antonelli以219分领跑。McLaren近2年统治赞德沃特(2024 Norris, 2025 Piastri)。Aston Martin/Honda的PU升级是本站最大技术看点。冲刺赛周末意味着仅有1次FP1，排位赛和冲刺赛之间的策略空间极小。</span><span class="en">The first race after the summer break and the final Dutch GP at Zandvoort. Max Verstappen's home farewell, and the first Sprint format here. Mercedes have dominated this season (9 wins from 11 races), with Antonelli leading on 219 points. McLaren ruled Zandvoort in the last two years (2024 Norris, 2025 Piastri). The Aston Martin/Honda PU upgrade is the biggest technical talking point. The Sprint weekend means only one FP1, leaving minimal strategizing room between qualifying and the Sprint.</span></p>
     </div>
 
 
-    <div class="disclaimer"><span class="zh">数据来源: F1.com 官方数据 | 报告生成时间: 2026-07-29 16:54（北京时间）</span><span class="en">Data source: F1.com official | Report generated: 2026-07-29 16:54 (Beijing Time)</span><br><span class="zh">预测基于历史数据和近期表现，实际结果受众多不可控因素影响 (天气、安全车、事故、策略、可靠性等)</span><span class="en">Predictions are based on historical data and recent form; actual results are affected by many uncontrollable factors (weather, safety car, accidents, strategy, reliability, etc.)</span><br><span class="zh">本报告仅供信息参考，不建议用于赌博或投注决策。</span><span class="en">This report is for informational reference only; not intended for gambling or betting decisions.</span>    </div>
+    <div class="disclaimer"><span class="zh">数据来源: F1.com 官方数据 | 报告生成时间: 2026-07-29 17:11（北京时间）</span><span class="en">Data source: F1.com official | Report generated: 2026-07-29 17:11 (Beijing Time)</span><br><span class="zh">预测基于历史数据和近期表现，实际结果受众多不可控因素影响 (天气、安全车、事故、策略、可靠性等)</span><span class="en">Predictions are based on historical data and recent form; actual results are affected by many uncontrollable factors (weather, safety car, accidents, strategy, reliability, etc.)</span><br><span class="zh">本报告仅供信息参考，不建议用于赌博或投注决策。</span><span class="en">This report is for informational reference only; not intended for gambling or betting decisions.</span>    </div>
 
-    <div class="section" style="margin-top:8px;">
+    <div class="section" style="margin-top:8px;" id="sec-discussion">
         <h2><span class="icon">💬</span><span class="zh">讨论区</span><span class="en">Discussion</span></h2>
         <p style="font-size:13px;color:#888;margin-bottom:14px;">
             <span class="zh">无需登录，直接填写昵称即可在下方评论；评论对所有访客可见。</span>
@@ -1139,6 +1179,67 @@ function fqSaveScores(list){ try{ localStorage.setItem(FQ_LB_KEY,JSON.stringify(
 function fqSaveScore(){ const nameInput=document.getElementById('fqName'); const name=(nameInput.value||fqT('匿名车手','Anonymous')).trim().slice(0,12); const list=fqLoadScores(); list.push({ name:name, score:fqFinalScore, quizType:fqSet, date:new Date().toLocaleString('zh-CN',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}), ts:Date.now() }); if(fqSaveScores(list)){ document.getElementById('fqSaveMsg').textContent=fqT('成绩已保存到本地排名榜','Score saved to local leaderboard'); nameInput.value=''; fqRenderLeaderboard(); } else { document.getElementById('fqSaveMsg').textContent=fqT('保存失败，浏览器可能禁用了本地存储','Save failed; local storage may be disabled'); } }
 function fqRenderLeaderboard(){ const list=fqLoadScores().filter(function(s){ return s.quizType===fqSet; }).sort(function(a,b){ return b.score-a.score||a.ts-b.ts; }); const statsEl=document.getElementById('fqStats'); const lbEl=document.getElementById('fqLeaderboard'); const sn=fqSetName(fqSet); if(list.length===0){ statsEl.innerHTML=''; lbEl.innerHTML='<div class="quiz-lb-empty">'+fqT('还没有成绩记录，完成测试并保存后就会出现在这里','No scores yet — finish a quiz and save to see it here')+'</div>'; return; } const best=Math.max.apply(null,list.map(function(s){ return s.score; })); const avg=Math.round(list.reduce(function(a,s){ return a+s.score; },0)/list.length); statsEl.innerHTML='<div class="quiz-stat"><div class="num">'+list.length+'</div><div class="label">'+fqT('挑战次数','Attempts')+'</div></div>'+'<div class="quiz-stat"><div class="num">'+best+'</div><div class="label">'+fqT('最佳成绩','Best')+'</div></div>'+'<div class="quiz-stat"><div class="num">'+avg+'</div><div class="label">'+fqT('平均分','Average')+'</div></div>'; let rows=''; const newestTs=list.length?Math.max.apply(null,list.map(function(s){ return s.ts; })):0; list.slice(0,10).forEach(function(s,i){ const me=s.ts===newestTs?'lb-me':''; rows+='<tr class="'+me+'"><td class="lb-rank">#'+(i+1)+'</td><td>'+s.name+'</td><td class="lb-score">'+s.score+fqT('分','')+'</td><td>'+s.date+'</td></tr>'; }); lbEl.innerHTML='<h4><span>&#127942;</span> '+fqT('我的','My')+' '+sn+' '+fqT('排行榜','Leaderboard')+'</h4>'+'<table><thead><tr><th>'+fqT('排名','Rank')+'</th><th>'+fqT('昵称','Name')+'</th><th>'+fqT('分数','Score')+'</th><th>'+fqT('时间','Time')+'</th></tr></thead><tbody>'+rows+'</tbody></table>'; }
 function fqShareCard(){ const score=document.getElementById('fqScore').textContent; const setName=fqSetName(fqSet); const today=new Date().toLocaleDateString('zh-CN'); const canvas=document.createElement('canvas'); canvas.width=600; canvas.height=340; const ctx=canvas.getContext('2d'); const grad=ctx.createLinearGradient(0,0,600,340); grad.addColorStop(0,'#e10600'); grad.addColorStop(1,'#1a1a2e'); ctx.fillStyle=grad; ctx.fillRect(0,0,600,340); ctx.strokeStyle='#ffd700'; ctx.lineWidth=3; ctx.strokeRect(10,10,580,320); ctx.fillStyle='#ffd700'; ctx.font='bold 24px Arial'; ctx.textAlign='center'; ctx.fillText(fqT('F1 知识测试','F1 Knowledge Quiz'),300,50); ctx.fillStyle='#fff'; ctx.font='bold 56px Arial'; ctx.fillText(score,300,130); ctx.font='16px Arial'; ctx.fillStyle='#ccc'; ctx.fillText(setName+' | '+today,300,165); const rating=document.getElementById('fqRating').textContent; ctx.font='bold 18px Arial'; ctx.fillStyle='#fff'; ctx.fillText(rating,300,210); ctx.font='13px Arial'; ctx.fillStyle='#888'; ctx.fillText('vincentxu414.github.io/F1.github.io',300,260); for(let i=0;i<10;i++){ ctx.fillStyle=i%2?'#fff':'#1a1a1a'; ctx.fillRect(240+i*12,290,12,12); } const link=document.createElement('a'); link.download='f1-quiz-'+setName+'-'+today.replace(/\//g,'')+'.png'; link.href=canvas.toDataURL(); link.click(); }
+
+</script>
+<script>
+
+// ---- F1 Site Search ----
+const F1_SEARCH_INDEX = [
+  { zh:"车手积分榜", en:"Drivers' Standings", kw:["车手","积分","排名","车手排名","driver","standings","积分榜","分","points"], anchor:"sec-drivers", dzh:"2026 赛季车手积分与排名一览", den:"2026 drivers' points & ranking" },
+  { zh:"车队积分榜", en:"Constructors' Standings", kw:["车队","积分","排名","车队排名","constructor","制造商","积分榜","points"], anchor:"sec-constructors", dzh:"2026 赛季车队（制造商）积分与排名", den:"2026 constructors' points & ranking" },
+  { zh:"下一场赛程与预测：荷兰大奖赛", en:"Next Race & Prediction: Dutch GP", kw:["赛程","赛历","日程","下一场","荷兰","赛程表","schedule","预测","prediction"], anchor:"sec-prediction", dzh:"荷兰大奖赛（赞德沃特）赛程与胜负预测", den:"Dutch GP schedule & win prediction" },
+  { zh:"近期比赛回顾", en:"Recent Races Review", kw:["赛程","回顾","历史","近期","比赛","review"], anchor:"sec-recent", dzh:"近期大奖赛成绩与回顾", den:"Recent Grand Prix results & review" },
+  { zh:"车队升级与最新技术动态", en:"Team Upgrades & Latest Tech News", kw:["最新新闻","新闻","技术","升级","动态","研发","news","upgrade","technical","技术动态"], anchor:"sec-upgrades", dzh:"各车队升级、技术动态与 F1.com 每日新闻", den:"Team upgrades, technical updates & daily F1 news" },
+  { zh:"匈牙利大奖赛 比赛结果", en:"Hungarian GP — Race Result", kw:["匈牙利","结果","完赛","名次","比赛结果","result"], anchor:"sec-result", dzh:"匈牙利大奖赛最终成绩与名次", den:"Hungarian GP final classification" },
+  { zh:"F1 知识测试", en:"F1 Knowledge Quiz", kw:["答题","测试","测验","知识","quiz","考题"], anchor:"sec-quiz", dzh:"F1 知识答题挑战（入门/进阶）", den:"F1 knowledge quiz (beginner/advanced)" },
+  { zh:"讨论区", en:"Discussion", kw:["讨论","评论","留言","discussion","comments"], anchor:"sec-discussion", dzh:"车迷线上讨论区", den:"Fan discussion area" },
+  { zh:"备注", en:"Notes", kw:["备注","说明","notes"], anchor:"sec-notes", dzh:"报告数据与来源说明", den:"Notes & data sources" }
+];
+function f1IsEn(){ return document.body.classList.contains('lang-en'); }
+function f1Jump(anchor){
+  var el = document.getElementById(anchor);
+  if(!el) return;
+  el.scrollIntoView({ behavior:'smooth', block:'start' });
+  el.classList.remove('f1-search-highlight');
+  void el.offsetWidth;
+  el.classList.add('f1-search-highlight');
+}
+function f1Search(q){
+  q = (q||'').trim();
+  var box = document.getElementById('f1SearchInput');
+  if(box && q) box.value = q;
+  var res = document.getElementById('f1SearchResults');
+  if(!q){ res.innerHTML=''; return; }
+  var ql = q.toLowerCase();
+  var hits = [];
+  F1_SEARCH_INDEX.forEach(function(e){
+    var score = 0;
+    if(e.zh.indexOf(q) >= 0 || e.en.toLowerCase().indexOf(ql) >= 0) score += 3;
+    e.kw.forEach(function(k){
+      var kl = k.toLowerCase();
+      if(kl.indexOf(ql) >= 0) score += 2;
+      if(ql.indexOf(kl) >= 0) score += 1;
+    });
+    if(score > 0) hits.push({ e:e, score:score });
+  });
+  hits.sort(function(a,b){ return b.score - a.score; });
+  var suffix = f1IsEn() ? 'F1 Search Results' : 'F1搜索结果';
+  var titleHtml = '<div class="f1-search-res-title">[' + q + '] - ' + suffix + '</div>';
+  if(hits.length === 0){
+    res.innerHTML = titleHtml + '<div class="f1-search-empty">未找到相关F1资讯，试试：<a onclick="f1Search(\'积分榜\')">F1积分榜</a>、<a onclick="f1Search(\'赛程\')">赛程</a>、<a onclick="f1Search(\'车手排名\')">车手排名</a></div>';
+    document.title = '[' + q + '] - ' + suffix;
+    return;
+  }
+  var html = titleHtml;
+  hits.forEach(function(h){
+    var e = h.e;
+    html += '<div class="f1-search-result" onclick="f1Jump(\'' + e.anchor + '\')">' +
+      '<div class="r-title"><span class="zh">' + e.zh + '</span><span class="en">' + e.en + '</span></div>' +
+      '<div class="r-desc"><span class="zh">' + e.dzh + '</span><span class="en">' + e.den + '</span></div></div>';
+  });
+  res.innerHTML = html;
+  document.title = '[' + q + '] - ' + suffix;
+}
 
 </script>
 </body>

@@ -108,6 +108,77 @@
     .zh, .en { display: inline; }
     body.lang-en .zh { display: none; }
     body.lang-zh .en { display: none; }
+
+    /* Quiz / 答题 */
+    .quiz-banner { display: flex; align-items: center; gap: 12px; background: linear-gradient(135deg, #e10600 0%, #b00500 100%); color: #fff; padding: 14px 20px; border-radius: 10px; margin-bottom: 24px; cursor: pointer; transition: opacity .2s; }
+    .quiz-banner:hover { opacity: .92; }
+    .quiz-banner .qb-icon { font-size: 22px; }
+    .quiz-banner .qb-text { font-size: 16px; font-weight: 600; }
+    .quiz-banner .qb-sub { font-size: 13px; opacity: .85; flex-grow: 1; }
+    .quiz-banner .qb-arrow { font-size: 14px; transition: transform .3s; }
+    .quiz-banner .qb-arrow.open { transform: rotate(180deg); }
+    .quiz-banner .qb-updated { background: #ffd700; color: #1a1a1a; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; display: none; animation: fqPulse 1.5s ease-in-out infinite; }
+    @keyframes fqPulse { 0%,100% { opacity: 1; } 50% { opacity: .5; } }
+    .quiz-panel { display: none; margin-bottom: 24px; }
+    .quiz-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+    .quiz-tab { padding: 8px 20px; border: 1px solid #e0e0e0; border-radius: 8px; background: #fff; font-size: 13px; cursor: pointer; font-weight: 600; color: #666; font-family: inherit; }
+    .quiz-tab.active { background: #e10600; color: #fff; border-color: #e10600; }
+    .quiz-card { background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+    .quiz-progress { height: 6px; background: #f0f0f0; border-radius: 3px; margin-bottom: 16px; overflow: hidden; }
+    .quiz-progress-fill { height: 100%; background: #e10600; border-radius: 3px; transition: width .3s; }
+    .quiz-q-num { font-size: 12px; color: #999; margin-bottom: 4px; }
+    .quiz-q-text { font-size: 15px; font-weight: 600; margin-bottom: 16px; line-height: 1.5; }
+    .quiz-opt { display: block; width: 100%; text-align: left; padding: 12px 14px; margin-bottom: 8px; border: 1px solid #e0e0e0; border-radius: 8px; background: #fff; font-size: 14px; cursor: pointer; transition: all .15s; color: #1a1a1a; font-family: inherit; }
+    .quiz-opt:hover:not(.locked) { border-color: #e10600; background: #fff5f5; }
+    .quiz-opt.locked { cursor: default; }
+    .quiz-opt.correct { border-color: #198754; background: #d1e7dd; color: #0f5132; }
+    .quiz-opt.wrong { border-color: #dc3545; background: #f8d7da; color: #842029; }
+    .quiz-opt.dim { opacity: .4; }
+    .quiz-feedback { font-size: 13px; margin-top: 12px; padding: 10px 14px; border-radius: 8px; display: none; }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.ok { background: #d1e7dd; color: #0f5132; }
+    .quiz-feedback.no { background: #f8d7da; color: #842029; }
+    .quiz-next-btn { margin-top: 16px; padding: 10px 24px; border: 1px solid #e0e0e0; border-radius: 8px; background: #fff; font-size: 14px; cursor: pointer; display: none; font-family: inherit; }
+    .quiz-next-btn.show { display: inline-block; }
+    .quiz-next-btn:hover { border-color: #e10600; background: #fff5f5; }
+    .quiz-start-screen { text-align: center; padding: 1.5rem; }
+    .quiz-start-screen h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+    .quiz-start-screen p { font-size: 13px; color: #666; margin-bottom: 20px; line-height: 1.6; }
+    .quiz-start-btn { padding: 12px 32px; background: #e10600; color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
+    .quiz-start-btn:hover { background: #c00500; }
+    .quiz-result-screen { text-align: center; padding: 1.5rem; }
+    .quiz-result-screen .score-big { font-size: 48px; font-weight: 800; color: #e10600; margin: 8px 0; }
+    .quiz-result-screen .score-label { font-size: 13px; color: #999; }
+    .quiz-result-screen .rating { font-size: 16px; font-weight: 600; margin: 12px 0 20px; }
+    .quiz-result-screen .breakdown { text-align: left; margin: 16px 0; }
+    .quiz-result-screen .breakdown-item { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid #f0f0f0; font-size: 13px; }
+    .quiz-result-screen .breakdown-item:last-child { border: none; }
+    .quiz-result-screen .bk-ico { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; font-weight: 700; }
+    .quiz-result-screen .bk-ok { background: #d1e7dd; color: #0f5132; }
+    .quiz-result-screen .bk-no { background: #f8d7da; color: #842029; }
+    .quiz-retry-btn { padding: 10px 24px; background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 13px; cursor: pointer; }
+    .quiz-retry-btn:hover { border-color: #e10600; }
+    .quiz-save-row { display: flex; gap: 8px; justify-content: center; margin: 16px 0; flex-wrap: wrap; }
+    .quiz-save-row input { padding: 10px 14px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 14px; width: 160px; font-family: inherit; }
+    .quiz-save-row button { padding: 10px 18px; background: #e10600; color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
+    .quiz-save-row button:hover { background: #c00500; }
+    .quiz-save-msg { font-size: 13px; color: #198754; min-height: 20px; }
+    .quiz-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin: 16px 0; }
+    .quiz-stat { background: #f8f9fa; padding: 12px; border-radius: 8px; }
+    .quiz-stat .num { font-size: 22px; font-weight: 800; color: #e10600; }
+    .quiz-stat .label { font-size: 12px; color: #666; }
+    .quiz-lb { margin-top: 20px; text-align: left; }
+    .quiz-lb h4 { font-size: 15px; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+    .quiz-lb table { font-size: 13px; width: 100%; border-collapse: collapse; }
+    .quiz-lb th { background: #f8f9fa; text-align: left; padding: 8px; }
+    .quiz-lb td { padding: 8px; border-top: 1px solid #f0f0f0; }
+    .quiz-lb .lb-rank { font-weight: 800; color: #e10600; width: 50px; text-align: center; }
+    .quiz-lb .lb-score { font-weight: 700; width: 70px; }
+    .quiz-lb .lb-me { background: #fff9e6; }
+    .quiz-lb-empty { font-size: 13px; color: #999; text-align: center; padding: 16px; background: #f8f9fa; border-radius: 8px; }
+    .quiz-share-btn { margin-top: 12px; padding: 10px 20px; background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 13px; cursor: pointer; color: #1a1a1a; font-family: inherit; }
+    .quiz-share-btn:hover { border-color: #e10600; }
+    @media print { .quiz-banner, .quiz-panel, .quiz-share-btn, .quiz-save-row { display: none !important; } }
 </style>
 <!-- Baidu Analytics -->
 <script>
@@ -137,10 +208,55 @@ var _hmt = _hmt || [];
 
     <div class="report-header"><div class="lang-switch" role="group" aria-label="Language"><button type="button" class="lang-btn active" data-lang="zh">中文</button><button type="button" class="lang-btn" data-lang="en">EN</button></div>
         <h1><span class="zh">F1 2026 赛季追踪报告</span><span class="en">F1 2026 Season Tracking Report</span></h1>
-        <div class="subtitle"><span class="zh">报告生成日期: 2026-07-29 10:08（北京时间）</span><span class="en">Report generated: 2026-07-29 10:08 (Beijing Time)</span></div>
+        <div class="subtitle"><span class="zh">报告生成日期: 2026-07-29 13:44（北京时间）</span><span class="en">Report generated: 2026-07-29 13:44 (Beijing Time)</span></div>
         <div class="race-badge"><span class="zh">最近完赛: 匈牙利大奖赛</span><span class="en">Last race: Hungarian GP</span></div>
     </div>
 
+    <!-- QUIZ_START -->
+    <div class="quiz-banner" onclick="fqToggle()">
+        <span class="qb-icon">🏁</span>
+        <span class="qb-text"><span class="zh">F1 知识测试</span><span class="en">F1 Knowledge Quiz</span></span>
+        <span class="qb-sub"><span class="zh">两套题库 · 每日更新 · 点击展开挑战自己</span><span class="en">Two levels · Daily refreshed · Click to challenge</span></span>
+        <span class="qb-updated" id="fqUpdated"><span class="zh">✨ 已更新题库</span><span class="en">✨ Quiz refreshed</span></span>
+        <span class="qb-arrow" id="fqArrow">▼</span>
+    </div>
+    <div class="quiz-panel" id="fqPanel">
+        <div class="quiz-tabs">
+            <button class="quiz-tab active" id="fqTabA" onclick="fqSwitchSet('A')"><span class="zh">入门级</span><span class="en">Beginner</span></button>
+            <button class="quiz-tab" id="fqTabB" onclick="fqSwitchSet('B')"><span class="zh">进阶级</span><span class="en">Advanced</span></button>
+        </div>
+        <div class="quiz-card">
+            <div id="fqStartScreen" class="quiz-start-screen">
+                <h3><span class="zh">F1 知识测试</span><span class="en">F1 Knowledge Quiz</span></h3>
+                <p><span class="zh">10 道题，每题 10 分，满分 100 分<br>选择难度后开始测试</span><span class="en">10 questions, 10 pts each, 100 total<br>Pick a level to start</span></p>
+                <button class="quiz-start-btn" onclick="fqStart()"><span class="zh">开始测试</span><span class="en">Start</span></button>
+            </div>
+            <div id="fqMain" style="display:none;">
+                <div class="quiz-progress"><div class="quiz-progress-fill" id="fqProgFill" style="width:0%"></div></div>
+                <div class="quiz-q-num" id="fqQNum"></div>
+                <div class="quiz-q-text" id="fqQText"></div>
+                <div id="fqOptions"></div>
+                <div class="quiz-feedback" id="fqFeedback"></div>
+                <button class="quiz-next-btn" id="fqNextBtn" onclick="fqNext()"></button>
+            </div>
+            <div id="fqResult" class="quiz-result-screen" style="display:none;">
+                <div class="score-label"><span class="zh">你的得分</span><span class="en">Your score</span></div>
+                <div class="score-big" id="fqScore"></div>
+                <div class="rating" id="fqRating"></div>
+                <div class="breakdown" id="fqBreakdown"></div>
+                <div class="quiz-save-row">
+                    <input type="text" id="fqName" placeholder="输入昵称" maxlength="12">
+                    <button onclick="fqSaveScore()"><span class="zh">保存成绩</span><span class="en">Save</span></button>
+                </div>
+                <div class="quiz-save-msg" id="fqSaveMsg"></div>
+                <div class="quiz-stats" id="fqStats"></div>
+                <div class="quiz-lb" id="fqLeaderboard"></div>
+                <button class="quiz-share-btn" onclick="fqShareCard()">📷 <span class="zh">保存成绩卡片</span><span class="en">Save score card</span></button>
+                <button class="quiz-retry-btn" onclick="fqStart()"><span class="zh">再试一次</span><span class="en">Retry</span></button>
+            </div>
+        </div>
+    </div>
+    <!-- QUIZ_END -->
 
     <div class="section">
         <h2><span class="icon">🔮</span><span class="zh">下一场预测: 荷兰大奖赛（赞德沃特告别战）</span><span class="en">Next Race Prediction: Dutch GP (Zandvoort Farewell)</span></h2>
@@ -857,7 +973,7 @@ var _hmt = _hmt || [];
     </div>
 
 
-    <div class="disclaimer"><span class="zh">数据来源: F1.com 官方数据 | 报告生成时间: 2026-07-29 10:08（北京时间）</span><span class="en">Data source: F1.com official | Report generated: 2026-07-29 10:08 (Beijing Time)</span><br><span class="zh">预测基于历史数据和近期表现，实际结果受众多不可控因素影响 (天气、安全车、事故、策略、可靠性等)</span><span class="en">Predictions are based on historical data and recent form; actual results are affected by many uncontrollable factors (weather, safety car, accidents, strategy, reliability, etc.)</span><br><span class="zh">本报告仅供信息参考，不建议用于赌博或投注决策。</span><span class="en">This report is for informational reference only; not intended for gambling or betting decisions.</span>    </div>
+    <div class="disclaimer"><span class="zh">数据来源: F1.com 官方数据 | 报告生成时间: 2026-07-29 13:44（北京时间）</span><span class="en">Data source: F1.com official | Report generated: 2026-07-29 13:44 (Beijing Time)</span><br><span class="zh">预测基于历史数据和近期表现，实际结果受众多不可控因素影响 (天气、安全车、事故、策略、可靠性等)</span><span class="en">Predictions are based on historical data and recent form; actual results are affected by many uncontrollable factors (weather, safety car, accidents, strategy, reliability, etc.)</span><br><span class="zh">本报告仅供信息参考，不建议用于赌博或投注决策。</span><span class="en">This report is for informational reference only; not intended for gambling or betting decisions.</span>    </div>
 
     <div class="section" style="margin-top:8px;">
         <h2><span class="icon">💬</span><span class="zh">讨论区</span><span class="en">Discussion</span></h2>
@@ -994,6 +1110,35 @@ var _hmt = _hmt || [];
         timer = setInterval(tick, 1000);
         tick();
     })();
+</script>
+<script>
+
+// ---- F1 Quiz ----
+const fqData = {"A": {"name": "入门级", "nameEn": "Beginner", "pool": [{"q": "F1 正赛冠军获得多少积分？", "options": ["20分", "25分", "30分", "18分"], "answer": 1, "explain": "F1积分系统：冠军25分，亚军18分，季军15分，第4-10名分别为12/10/8/6/4/2/1分。"}, {"q": "2026赛季Mercedes车队的领骑车手是谁？", "options": ["George Russell", "Lewis Hamilton", "Kimi Antonelli", "Valtteri Bottas"], "answer": 2, "explain": "Kimi Antonelli在2026赛季以219分领跑车手积分榜，Mercedes本赛季11场拿下9胜。"}, {"q": "2026赛季F1有多少支车队、多少辆赛车？", "options": ["10队 / 20辆", "11队 / 22辆", "12队 / 24辆", "10队 / 18辆"], "answer": 1, "explain": "2026赛季有11支车队每队2辆赛车，共22辆赛车。Cadillac作为第11支车队新加入。"}, {"q": "F1比赛中\"Box Box\"是什么意思？", "options": ["退赛", "进站换胎", "让车", "防守位置"], "answer": 1, "explain": "\"Box\"是车队通过无线电通知车手进站(pit stop)换胎或维修的指令。"}, {"q": "2026赛季哪支车队作为全新第11支车队加入F1？", "options": ["Audi", "Cadillac", "Porsche", "Lamborghini"], "answer": 1, "explain": "Cadillac作为全新第11支车队加入2026赛季F1网格，Audi则接管了原Sauber车队班底。"}, {"q": "F1赛车轮胎的唯一供应商是谁？", "options": ["米其林(Michelin)", "固特异(Goodyear)", "倍耐力(Pirelli)", "普利司通(Bridgestone)"], "answer": 2, "explain": "倍耐力(Pirelli)自2011年起成为F1唯一轮胎供应商，提供硬(H)、中(M)、软(S)三种干地轮胎。"}, {"q": "F1中\"杆位\"(Pole Position)是什么意思？", "options": ["最后发车的位置", "排位赛第一名的发车位置", "维修区出口", "领奖台最高位置"], "answer": 1, "explain": "杆位指排位赛中成绩最快的车手，在正赛中从最前排发车。"}, {"q": "一场F1正赛通常持续多长时间？", "options": ["约45分钟", "约1小时", "约1.5-2小时", "约3小时"], "answer": 2, "explain": "F1正赛通常持续约1.5-2小时，比赛距离约305公里，设有2小时时间限制。"}, {"q": "F1比赛中\"DNF\"代表什么？", "options": ["Did Not Finish (未完赛)", "Did Not Start (未发车)", "Drive No Faster (减速)", "Daily News Flash"], "answer": 0, "explain": "DNF = Did Not Finish，表示车手因事故、故障或其他原因未能完成比赛。"}, {"q": "2026赛季夏休期后谁以219分领跑车手积分榜？", "options": ["Max Verstappen", "Lando Norris", "Kimi Antonelli", "Lewis Hamilton"], "answer": 2, "explain": "Kimi Antonelli以219分领跑，Hamilton 169分第二，Russell 160分第三。"}, {"q": "F1安全车出场时允许超车吗？", "options": ["允许，只要在安全车后面", "不允许，必须保持队形", "只在直道允许", "只允许领先车手超车"], "answer": 1, "explain": "安全车出场后禁止超车，所有赛车必须保持队形跟在安全车后方，直到安全车回维修区。"}, {"q": "F1排位赛分为几个阶段？", "options": ["2个", "3个 (Q1/Q2/Q3)", "4个", "只有1个"], "answer": 1, "explain": "F1排位赛分为Q1、Q2、Q3三个阶段，分别淘汰慢车并决定最终发车顺序。"}, {"q": "正赛发车前的暖胎圈英文叫什么？", "options": ["Warm-up Lap", "Formation Lap", "Installation Lap", "Flying Lap"], "answer": 1, "explain": "Formation Lap（编队圈）是正赛前车手绕场一圈暖胎并到达发车格的圈。"}, {"q": "F1比赛中蓝旗表示什么？", "options": ["前方有危险", "允许超车", "后方快车要套圈，必须让路", "比赛暂停"], "answer": 2, "explain": "蓝旗表示后方快车即将套圈，被套圈车手必须让路，不让路可能被处罚。"}, {"q": "大奖赛周末通常有几次练习赛？", "options": ["1次", "2次", "3次", "4次"], "answer": 2, "explain": "大奖赛周末通常有3次自由练习赛（FP1、FP2、FP3），排位赛前还有一次。"}, {"q": "F1中格子旗代表什么？", "options": ["比赛开始", "比赛暂停", "比赛结束", "安全车出场"], "answer": 2, "explain": "黑白格子旗挥动表示比赛正式结束，最先冲过终点线的车手为冠军。"}, {"q": "F1车手在高速弯道承受的G力约多少？", "options": ["约1-2G", "约3-4G", "约5-6G", "约10G"], "answer": 2, "explain": "F1车手在高速弯道中可承受约5-6G的横向力，相当于5-6倍体重压在身上。"}, {"q": "F1比赛中黄旗表示什么？", "options": ["赛道畅通", "前方有危险，减速且禁止超车", "比赛取消", "进站信号"], "answer": 1, "explain": "黄旗表示前方有危险（如事故、碎片），车手必须减速并禁止超车。双黄旗表示更大危险。"}, {"q": "F1赛车方向盘上大约有多少个按钮和旋钮？", "options": ["约5个", "约10个", "约25个以上", "没有按钮"], "answer": 2, "explain": "现代F1方向盘功能极为复杂，约有25个以上的按钮和旋钮，控制差速器、刹车平衡、能量回收等。"}, {"q": "维修区(Pit Lane)限速通常是多少？", "options": ["60km/h", "80km/h", "100km/h", "无限制"], "answer": 1, "explain": "维修区限速通常为80km/h（部分赛道为60km/h），超速将被罚款或处罚。"}, {"q": "F1引擎是几缸的？", "options": ["4缸直列", "6缸V型 (V6)", "8缸V型 (V8)", "12缸V型 (V12)"], "answer": 1, "explain": "2014年起F1使用1.6升V6涡轮增压混合动力引擎，取代了之前的2.4升V8自然吸气引擎。"}, {"q": "每支F1车队每赛季有几位正式车手？", "options": ["1位", "2位", "3位", "无限制"], "answer": 1, "explain": "每支F1车队每赛季有2位正式车手，各驾驶一辆赛车参赛。"}, {"q": "遇到大雨时F1正赛通常如何开始？", "options": ["正常静止起步", "安全车带领滚动起步", "取消比赛", "延后一周"], "answer": 1, "explain": "遇到大雨等恶劣天气时，通常会由安全车带领进行滚动起步，等赛道条件改善后再正式开始。"}, {"q": "F1比赛中红旗表示什么？", "options": ["赛道畅通", "减速禁止超车", "比赛暂停，车手回维修区", "比赛结束"], "answer": 2, "explain": "红旗表示比赛因严重事故或恶劣天气暂停，车手必须减速回到维修区等待重新开始。"}, {"q": "F1车手头盔最重要的功能是什么？", "options": ["通风散热", "保护头部并防火", "减少风阻", "通信"], "answer": 1, "explain": "F1头盔必须通过FIA严格认证，核心功能是保护头部并在火灾中提供足够时间的防护。"}]}, "B": {"name": "进阶级", "nameEn": "Advanced", "pool": [{"q": "2026赛季F1用什么系统取代了DRS？", "options": ["KERS能量回收", "主动空气动力学 (Active Aero)", "可变尾翼手动开关", "无任何替代系统"], "answer": 1, "explain": "2026新规则用主动空气动力学取代DRS。车手可手动切换Z-Mode(低阻直道)和X-Mode(高下压力弯道)，不再限于特定DRS区域。"}, {"q": "2026新规则下动力单元中电力占比目标约为多少？", "options": ["约10%", "约30%", "约50%", "约70%"], "answer": 2, "explain": "2026规则将电力占比提升至约50%，MGU-K功率从120kW大幅增至350kW，接近内燃机功率。"}, {"q": "获得F1超级驾照(Super Licence)需要至少多少积分？", "options": ["30分 (3年内)", "40分 (3年内)", "50分 (2年内)", "无需积分"], "answer": 1, "explain": "FIA规定车手需在3年内在指定初级赛事中累计至少40个超级驾照积分，且年满18岁方可获得。"}, {"q": "F1历史上获得世界冠军最多的记录是几次？", "options": ["5次", "6次", "7次", "8次"], "answer": 2, "explain": "Lewis Hamilton和Michael Schumacher并列最多，各获得7次车手世界冠军。"}, {"q": "正赛最快圈额外1分需要满足什么条件？", "options": ["只要跑出最快圈即可", "完赛在前10名", "获得领奖台", "完赛即可"], "answer": 1, "explain": "2019年规则：跑出最快圈且完赛在前10名才能获得额外1分，否则不予发放。"}, {"q": "2026赛季预算帽(Cost Cap)大约是多少？", "options": ["约1亿美元", "约1.35亿美元", "约2亿美元", "无限制"], "answer": 1, "explain": "2026预算帽约1.35亿美元（按通胀调整），不含车手薪资、市场营销和高层管理薪资。"}, {"q": "赞德沃特赛道两个倾斜弯的角度分别是？", "options": ["10度和15度", "18度和19度", "20度和25度", "15度和20度"], "answer": 1, "explain": "T3 Hugenholtz弯倾斜18度，T14 Arie Luyendyk弯倾斜19度，是赞德沃特的标志性弯道。"}, {"q": "2026规则中MGU-K功率提升至多少？", "options": ["120kW", "200kW", "350kW", "500kW"], "answer": 2, "explain": "2026规则将MGU-K功率从120kW提升至350kW，使电力输出接近内燃机功率，电力占比达约50%。"}, {"q": "F1正赛最常用的起步方式是什么？", "options": ["滚动起步 (Rolling Start)", "静止起步 (Standing Start)", "安全车后起步", "追逐起步"], "answer": 1, "explain": "F1正赛通常使用静止起步，所有赛车在发车格停好后同时起步。滚动起步仅在安全车后重启等特殊情况下使用。"}, {"q": "Audi在2026赛季接管了哪支车队的班底？", "options": ["Haas", "Williams", "Sauber", "Alpine"], "answer": 2, "explain": "Audi在2026赛季接管了原Sauber（Kick Sauber）车队的班底和设施，作为厂队参赛。"}, {"q": "地效底盘(Ground Effect)是哪一年回归F1的？", "options": ["2019年", "2021年", "2022年", "2026年"], "answer": 2, "explain": "2022年F1引入全新技术规则，地面效应底盘时隔40年回归，通过底板文丘里管产生下压力。"}, {"q": "F1刹车盘的工作温度可达多少？", "options": ["约200°C", "约500°C", "约700°C", "约1000°C"], "answer": 3, "explain": "F1碳纤维刹车盘工作温度可达约1000°C，在高温下才能提供最佳制动力，所以入弯前需要预热。"}, {"q": "\"Undercut\"策略是什么？", "options": ["晚进站用旧胎跑快圈", "提前进站换新胎利用速度差超越前车", "不进站跑完全程", "进站只换前胎"], "answer": 1, "explain": "Undercut是提前进站换新胎，利用新胎的速度优势在对手进站时超越对手的经典策略。"}, {"q": "F1前翼的主要功能是什么？", "options": ["仅用于美观", "产生前部下压力并引导气流", "储存燃油", "散热"], "answer": 1, "explain": "前翼是F1最重要的空气动力学部件之一，产生约25-30%的总下压力，同时引导气流走向影响整车气动效率。"}, {"q": "红旗暂停期间可以换胎吗？", "options": ["不可以", "可以（2022年规则更新后允许）", "只能换前胎", "需赛会批准"], "answer": 1, "explain": "2022年规则更新后，红旗暂停期间允许换胎和维修，但所有车手享有同等权利。"}, {"q": "F1的三种干地轮胎配方是什么？", "options": ["超软、软、中", "硬(H)、中性(M)、软(S)", "雨胎、半雨胎、干胎", "红、黄、白"], "answer": 1, "explain": "倍耐力提供三种干地配方：硬胎(H/白色)、中性胎(M/黄色)、软胎(S/红色)，颜色越红越软越快但磨损越快。"}, {"q": "正赛第4名获得多少积分？", "options": ["10分", "12分", "15分", "18分"], "answer": 1, "explain": "F1积分系统：1-10名分别为25/18/15/12/10/8/6/4/2/1分，第4名获得12分。"}, {"q": "F1车手的最低参赛年龄是多少？", "options": ["16岁", "18岁", "21岁", "无限制"], "answer": 1, "explain": "FIA规定F1车手最低参赛年龄为18岁，且需持有超级驾照。"}, {"q": "2026规则下内燃机排量是多少？", "options": ["1.6升V6", "2.0升V4", "1.5升V6", "3.0升V10"], "answer": 0, "explain": "2026规则维持1.6升V6涡轮增压内燃机，但取消了MGU-H，将更多电力分配给MGU-K。"}, {"q": "F1的Halo装置能承受约多少重量？", "options": ["约1吨", "约5吨", "约12吨", "约50吨"], "answer": 2, "explain": "Halo驾驶舱保护装置能承受约12吨的冲击力，由钛合金制成，2018年起成为F1强制装备。"}, {"q": "\"Overcut\"策略是什么？", "options": ["提前进站换胎", "晚进站用旧胎跑快圈保住位置", "不进站", "退赛"], "answer": 1, "explain": "Overcut是晚进站策略，车手用旧胎多跑几圈做出快圈速，出站后仍在对手前面。与Undercut相反。"}, {"q": "地面效应通过什么装置实现？", "options": ["前翼", "尾翼", "文丘里管(Venturi隧道)", "扩散器"], "answer": 2, "explain": "2022规则下地面效应通过底板的文丘里管隧道实现，空气流经收缩-扩张的通道产生低压区，将赛车吸向地面。"}, {"q": "F1比赛中绿旗表示什么？", "options": ["比赛暂停", "前方有危险", "赛道畅通，恢复正常比赛", "比赛结束"], "answer": 2, "explain": "绿旗表示赛道状况恢复正常，之前黄旗区域的限制解除，可以恢复正常比赛节奏。"}, {"q": "2024赛季F1有多少站大奖赛？", "options": ["20站", "22站", "24站", "26站"], "answer": 2, "explain": "2024赛季F1共设24站大奖赛，是历史上站数最多的赛季，2025赛季同样为24站。"}, {"q": "F1赛车的HANS系统是什么？", "options": ["头盔通风系统", "头颈支撑系统，防止甩鞭伤", "心率监测器", "无线电通信系统"], "answer": 1, "explain": "HANS(Head and Neck Support)系统固定在车手肩部连接头盔，在碰撞时限制头部前移，防止致命的头颈甩鞭伤。"}]}};
+let fqSet = 'A', fqQ = 0, fqScore = 0, fqAns = [], fqFinalScore = 0, fqDailyQs = [];
+const FQ_LB_KEY = 'f1_quiz_scores_v1';
+const FQ_DATE_KEY = 'f1_quiz_last_date';
+function fqIsEn(){ return document.body.classList.contains('lang-en'); }
+function fqT(zh,en){ return fqIsEn()?en:zh; }
+function fqSetName(k){ const s=fqData[k]; return fqIsEn()?(s.nameEn||s.name):s.name; }
+function fqDateSeed(){ const d=new Date(); return d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate(); }
+function fqSeededShuffle(arr,seed){ const r=[...arr]; let s=seed; for(let i=r.length-1;i>0;i--){ s=(s*9301+49297)%233280; const j=Math.floor(s/233280*(i+1)); const t=r[i]; r[i]=r[j]; r[j]=t; } return r; }
+function fqGetDaily(k){ const pool=fqData[k].pool; const seed=fqDateSeed()+(k==='A'?0:77777); return fqSeededShuffle(pool,seed).slice(0,10); }
+function fqCheckUpdated(){ const today=new Date().toDateString(); let last=''; try{ last=localStorage.getItem(FQ_DATE_KEY)||''; }catch(e){} if(last!==today){ const el=document.getElementById('fqUpdated'); if(el) el.style.display='inline-block'; try{ localStorage.setItem(FQ_DATE_KEY,today); }catch(e){} setTimeout(function(){ const e=document.getElementById('fqUpdated'); if(e) e.style.display='none'; },10000); } }
+fqCheckUpdated();
+function fqToggle(){ const p=document.getElementById('fqPanel'); const a=document.getElementById('fqArrow'); if(p.style.display==='none'||!p.style.display){ p.style.display='block'; a.classList.add('open'); } else { p.style.display='none'; a.classList.remove('open'); } }
+function fqSwitchSet(s){ fqSet=s; document.querySelectorAll('.quiz-tab').forEach(t=>t.classList.remove('active')); document.getElementById('fqTab'+s).classList.add('active'); fqStart(); }
+function fqStart(){ fqDailyQs=fqGetDaily(fqSet); fqQ=0; fqScore=0; fqAns=[]; document.getElementById('fqStartScreen').style.display='none'; document.getElementById('fqResult').style.display='none'; document.getElementById('fqMain').style.display='block'; fqShow(); }
+function fqShow(){ const set=fqData[fqSet], q=fqDailyQs[fqQ]; const sn=fqSetName(fqSet); document.getElementById('fqQNum').textContent= fqT('第 ','Q')+(fqQ+1)+' / '+fqDailyQs.length+' '+fqT('题','')+' ['+sn+']'; document.getElementById('fqQText').textContent=q.q; document.getElementById('fqProgFill').style.width=(fqQ/fqDailyQs.length*100)+'%'; const opts=document.getElementById('fqOptions'); opts.innerHTML=''; q.options.forEach(function(opt,i){ const btn=document.createElement('button'); btn.className='quiz-opt'; btn.textContent=opt; btn.onclick=function(){ fqSelect(i,this); }; opts.appendChild(btn); }); document.getElementById('fqFeedback').className='quiz-feedback'; document.getElementById('fqNextBtn').classList.remove('show'); }
+function fqSelect(idx,btn){ const set=fqData[fqSet], q=fqDailyQs[fqQ]; const all=document.querySelectorAll('#fqOptions .quiz-opt'); all.forEach(function(b){ b.classList.add('locked'); }); if(idx===q.answer){ btn.classList.add('correct'); fqScore++; fqAns.push(true); document.getElementById('fqFeedback').textContent=fqT('正确！ ','Correct! ')+q.explain; document.getElementById('fqFeedback').className='quiz-feedback show ok'; } else { btn.classList.add('wrong'); all[q.answer].classList.add('correct'); all.forEach(function(b,i){ if(i!==idx && i!==q.answer) b.classList.add('dim'); }); fqAns.push(false); document.getElementById('fqFeedback').textContent=fqT('不对。 ','Wrong. ')+q.explain; document.getElementById('fqFeedback').className='quiz-feedback show no'; } document.getElementById('fqNextBtn').classList.add('show'); document.getElementById('fqNextBtn').textContent = fqQ===fqDailyQs.length-1 ? fqT('查看结果','See results') : fqT('下一题','Next'); document.getElementById('fqProgFill').style.width=((fqQ+1)/fqDailyQs.length*100)+'%'; }
+function fqNext(){ if(fqQ<fqDailyQs.length-1){ fqQ++; fqShow(); } else { fqResult(); } }
+function fqResult(){ document.getElementById('fqMain').style.display='none'; document.getElementById('fqResult').style.display='block'; fqFinalScore=fqScore*10; document.getElementById('fqScore').textContent=fqFinalScore+' / 100'; document.getElementById('fqSaveMsg').textContent=''; let r; if(fqFinalScore===100) r=fqT('完美！你就是F1百科全书','Perfect! You are the F1 encyclopedia'); else if(fqFinalScore>=80) r=fqT('资深车迷！知识面很广','Hardcore fan! Broad knowledge'); else if(fqFinalScore>=60) r=fqT('不错的车迷，还有提升空间','Decent fan, room to grow'); else if(fqFinalScore>=40) r=fqT('继续关注F1，你会越来越懂','Keep following F1, you will get it'); else r=fqT('刚入门吧？多看几场比赛就熟了','Just starting? Watch a few races and you will learn'); document.getElementById('fqRating').textContent=r; let bd=''; fqDailyQs.forEach(function(q,i){ bd+='<div class="breakdown-item"><span class="bk-ico '+(fqAns[i]?'bk-ok':'bk-no')+'">'+(fqAns[i]?'+':'-')+'</span><span>'+fqT('第','Q')+(i+1)+fqT('题: ','')+(fqAns[i]?fqT('正确','Correct'):fqT('错误','Wrong'))+'</span></div>'; }); document.getElementById('fqBreakdown').innerHTML=bd; fqRenderLeaderboard(); }
+function fqLoadScores(){ try{ return JSON.parse(localStorage.getItem(FQ_LB_KEY)||'[]'); }catch(e){ return []; } }
+function fqSaveScores(list){ try{ localStorage.setItem(FQ_LB_KEY,JSON.stringify(list)); return true; }catch(e){ return false; } }
+function fqSaveScore(){ const nameInput=document.getElementById('fqName'); const name=(nameInput.value||fqT('匿名车手','Anonymous')).trim().slice(0,12); const list=fqLoadScores(); list.push({ name:name, score:fqFinalScore, quizType:fqSet, date:new Date().toLocaleString('zh-CN',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}), ts:Date.now() }); if(fqSaveScores(list)){ document.getElementById('fqSaveMsg').textContent=fqT('成绩已保存到本地排名榜','Score saved to local leaderboard'); nameInput.value=''; fqRenderLeaderboard(); } else { document.getElementById('fqSaveMsg').textContent=fqT('保存失败，浏览器可能禁用了本地存储','Save failed; local storage may be disabled'); } }
+function fqRenderLeaderboard(){ const list=fqLoadScores().filter(function(s){ return s.quizType===fqSet; }).sort(function(a,b){ return b.score-a.score||a.ts-b.ts; }); const statsEl=document.getElementById('fqStats'); const lbEl=document.getElementById('fqLeaderboard'); const sn=fqSetName(fqSet); if(list.length===0){ statsEl.innerHTML=''; lbEl.innerHTML='<div class="quiz-lb-empty">'+fqT('还没有成绩记录，完成测试并保存后就会出现在这里','No scores yet — finish a quiz and save to see it here')+'</div>'; return; } const best=Math.max.apply(null,list.map(function(s){ return s.score; })); const avg=Math.round(list.reduce(function(a,s){ return a+s.score; },0)/list.length); statsEl.innerHTML='<div class="quiz-stat"><div class="num">'+list.length+'</div><div class="label">'+fqT('挑战次数','Attempts')+'</div></div>'+'<div class="quiz-stat"><div class="num">'+best+'</div><div class="label">'+fqT('最佳成绩','Best')+'</div></div>'+'<div class="quiz-stat"><div class="num">'+avg+'</div><div class="label">'+fqT('平均分','Average')+'</div></div>'; let rows=''; const newestTs=list.length?Math.max.apply(null,list.map(function(s){ return s.ts; })):0; list.slice(0,10).forEach(function(s,i){ const me=s.ts===newestTs?'lb-me':''; rows+='<tr class="'+me+'"><td class="lb-rank">#'+(i+1)+'</td><td>'+s.name+'</td><td class="lb-score">'+s.score+fqT('分','')+'</td><td>'+s.date+'</td></tr>'; }); lbEl.innerHTML='<h4><span>&#127942;</span> '+fqT('我的','My')+' '+sn+' '+fqT('排行榜','Leaderboard')+'</h4>'+'<table><thead><tr><th>'+fqT('排名','Rank')+'</th><th>'+fqT('昵称','Name')+'</th><th>'+fqT('分数','Score')+'</th><th>'+fqT('时间','Time')+'</th></tr></thead><tbody>'+rows+'</tbody></table>'; }
+function fqShareCard(){ const score=document.getElementById('fqScore').textContent; const setName=fqSetName(fqSet); const today=new Date().toLocaleDateString('zh-CN'); const canvas=document.createElement('canvas'); canvas.width=600; canvas.height=340; const ctx=canvas.getContext('2d'); const grad=ctx.createLinearGradient(0,0,600,340); grad.addColorStop(0,'#e10600'); grad.addColorStop(1,'#1a1a2e'); ctx.fillStyle=grad; ctx.fillRect(0,0,600,340); ctx.strokeStyle='#ffd700'; ctx.lineWidth=3; ctx.strokeRect(10,10,580,320); ctx.fillStyle='#ffd700'; ctx.font='bold 24px Arial'; ctx.textAlign='center'; ctx.fillText(fqT('F1 知识测试','F1 Knowledge Quiz'),300,50); ctx.fillStyle='#fff'; ctx.font='bold 56px Arial'; ctx.fillText(score,300,130); ctx.font='16px Arial'; ctx.fillStyle='#ccc'; ctx.fillText(setName+' | '+today,300,165); const rating=document.getElementById('fqRating').textContent; ctx.font='bold 18px Arial'; ctx.fillStyle='#fff'; ctx.fillText(rating,300,210); ctx.font='13px Arial'; ctx.fillStyle='#888'; ctx.fillText('vincentxu414.github.io/F1.github.io',300,260); for(let i=0;i<10;i++){ ctx.fillStyle=i%2?'#fff':'#1a1a1a'; ctx.fillRect(240+i*12,290,12,12); } const link=document.createElement('a'); link.download='f1-quiz-'+setName+'-'+today.replace(/\//g,'')+'.png'; link.href=canvas.toDataURL(); link.click(); }
+
 </script>
 </body>
 </html>

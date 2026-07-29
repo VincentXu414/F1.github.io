@@ -856,24 +856,16 @@ var _hmt = _hmt || [];
     <div class="section" style="margin-top:8px;">
         <h2><span class="icon">💬</span><span class="zh">讨论区</span><span class="en">Discussion</span></h2>
         <p style="font-size:13px;color:#888;margin-bottom:14px;">
-            <span class="zh">使用 GitHub 账号即可在下方参与讨论；评论保存在本仓库的 GitHub Discussions 中，所有访客可见。</span>
-            <span class="en">Sign in with your GitHub account to join the discussion below; comments are stored in this repo's GitHub Discussions and visible to all visitors.</span>
+            <span class="zh">无需登录，直接填写昵称即可在下方评论；评论对所有访客可见。</span>
+            <span class="en">No login required — just enter a nickname to comment below; comments are visible to all visitors.</span>
         </p>
-        <script src="https://giscus.app/client.js"
-                data-repo="VincentXu414/F1.github.io"
-                data-repo-id="R_kgDOTlj3UQ"
-                data-category="General"
-                data-category-id="DIC_kwDOTlj3Uc4DCM92"
-                data-mapping="pathname"
-                data-strict="0"
-                data-reactions-enabled="1"
-                data-emit-metadata="0"
-                data-input-position="bottom"
-                data-theme="light"
-                data-lang="zh-CN"
-                data-loading="lazy"
-                crossorigin="anonymous"
-                async>
+        <div id="hyvor-talk-view"></div>
+        <script type="module">
+            import { init } from "https://talk.hyvor.com/embed/embed.js";
+            init({
+                "website-id": 0, // TODO: 替换为你的 Hyvor Talk 网站 ID（在 https://hyvor.com/talk 注册后获取）
+                "widget-language": "zh-CN"
+            });
         </script>
     </div>
 

@@ -9,9 +9,9 @@
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; background: #f4f5f7; color: #1a1a1a; line-height: 1.6; }
-    .container { max-width: 1100px; margin: 0 auto; padding: 24px; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 18px; }
 
-    .report-header { text-align: center; padding: 32px 0; border-bottom: 3px solid #e10600; margin-bottom: 32px; }
+    .report-header { text-align: center; padding: 24px 0 18px; border-bottom: 3px solid #e10600; margin-bottom: 18px; }
     .report-header h1 { font-size: 28px; color: #1a1a1a; margin-bottom: 8px; }
     .report-header .subtitle { color: #666; font-size: 15px; }
     .report-header .race-badge { display: inline-block; background: #e10600; color: #fff; padding: 4px 16px; border-radius: 4px; font-size: 13px; margin-top: 8px; font-weight: 600; }
@@ -29,7 +29,7 @@
     .summerbreak-banner .race-timer { display: block; width: 100%; margin-top: 8px; font-size: 22px; font-weight: 800; color: #fff; letter-spacing: 0.5px; text-shadow: 0 1px 3px rgba(0,0,0,0.25); }
     .summerbreak-banner .race-timer .num { display: inline-block; min-width: 1.1em; text-align: center; color: #ffd700; }
 
-    .section { background: #fff; border-radius: 12px; padding: 24px; margin-bottom: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+    .section { background: #fff; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
     .section h2 { font-size: 20px; color: #1a1a1a; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #f0f0f0; display: flex; align-items: center; gap: 8px; }
     .section h2 .icon { font-size: 22px; }
 
@@ -81,15 +81,15 @@
     .upgrade-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; flex-wrap: wrap; }
     .upgrade-team { font-size: 16px; font-weight: 700; }
     .upgrade-desc { font-size: 14px; color: #555; margin-bottom: 8px; }
-    .upgrade-impact { font-size: 13px; color: #333; background: #fff3cd; padding: 8px 12px; border-radius: 6px; }
+    .upgrade-impact { font-size: 13px; color: #CCCCCC; background: #2A2A35; padding: 8px 12px; border-radius: 6px; border-left:3px solid #666; }
 
     .dark-horse-card { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #fff; border-radius: 12px; padding: 24px; margin-bottom: 24px; text-align: center; }
     .dark-horse-card h3 { color: #ffd700; margin-bottom: 12px; font-size: 18px; }
     .dh-driver { font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 8px; }
     .dh-reason { font-size: 14px; color: #ccc; }
 
-    .chart-container { position: relative; height: 400px; margin-top: 16px; }
-    .chart-container-sm { position: relative; height: 300px; margin-top: 16px; }
+    .chart-container { position: relative; height: 260px; margin-top: 16px; background:#1F1F1F; border-radius:12px; padding:12px; border:1px solid #333; }
+
 
     .disclaimer { font-size: 12px; color: #999; text-align: center; padding: 16px; border-top: 1px solid #eee; margin-top: 24px; }
 
@@ -184,6 +184,134 @@
     #backToTop { position: fixed; bottom: 28px; right: 24px; width: 46px; height: 46px; border-radius: 50%; background: #E10600; color: #fff; border: none; font-size: 22px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.3); opacity: 0; visibility: hidden; transition: opacity .3s, transform .2s; z-index: 999; }
     #backToTop.show { opacity: 1; visibility: visible; }
     #backToTop:hover { transform: translateY(-3px); }
+
+/* ============ F1 DARK THEME ============ */
+html { scroll-behavior: smooth; }
+body { background:#15151E; color:#CCCCCC; }
+#backToTop { background:#E10600; }
+.container { max-width: 1180px; }
+[class].section, .section { scroll-margin-top: 76px; }
+
+.report-header { background:#1F1F1F; border-bottom:3px solid #E10600; border-radius:0 0 14px 14px; padding:30px 24px; }
+.report-header h1 { color:#FFFFFF; }
+.report-header .subtitle { color:#AAAAAA; }
+.report-header .race-badge { background:#E10600; }
+
+.section { background:#1F1F1F; border-radius:14px; box-shadow:0 1px 6px rgba(0,0,0,0.45); border:1px solid #2A2A32; padding:16px; margin-bottom:12px; }
+.section h2 { color:#FFFFFF; border-bottom:2px solid #2A2A32; }
+.section h2 .icon { color:#E10600; }
+.disclaimer { color:#888; border-top:1px solid #2A2A32; }
+
+.info-item { background:#26262E; }
+.info-item .label { color:#999; }
+.info-item .value { color:#FFFFFF; }
+.track-item { background:#26262E; }
+.track-label { color:#999; }
+.track-value { color:#FFFFFF; }
+
+/* tables */
+table { background:transparent; margin-bottom:0; }
+th { background:linear-gradient(135deg,#E10600,#B00500); color:#FFFFFF; border-bottom:none; font-size:12px; }
+td { border-bottom:1px solid #2A2A32; color:#DDDDDD; }
+tr:hover td { background:#2A2A32; }
+tr.podium td { background:transparent !important; color:#FFFFFF !important; }
+tr.podium:hover td { background:#2A2A32 !important; color:#FFFFFF !important; }
+tr.podium .driver-cell, tr.podium .points-cell, tr.podium td { color:#FFFFFF !important; }
+tr.podium .pos-cell { text-shadow:0 0 6px rgba(255,215,0,0.5); }
+.pos-cell { color:#FFD700; font-weight:800; font-size:18px; }
+#sec-drivers table tbody tr:nth-child(1) td:first-child,
+#sec-constructors table tbody tr:nth-child(1) td:first-child { box-shadow: inset 4px 0 0 #FFD700; }
+#sec-drivers table tbody tr:nth-child(2) td:first-child,
+#sec-constructors table tbody tr:nth-child(2) td:first-child { box-shadow: inset 4px 0 0 #C0C0C0; }
+#sec-drivers table tbody tr:nth-child(3) td:first-child,
+#sec-constructors table tbody tr:nth-child(3) td:first-child { box-shadow: inset 4px 0 0 #CD7F32; }
+.driver-cell { color:#FFFFFF; }
+.team-bar { width:6px; height:22px; }
+.points-cell { color:#FFFFFF; }
+
+/* quiz dark */
+.quiz-card { background:#26262E; }
+.quiz-tab { background:#26262E; color:#CCC; border-color:#333; }
+.quiz-tab.active { background:#E10600; color:#fff; border-color:#E10600; }
+.quiz-opt { background:#26262E; color:#EEE; border-color:#333; }
+.quiz-opt:hover:not(.locked) { background:#33232A; border-color:#E10600; }
+.quiz-save-row input { background:#26262E; color:#fff; border:1px solid #333; }
+.quiz-lb th { background:#26262E; color:#CCC; }
+.quiz-lb td { border-top:1px solid #2A2A32; }
+.quiz-stat { background:#26262E; }
+.quiz-lb-empty { background:#26262E; }
+
+/* prediction dark */
+.pred-card { background:#26262E; border-color:#333; }
+.pred-driver { color:#fff; }
+.pred-team { color:#AAA; }
+.score-bar label { color:#AAA; }
+.bar-track { background:#333; }
+
+/* upgrade dark */
+.upgrade-card { background:#26262E !important; border:1px solid #333 !important; color:#EEEEEE !important; }
+.upgrade-header { color:#FFFFFF; }
+.upgrade-team { color:#FFFFFF; }
+.upgrade-desc { color:#CCCCCC !important; }
+.upgrade-impact { background:#2A2A35 !important; color:#CCCCCC !important; border-left:3px solid #666 !important; border-radius:6px !important; }
+
+/* upgrade dark */
+.upgrade-card { background:#26262E !important; border:1px solid #333 !important; color:#EEEEEE !important; }
+.upgrade-header { color:#FFFFFF; }
+.upgrade-team { color:#FFFFFF; }
+.upgrade-desc { color:#CCCCCC !important; }
+.upgrade-impact { background:#2A2A35 !important; color:#CCCCCC !important; border-left:3px solid #666 !important; border-radius:6px !important; }
+
+/* ============ NAVBAR ============ */
+.f1-nav { position:sticky; top:0; z-index:500; display:flex; align-items:center; justify-content:space-between; background:rgba(21,21,30,0.96); backdrop-filter:blur(8px); padding:10px 24px; border-bottom:3px solid #E10600; box-shadow:0 2px 12px rgba(0,0,0,0.55); }
+.f1-logo { font-style:italic; font-weight:900; font-size:26px; letter-spacing:-1px; color:#E10600; background:#fff; padding:2px 11px; border-radius:4px; transform:skewX(-12deg); line-height:1; }
+.f1-nav-links { display:flex; gap:20px; }
+.f1-nav-links a { color:#CCC; text-decoration:none; font-size:14px; font-weight:600; transition:color .2s, border-color .2s; border-bottom:2px solid transparent; padding-bottom:2px; }
+.f1-nav-links a:hover { color:#fff; border-bottom-color:#E10600; }
+
+/* ============ CHECKERED FLAG ============ */
+.f1-checkered { position:fixed; right:0; bottom:92px; width:54px; height:54px; z-index:400; opacity:0.9; border-top-left-radius:10px; background:repeating-conic-gradient(#000 0% 25%, #fff 0% 50%) 0/18px 18px; box-shadow:-2px -2px 10px rgba(0,0,0,0.5); }
+
+/* ============ SCHEDULE TRACK ============ */
+.schedule-track { display:flex; gap:10px; overflow-x:auto; padding:4px 2px 14px; margin-bottom:18px; }
+.sch-node { flex:0 0 auto; min-width:124px; padding:12px 14px; border-radius:10px; text-align:center; }
+.sch-name { font-weight:700; font-size:14px; }
+.sch-date { font-size:12px; opacity:0.85; margin-top:4px; }
+.sch-done { background:#16261B; border:1px solid #198754; color:#9FE3B5; }
+.sch-done .sch-name::before { content:"\2713  "; color:#198754; font-weight:900; }
+.sch-next { background:linear-gradient(135deg,#E10600,#B00500); color:#fff; animation:f1pulse 1.4s ease-in-out infinite; }
+@keyframes f1pulse { 0%,100% { box-shadow:0 0 0 0 rgba(225,6,0,0.6); } 50% { box-shadow:0 0 0 9px rgba(225,6,0,0); } }
+.sch-todo { background:#23232B; border:1px solid #333; color:#888; cursor:pointer; transition:all .2s; }
+.sch-todo:hover { background:#2E2E38; border-color:#E10600; color:#fff; transform:translateY(-2px); }
+.sch-next { cursor:pointer; }
+
+/* ============ DRIVER CARDS ============ */
+.driver-cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:14px; margin:6px 0 22px; }
+.dcard { background:#26262E; border:1px solid #333; border-radius:12px; padding:16px; text-align:center; transition:transform .25s, box-shadow .25s; position:relative; overflow:hidden; }
+.dcard:hover { transform:translateY(-6px); box-shadow:0 12px 26px rgba(0,0,0,0.55); }
+.dcard .dpos { position:absolute; top:10px; left:12px; font-weight:900; font-size:18px; color:#FFD700; }
+.dcard .davatar { width:54px; height:54px; border-radius:50%; margin:0 auto 10px; display:flex; align-items:center; justify-content:center; font-size:19px; font-weight:800; color:#fff; }
+.dcard .dname { font-weight:700; color:#fff; font-size:15px; }
+.dcard .dflag { font-size:15px; margin-left:4px; }
+.dcard .dflag-badge { display:inline-block; font-size:10px; font-weight:800; color:#15151E; background:#FFD700; padding:1px 5px; border-radius:4px; margin-left:5px; vertical-align:middle; }
+.dcard .dteam { font-size:12px; color:#AAA; margin-top:2px; }
+.dcard .dpoints { margin-top:10px; font-size:22px; font-weight:900; color:#FFD700; }
+.dcard .dplabel { font-size:11px; color:#888; }
+
+/* ============ SCROLL FADE-IN ============ */
+.section { opacity:0; transform:translateY(24px); transition:opacity .6s ease, transform .6s ease; }
+.section.visible { opacity:1; transform:none; }
+@media (prefers-reduced-motion:reduce) { .section { opacity:1; transform:none; transition:none; } }
+
+/* ============ RESPONSIVE ============ */
+.table-wrap { width:100%; overflow-x:auto; }
+@media (max-width:768px) {
+  .driver-cards { grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); }
+  .f1-nav-links { gap:11px; }
+  .f1-nav-links a { font-size:12px; }
+  .f1-logo { font-size:22px; }
+}
+
 </style>
 <!-- Baidu Analytics -->
 <script>
@@ -245,6 +373,18 @@ var _hmt = _hmt || [];
 
 </head>
 <body class="lang-zh">
+
+<nav class="f1-nav">
+  <div class="f1-logo">F1</div>
+  <div class="f1-nav-links">
+    <a href="#sec-prediction">赛程</a>
+    <a href="#sec-drivers">车手榜</a>
+    <a href="#sec-constructors">车队榜</a>
+    <a href="#sec-recent">回顾</a>
+    <a href="#sec-quiz">答题</a>
+  </div>
+</nav>
+
 <div class="container">
 
     
@@ -261,7 +401,7 @@ var _hmt = _hmt || [];
 
     <div class="report-header"><div class="lang-switch" role="group" aria-label="Language"><button type="button" class="lang-btn active" data-lang="zh">中文</button><button type="button" class="lang-btn" data-lang="en">EN</button></div>
         <h1><span class="zh">F1 2026 赛季追踪报告</span><span class="en">F1 2026 Season Tracking Report</span></h1>
-        <div class="subtitle"><span class="zh">报告生成日期: 2026-07-29 17:35（北京时间）</span><span class="en">Report generated: 2026-07-29 17:35 (Beijing Time)</span></div>
+        <div class="subtitle"><span class="zh">报告生成日期: 2026-07-29 18:26（北京时间）</span><span class="en">Report generated: 2026-07-29 18:26 (Beijing Time)</span></div>
         <div class="race-badge"><span class="zh">最近完赛: 匈牙利大奖赛</span><span class="en">Last race: Hungarian GP</span></div>
     </div>
 
@@ -315,218 +455,19 @@ var _hmt = _hmt || [];
     <!-- QUIZ_END -->
 
     <div class="section" id="sec-prediction">
-        <h2><span class="icon">🔮</span><span class="zh">下一场预测: 荷兰大奖赛（赞德沃特告别战）</span><span class="en">Next Race Prediction: Dutch GP (Zandvoort Farewell)</span></h2>
-        <div class="info-grid">
+        <h2><span class="icon">🔮</span><span class="zh">赛程与赛道信息</span><span class="en">Race Calendar & Track Info</span></h2>
+        <div id="race-selected-label" style="color:#FFD700;font-weight:700;margin:-8px 0 12px;font-size:15px;"><span class="zh">当前选择：荷兰大奖赛</span><span class="en">Selected: Dutch GP</span></div>
+        <div class="info-grid" id="race-info-grid">
             <div class="info-item"><div class="label"><span class="zh">赛道</span><span class="en">Circuit</span></div><div class="value"><span class="zh">赞德沃特赛道</span><span class="en">Zandvoort Circuit</span></div></div>
             <div class="info-item"><div class="label"><span class="zh">日期</span><span class="en">Date</span></div><div class="value">2026-08-23</div></div>
             <div class="info-item"><div class="label"><span class="zh">国家</span><span class="en">Country</span></div><div class="value"><span class="zh">荷兰</span><span class="en">Netherlands</span></div></div>
             <div class="info-item"><div class="label"><span class="zh">天气预测</span><span class="en">Weather forecast</span></div><div class="value"><span class="zh">8月21-23日 赞德沃特: 气温20-24°C/14-16°C, 8月平均7个雨天, 有降雨可能性, 海风影响空气动力学设定</span><span class="en">Aug 21-23 Zandvoort: temp 20-24°C/14-16°C, avg 7 rainy days in August, rain possible, sea breeze affects aero setup</span></div></div>
         </div>
-        <div class='track-grid'><div class='track-item'><span class='track-label'><span class="zh">类型</span><span class="en">Type</span></span><span class='track-value'><span class="zh">永久赛道/混合赛道</span><span class="en">Permanent/Hybrid circuit</span></span></div><div class='track-item'><span class='track-label'><span class="zh">长度</span><span class="en">Length</span></span><span class='track-value'>4.259 km</span></div><div class='track-item'><span class='track-label'><span class="zh">圈数</span><span class="en">Laps</span></span><span class='track-value'>72</span></div><div class='track-item'><span class='track-label'><span class="zh">比赛距离</span><span class="en">Race distance</span></span><span class='track-value'>306.587 km</span></div><div class='track-item'><span class='track-label'><span class="zh">弯道</span><span class="en">Corners</span></span><span class='track-value'><span class="zh">14 (10右弯 + 4左弯)</span><span class="en">14 (10 right + 4 left corners)</span></span></div><div class='track-item'><span class='track-label'><span class="zh">下压力</span><span class="en">Downforce</span></span><span class='track-value'><span class="zh">高下压力</span><span class="en">High downforce</span></span></div><div class='track-item'><span class='track-label'><span class="zh">轮胎磨损</span><span class="en">Tyre wear</span></span><span class='track-value'><span class="zh">中等</span><span class="en">Medium</span></span></div><div class='track-item'><span class='track-label'><span class="zh">超车难度</span><span class="en">Overtaking difficulty</span></span><span class='track-value'><span class="zh">困难</span><span class="en">Hard</span></span></div><div class='track-item'><span class='track-label'><span class="zh">DRS区域</span><span class="en">DRS zones</span></span><span class='track-value'>2</span></div><div class='track-item'><span class='track-label'><span class="zh">倾斜弯道</span><span class="en">Banked corners</span></span><span class='track-value'><span class="zh">T3 Hugenholtz (18度) + T14 Arie Luyendyk (19度)</span><span class="en">T3 Hugenholtz (18°) + T14 Arie Luyendyk (19°)</span></span></div><div class='track-item'><span class='track-label'><span class="zh">圈速纪录</span><span class="en">Lap record</span></span><span class='track-value'>1:11.097 (Hamilton 2021)</span></div><div class='track-item'><span class='track-label'><span class="zh">赛制</span><span class="en">Format</span></span><span class='track-value'><span class="zh">冲刺赛周末 (Sprint)</span><span class="en">Sprint weekend (Sprint)</span></span></div></div>
-        <div class="chart-container">
-            <canvas id="predictionChart"></canvas>
-        </div>
-        
-            <div class="pred-card">
-                <div class="pred-header" style="border-left:4px solid #00D2BE">
-                    <span class="pred-pos">P1</span>
-                    <span class="pred-driver">Kimi Antonelli</span>
-                    <span class="pred-team">Mercedes</span>
-                    <span class="badge" style="background:#d1e7dd;color:#198754;border:1px solid #198754;">HIGH</span>
-                    <span class="pred-score">87.9</span>
-                </div>
-                <div class="pred-scores">
-                    <div class="score-bar"><label><span class="zh">近期状态</span><span class="en">Recent form</span></label><div class="bar-track"><div class="bar-fill" style="width:92%;background:#0d6efd"></div></div><span>92</span></div>
-                    <div class="score-bar"><label><span class="zh">赛道历史</span><span class="en">Track history</span></label><div class="bar-track"><div class="bar-fill" style="width:70%;background:#6610f2"></div></div><span>70</span></div>
-                    <div class="score-bar"><label><span class="zh">赛车性能</span><span class="en">Car performance</span></label><div class="bar-track"><div class="bar-fill" style="width:95%;background:#fd7e14"></div></div><span>95</span></div>
-                    <div class="score-bar"><label><span class="zh">练习赛</span><span class="en">Practice</span></label><div class="bar-track"><div class="bar-fill" style="width:95%;background:#20c997"></div></div><span>95</span></div>
-                </div>
-                <div class="pred-details">
-                    <div class='pred-factors'><strong><span class="zh">有利因素</span><span class="en">Strengths</span></strong><ul><li><span class="zh">赛季7胜领跑积分榜</span><span class="en">7 wins this season, leading the standings</span></li><li><span class="zh">Mercedes本赛季11场9胜统治级表现</span><span class="en">Mercedes dominant with 9 wins from 11 races this season</span></li><li><span class="zh">比利时站冠军+匈牙利站季军</span><span class="en">Belgian GP win + Hungarian GP P3</span></li></ul></div>
-                    <div class='pred-factors risk'><strong><span class="zh">风险因素</span><span class="en">Risks</span></strong><ul><li><span class="zh">赞德沃特无历史胜绩</span><span class="en">No Zandvoort win to date</span></li><li><span class="zh">冲刺赛周末仅1次练习赛</span><span class="en">Sprint weekend with only one practice session</span></li></ul></div>
-                </div>
-            </div>
-            <div class="pred-card">
-                <div class="pred-header" style="border-left:4px solid #FF8000">
-                    <span class="pred-pos">P2</span>
-                    <span class="pred-driver">Lando Norris</span>
-                    <span class="pred-team">McLaren</span>
-                    <span class="badge" style="background:#fff3cd;color:#FFC107;border:1px solid #FFC107;">MEDIUM</span>
-                    <span class="pred-score">84.9</span>
-                </div>
-                <div class="pred-scores">
-                    <div class="score-bar"><label><span class="zh">近期状态</span><span class="en">Recent form</span></label><div class="bar-track"><div class="bar-fill" style="width:85%;background:#0d6efd"></div></div><span>85</span></div>
-                    <div class="score-bar"><label><span class="zh">赛道历史</span><span class="en">Track history</span></label><div class="bar-track"><div class="bar-fill" style="width:90%;background:#6610f2"></div></div><span>90</span></div>
-                    <div class="score-bar"><label><span class="zh">赛车性能</span><span class="en">Car performance</span></label><div class="bar-track"><div class="bar-fill" style="width:82%;background:#fd7e14"></div></div><span>82</span></div>
-                    <div class="score-bar"><label><span class="zh">练习赛</span><span class="en">Practice</span></label><div class="bar-track"><div class="bar-fill" style="width:82%;background:#20c997"></div></div><span>82</span></div>
-                </div>
-                <div class="pred-details">
-                    <div class='pred-factors'><strong><span class="zh">有利因素</span><span class="en">Strengths</span></strong><ul><li><span class="zh">2024赞德沃特冠军</span><span class="en">2024 Zandvoort winner</span></li><li><span class="zh">匈牙利站刚夺冠士气正旺</span><span class="en">Hungary recent win, high morale</span></li><li><span class="zh">McLaren近2年统治赞德沃特(2024+2025)</span><span class="en">McLaren dominated Zandvoort in the last two years (2024+2025)</span></li></ul></div>
-                    <div class='pred-factors risk'><strong><span class="zh">风险因素</span><span class="en">Risks</span></strong><ul><li><span class="zh">McLaren赛车速度不及Mercedes</span><span class="en">McLaren car speed below Mercedes</span></li></ul></div>
-                </div>
-            </div>
-            <div class="pred-card">
-                <div class="pred-header" style="border-left:4px solid #00D2BE">
-                    <span class="pred-pos">P3</span>
-                    <span class="pred-driver">George Russell</span>
-                    <span class="pred-team">Mercedes</span>
-                    <span class="badge" style="background:#fff3cd;color:#FFC107;border:1px solid #FFC107;">MEDIUM</span>
-                    <span class="pred-score">84.7</span>
-                </div>
-                <div class="pred-scores">
-                    <div class="score-bar"><label><span class="zh">近期状态</span><span class="en">Recent form</span></label><div class="bar-track"><div class="bar-fill" style="width:83%;background:#0d6efd"></div></div><span>83</span></div>
-                    <div class="score-bar"><label><span class="zh">赛道历史</span><span class="en">Track history</span></label><div class="bar-track"><div class="bar-fill" style="width:68%;background:#6610f2"></div></div><span>68</span></div>
-                    <div class="score-bar"><label><span class="zh">赛车性能</span><span class="en">Car performance</span></label><div class="bar-track"><div class="bar-fill" style="width:95%;background:#fd7e14"></div></div><span>95</span></div>
-                    <div class="score-bar"><label><span class="zh">练习赛</span><span class="en">Practice</span></label><div class="bar-track"><div class="bar-fill" style="width:95%;background:#20c997"></div></div><span>95</span></div>
-                </div>
-                <div class="pred-details">
-                    <div class='pred-factors'><strong><span class="zh">有利因素</span><span class="en">Strengths</span></strong><ul><li><span class="zh">Mercedes赛车统治力</span><span class="en">Mercedes car dominance</span></li><li><span class="zh">本赛季2胜(澳洲+奥地利)</span><span class="en">2 wins this season (Australia + Austria)</span></li><li><span class="zh">英国站P2近期状态佳</span><span class="en">British GP P2, good recent form</span></li></ul></div>
-                    <div class='pred-factors risk'><strong><span class="zh">风险因素</span><span class="en">Risks</span></strong><ul><li><span class="zh">赞德沃特历史成绩一般</span><span class="en">Zandvoort historical results average</span></li><li><span class="zh">匈牙利起步故障P7需反弹</span><span class="en">Hungary start issue P7 needs recovery</span></li></ul></div>
-                </div>
-            </div>
-            <div class="pred-card">
-                <div class="pred-header" style="border-left:4px solid #DC0000">
-                    <span class="pred-pos">P4</span>
-                    <span class="pred-driver">Lewis Hamilton</span>
-                    <span class="pred-team">Ferrari</span>
-                    <span class="badge" style="background:#fff3cd;color:#FFC107;border:1px solid #FFC107;">MEDIUM</span>
-                    <span class="pred-score">83.1</span>
-                </div>
-                <div class="pred-scores">
-                    <div class="score-bar"><label><span class="zh">近期状态</span><span class="en">Recent form</span></label><div class="bar-track"><div class="bar-fill" style="width:80%;background:#0d6efd"></div></div><span>80</span></div>
-                    <div class="score-bar"><label><span class="zh">赛道历史</span><span class="en">Track history</span></label><div class="bar-track"><div class="bar-fill" style="width:78%;background:#6610f2"></div></div><span>78</span></div>
-                    <div class="score-bar"><label><span class="zh">赛车性能</span><span class="en">Car performance</span></label><div class="bar-track"><div class="bar-fill" style="width:88%;background:#fd7e14"></div></div><span>88</span></div>
-                    <div class="score-bar"><label><span class="zh">练习赛</span><span class="en">Practice</span></label><div class="bar-track"><div class="bar-fill" style="width:88%;background:#20c997"></div></div><span>88</span></div>
-                </div>
-                <div class="pred-details">
-                    <div class='pred-factors'><strong><span class="zh">有利因素</span><span class="en">Strengths</span></strong><ul><li><span class="zh">赞德沃特圈速纪录保持者(2021)</span><span class="en">Zandvoort lap-record holder (2021)</span></li><li><span class="zh">Ferrari赛季2胜竞争力强</span><span class="en">Ferrari competitive with 2 wins this season</span></li><li><span class="zh">巴塞罗那站冠军</span><span class="en">Barcelona GP winner</span></li></ul></div>
-                    <div class='pred-factors risk'><strong><span class="zh">风险因素</span><span class="en">Risks</span></strong><ul><li><span class="zh">匈牙利5秒罚时跌至P5</span><span class="en">Hungary 5s penalty dropped to P5</span></li><li><span class="zh">年龄因素长距离耐力</span><span class="en">Age factor, long-run endurance</span></li></ul></div>
-                </div>
-            </div>
-            <div class="pred-card">
-                <div class="pred-header" style="border-left:4px solid #1E2B5E">
-                    <span class="pred-pos">P5</span>
-                    <span class="pred-driver">Max Verstappen</span>
-                    <span class="pred-team">Red Bull</span>
-                    <span class="badge" style="background:#fff3cd;color:#FFC107;border:1px solid #FFC107;">MEDIUM</span>
-                    <span class="pred-score">82.2</span>
-                </div>
-                <div class="pred-scores">
-                    <div class="score-bar"><label><span class="zh">近期状态</span><span class="en">Recent form</span></label><div class="bar-track"><div class="bar-fill" style="width:85%;background:#0d6efd"></div></div><span>85</span></div>
-                    <div class="score-bar"><label><span class="zh">赛道历史</span><span class="en">Track history</span></label><div class="bar-track"><div class="bar-fill" style="width:97%;background:#6610f2"></div></div><span>97</span></div>
-                    <div class="score-bar"><label><span class="zh">赛车性能</span><span class="en">Car performance</span></label><div class="bar-track"><div class="bar-fill" style="width:72%;background:#fd7e14"></div></div><span>72</span></div>
-                    <div class="score-bar"><label><span class="zh">练习赛</span><span class="en">Practice</span></label><div class="bar-track"><div class="bar-fill" style="width:72%;background:#20c997"></div></div><span>72</span></div>
-                </div>
-                <div class="pred-details">
-                    <div class='pred-factors'><strong><span class="zh">有利因素</span><span class="en">Strengths</span></strong><ul><li><span class="zh">赞德沃特3连冠(2021-2023)主场作战</span><span class="en">Zandvoort 3-in-a-row (2021-2023), home race</span></li><li><span class="zh">最后一届荷兰大奖赛情感加持</span><span class="en">Final Dutch GP, emotional boost</span></li><li><span class="zh">近5站3次领奖台状态稳定</span><span class="en">3 podiums in last 5 races, stable form</span></li></ul></div>
-                    <div class='pred-factors risk'><strong><span class="zh">风险因素</span><span class="en">Risks</span></strong><ul><li><span class="zh">Red Bull仅列车队第4速度不足</span><span class="en">Red Bull only 4th in constructors, lacking pace</span></li><li><span class="zh">本赛季0胜</span><span class="en">0 wins this season</span></li></ul></div>
-                </div>
-            </div>
-            <div class="pred-card">
-                <div class="pred-header" style="border-left:4px solid #DC0000">
-                    <span class="pred-pos">P6</span>
-                    <span class="pred-driver">Charles Leclerc</span>
-                    <span class="pred-team">Ferrari</span>
-                    <span class="badge" style="background:#fff3cd;color:#FFC107;border:1px solid #FFC107;">MEDIUM</span>
-                    <span class="pred-score">81.7</span>
-                </div>
-                <div class="pred-scores">
-                    <div class="score-bar"><label><span class="zh">近期状态</span><span class="en">Recent form</span></label><div class="bar-track"><div class="bar-fill" style="width:82%;background:#0d6efd"></div></div><span>82</span></div>
-                    <div class="score-bar"><label><span class="zh">赛道历史</span><span class="en">Track history</span></label><div class="bar-track"><div class="bar-fill" style="width:70%;background:#6610f2"></div></div><span>70</span></div>
-                    <div class="score-bar"><label><span class="zh">赛车性能</span><span class="en">Car performance</span></label><div class="bar-track"><div class="bar-fill" style="width:88%;background:#fd7e14"></div></div><span>88</span></div>
-                    <div class="score-bar"><label><span class="zh">练习赛</span><span class="en">Practice</span></label><div class="bar-track"><div class="bar-fill" style="width:88%;background:#20c997"></div></div><span>88</span></div>
-                </div>
-                <div class="pred-details">
-                    <div class='pred-factors'><strong><span class="zh">有利因素</span><span class="en">Strengths</span></strong><ul><li><span class="zh">Ferrari赛车竞争力</span><span class="en">Ferrari car competitiveness</span></li><li><span class="zh">英国站冠军+比利时站P2</span><span class="en">British GP win + Belgian GP P2</span></li></ul></div>
-                    <div class='pred-factors risk'><strong><span class="zh">风险因素</span><span class="en">Risks</span></strong><ul><li><span class="zh">赞德沃特无突出历史成绩</span><span class="en">No standout Zandvoort history</span></li><li><span class="zh">法拉利策略不确定性</span><span class="en">Ferrari strategy uncertainty</span></li></ul></div>
-                </div>
-            </div>
-            <div class="pred-card">
-                <div class="pred-header" style="border-left:4px solid #FF8000">
-                    <span class="pred-pos">P7</span>
-                    <span class="pred-driver">Oscar Piastri</span>
-                    <span class="pred-team">McLaren</span>
-                    <span class="badge" style="background:#fff3cd;color:#FFC107;border:1px solid #FFC107;">MEDIUM</span>
-                    <span class="pred-score">81.5</span>
-                </div>
-                <div class="pred-scores">
-                    <div class="score-bar"><label><span class="zh">近期状态</span><span class="en">Recent form</span></label><div class="bar-track"><div class="bar-fill" style="width:72%;background:#0d6efd"></div></div><span>72</span></div>
-                    <div class="score-bar"><label><span class="zh">赛道历史</span><span class="en">Track history</span></label><div class="bar-track"><div class="bar-fill" style="width:92%;background:#6610f2"></div></div><span>92</span></div>
-                    <div class="score-bar"><label><span class="zh">赛车性能</span><span class="en">Car performance</span></label><div class="bar-track"><div class="bar-fill" style="width:82%;background:#fd7e14"></div></div><span>82</span></div>
-                    <div class="score-bar"><label><span class="zh">练习赛</span><span class="en">Practice</span></label><div class="bar-track"><div class="bar-fill" style="width:82%;background:#20c997"></div></div><span>82</span></div>
-                </div>
-                <div class="pred-details">
-                    <div class='pred-factors'><strong><span class="zh">有利因素</span><span class="en">Strengths</span></strong><ul><li><span class="zh">2025赞德沃特卫冕冠军</span><span class="en">2025 Zandvoort defending champion</span></li><li><span class="zh">2025赞德沃特排位赛纪录保持者</span><span class="en">2025 Zandvoort qualifying record holder</span></li><li><span class="zh">McLaren近2年统治此赛道</span><span class="en">McLaren dominated this circuit over the last two years</span></li></ul></div>
-                    <div class='pred-factors risk'><strong><span class="zh">风险因素</span><span class="en">Risks</span></strong><ul><li><span class="zh">匈牙利站DNF(变速箱故障)</span><span class="en">Hungary DNF (gearbox)</span></li><li><span class="zh">本赛季0胜积分仅92</span><span class="en">0 wins this season, only 92 points</span></li></ul></div>
-                </div>
-            </div>
-            <div class="pred-card">
-                <div class="pred-header" style="border-left:4px solid #1E2B5E">
-                    <span class="pred-pos">P8</span>
-                    <span class="pred-driver">Isack Hadjar</span>
-                    <span class="pred-team">Red Bull</span>
-                    <span class="badge" style="background:#f8d7da;color:#DC3545;border:1px solid #DC3545;">LOW</span>
-                    <span class="pred-score">65.7</span>
-                </div>
-                <div class="pred-scores">
-                    <div class="score-bar"><label><span class="zh">近期状态</span><span class="en">Recent form</span></label><div class="bar-track"><div class="bar-fill" style="width:65%;background:#0d6efd"></div></div><span>65</span></div>
-                    <div class="score-bar"><label><span class="zh">赛道历史</span><span class="en">Track history</span></label><div class="bar-track"><div class="bar-fill" style="width:55%;background:#6610f2"></div></div><span>55</span></div>
-                    <div class="score-bar"><label><span class="zh">赛车性能</span><span class="en">Car performance</span></label><div class="bar-track"><div class="bar-fill" style="width:72%;background:#fd7e14"></div></div><span>72</span></div>
-                    <div class="score-bar"><label><span class="zh">练习赛</span><span class="en">Practice</span></label><div class="bar-track"><div class="bar-fill" style="width:72%;background:#20c997"></div></div><span>72</span></div>
-                </div>
-                <div class="pred-details">
-                    <div class='pred-factors'><strong><span class="zh">有利因素</span><span class="en">Strengths</span></strong><ul><li><span class="zh">匈牙利站P6稳定得分</span><span class="en">Hungary P6, steady points</span></li></ul></div>
-                    <div class='pred-factors risk'><strong><span class="zh">风险因素</span><span class="en">Risks</span></strong><ul><li><span class="zh">赞德沃特无历史经验</span><span class="en">No Zandvoort experience</span></li><li><span class="zh">Red Bull二号为车队贡献有限</span><span class="en">Red Bull junior driver contributes limited points</span></li></ul></div>
-                </div>
-            </div>
-            <div class="pred-card">
-                <div class="pred-header" style="border-left:4px solid #6692FF">
-                    <span class="pred-pos">P9</span>
-                    <span class="pred-driver">Liam Lawson</span>
-                    <span class="pred-team">Racing Bulls</span>
-                    <span class="badge" style="background:#f8d7da;color:#DC3545;border:1px solid #DC3545;">LOW</span>
-                    <span class="pred-score">56.9</span>
-                </div>
-                <div class="pred-scores">
-                    <div class="score-bar"><label><span class="zh">近期状态</span><span class="en">Recent form</span></label><div class="bar-track"><div class="bar-fill" style="width:58%;background:#0d6efd"></div></div><span>58</span></div>
-                    <div class="score-bar"><label><span class="zh">赛道历史</span><span class="en">Track history</span></label><div class="bar-track"><div class="bar-fill" style="width:50%;background:#6610f2"></div></div><span>50</span></div>
-                    <div class="score-bar"><label><span class="zh">赛车性能</span><span class="en">Car performance</span></label><div class="bar-track"><div class="bar-fill" style="width:60%;background:#fd7e14"></div></div><span>60</span></div>
-                    <div class="score-bar"><label><span class="zh">练习赛</span><span class="en">Practice</span></label><div class="bar-track"><div class="bar-fill" style="width:60%;background:#20c997"></div></div><span>60</span></div>
-                </div>
-                <div class="pred-details">
-                    <div class='pred-factors'><strong><span class="zh">有利因素</span><span class="en">Strengths</span></strong><ul><li><span class="zh">匈牙利站P8得分</span><span class="en">Hungary P8 points</span></li></ul></div>
-                    <div class='pred-factors risk'><strong><span class="zh">风险因素</span><span class="en">Risks</span></strong><ul><li><span class="zh">Racing Bulls中游竞争力有限</span><span class="en">Racing Bulls' midfield competitiveness is limited</span></li></ul></div>
-                </div>
-            </div>
-            <div class="pred-card">
-                <div class="pred-header" style="border-left:4px solid #0090FF">
-                    <span class="pred-pos">P10</span>
-                    <span class="pred-driver">Pierre Gasly</span>
-                    <span class="pred-team">Alpine</span>
-                    <span class="badge" style="background:#f8d7da;color:#DC3545;border:1px solid #DC3545;">LOW</span>
-                    <span class="pred-score">55.1</span>
-                </div>
-                <div class="pred-scores">
-                    <div class="score-bar"><label><span class="zh">近期状态</span><span class="en">Recent form</span></label><div class="bar-track"><div class="bar-fill" style="width:55%;background:#0d6efd"></div></div><span>55</span></div>
-                    <div class="score-bar"><label><span class="zh">赛道历史</span><span class="en">Track history</span></label><div class="bar-track"><div class="bar-fill" style="width:50%;background:#6610f2"></div></div><span>50</span></div>
-                    <div class="score-bar"><label><span class="zh">赛车性能</span><span class="en">Car performance</span></label><div class="bar-track"><div class="bar-fill" style="width:58%;background:#fd7e14"></div></div><span>58</span></div>
-                    <div class="score-bar"><label><span class="zh">练习赛</span><span class="en">Practice</span></label><div class="bar-track"><div class="bar-fill" style="width:58%;background:#20c997"></div></div><span>58</span></div>
-                </div>
-                <div class="pred-details">
-                    <div class='pred-factors'><strong><span class="zh">有利因素</span><span class="en">Strengths</span></strong><ul><li><span class="zh">摩纳哥站P3赛季亮点</span><span class="en">Monaco P3, season highlight</span></li></ul></div>
-                    <div class='pred-factors risk'><strong><span class="zh">风险因素</span><span class="en">Risks</span></strong><ul><li><span class="zh">Alpine竞争力不足</span><span class="en">Alpine lacks competitiveness</span></li><li><span class="zh">匈牙利站仅P12</span><span class="en">Hungary only P12</span></li></ul></div>
-                </div>
-            </div>
-        
-        <div class="dark-horse-card">
-            <h3><span class="zh">Dark Horse - 黑马预测</span><span class="en">Dark Horse - Sleeper Pick</span></h3>
-            <div class="dh-driver">Fernando Alonso (Aston Martin)</div>
-            <div class="dh-reason"><span class="zh">阿斯顿马丁在匈牙利站已部署底盘升级(Adrian Newey主导)， Alonso凭实力进入Q2。荷兰站Honda将带来重大动力单元升级(燃烧室形状修改+预燃室改进+润滑系统优化减摩)。如果Honda兑现'合理大幅提升'承诺， Alonso有望从匈牙利P14跃升至积分区甚至Q3。赞德沃特冲刺赛周末意味着新PU没有测试缓冲，风险与机遇并存。</span><span class="en">Aston Martin deployed a chassis upgrade at Hungary (led by Adrian Newey), and Alonso reached Q2 on merit. At Zandvoort, Honda will bring a major PU upgrade (combustion-chamber reshaping + pre-chamber improvement + lubrication optimization to cut friction). If Honda delivers on its "meaningful step" promise, Alonso could leap from Hungary's P14 into the points or even Q3. Zandvoort's Sprint weekend means the new PU has no testing buffer -- risk and opportunity combined.</span></div>
-        </div>
+        <div class='track-grid' id='race-track-grid'><div class='track-item'><span class='track-label'><span class="zh">类型</span><span class="en">Type</span></span><span class='track-value'><span class="zh">永久赛道/混合赛道</span><span class="en">Permanent/Hybrid circuit</span></span></div><div class='track-item'><span class='track-label'><span class="zh">长度</span><span class="en">Length</span></span><span class='track-value'>4.259 km</span></div><div class='track-item'><span class='track-label'><span class="zh">圈数</span><span class="en">Laps</span></span><span class='track-value'>72</span></div><div class='track-item'><span class='track-label'><span class="zh">比赛距离</span><span class="en">Race distance</span></span><span class='track-value'>306.587 km</span></div><div class='track-item'><span class='track-label'><span class="zh">弯道</span><span class="en">Corners</span></span><span class='track-value'><span class="zh">14 (10右弯 + 4左弯)</span><span class="en">14 (10 right + 4 left corners)</span></span></div><div class='track-item'><span class='track-label'><span class="zh">下压力</span><span class="en">Downforce</span></span><span class='track-value'><span class="zh">高下压力</span><span class="en">High downforce</span></span></div><div class='track-item'><span class='track-label'><span class="zh">轮胎磨损</span><span class="en">Tyre wear</span></span><span class='track-value'><span class="zh">中等</span><span class="en">Medium</span></span></div><div class='track-item'><span class='track-label'><span class="zh">超车难度</span><span class="en">Overtaking difficulty</span></span><span class='track-value'><span class="zh">困难</span><span class="en">Hard</span></span></div><div class='track-item'><span class='track-label'><span class="zh">DRS区域</span><span class="en">DRS zones</span></span><span class='track-value'>2</span></div><div class='track-item'><span class='track-label'><span class="zh">倾斜弯道</span><span class="en">Banked corners</span></span><span class='track-value'><span class="zh">T3 Hugenholtz (18度) + T14 Arie Luyendyk (19度)</span><span class="en">T3 Hugenholtz (18°) + T14 Arie Luyendyk (19°)</span></span></div><div class='track-item'><span class='track-label'><span class="zh">圈速纪录</span><span class="en">Lap record</span></span><span class='track-value'>1:11.097 (Hamilton 2021)</span></div><div class='track-item'><span class='track-label'><span class="zh">赛制</span><span class="en">Format</span></span><span class='track-value'><span class="zh">冲刺赛周末 (Sprint)</span><span class="en">Sprint weekend (Sprint)</span></span></div></div>
     </div>
 
 
-    <div class="section" id="sec-upgrades">
+<div class="section" id="sec-upgrades">
         <h2><span class="icon">🔧</span><span class="zh">车队升级与技术动态</span><span class="en">Team Upgrades & Technical Updates</span></h2>
         
             <div class="upgrade-card" style="border-left:4px solid #006F62">
@@ -600,7 +541,7 @@ var _hmt = _hmt || [];
 
     <div class="section" id="sec-result">
         <h2><span class="icon">🏁</span><span class="zh">匈牙利大奖赛 - 比赛结果</span><span class="en">Hungarian GP - Race Result</span></h2>
-        <div class="info-grid">
+        <div class="info-grid" id="race-info-grid">
             <div class="info-item"><div class="label"><span class="zh">赛道</span><span class="en">Circuit</span></div><div class="value"><span class="zh">匈格罗宁赛道，布达佩斯</span><span class="en">Hungaroring, Budapest</span></div></div>
             <div class="info-item"><div class="label"><span class="zh">日期</span><span class="en">Date</span></div><div class="value">2026-07-26</div></div>
         </div>
@@ -903,9 +844,7 @@ var _hmt = _hmt || [];
                     <td class="mono points-cell">0</td>
                 </tr></tbody>
         </table>
-        <div class="chart-container-sm">
-            <canvas id="driverPointsChart"></canvas>
-        </div>
+
     </div>
 
 
@@ -1029,7 +968,7 @@ var _hmt = _hmt || [];
     </div>
 
 
-    <div class="disclaimer"><span class="zh">数据来源: F1.com 官方数据 | 报告生成时间: 2026-07-29 17:35（北京时间）</span><span class="en">Data source: F1.com official | Report generated: 2026-07-29 17:35 (Beijing Time)</span><br><span class="zh">预测基于历史数据和近期表现，实际结果受众多不可控因素影响 (天气、安全车、事故、策略、可靠性等)</span><span class="en">Predictions are based on historical data and recent form; actual results are affected by many uncontrollable factors (weather, safety car, accidents, strategy, reliability, etc.)</span><br><span class="zh">本报告仅供信息参考，不建议用于赌博或投注决策。</span><span class="en">This report is for informational reference only; not intended for gambling or betting decisions.</span>    </div>
+    <div class="disclaimer"><span class="zh">数据来源: F1.com 官方数据 | 报告生成时间: 2026-07-29 18:26（北京时间）</span><span class="en">Data source: F1.com official | Report generated: 2026-07-29 18:26 (Beijing Time)</span><br><span class="zh">预测基于历史数据和近期表现，实际结果受众多不可控因素影响 (天气、安全车、事故、策略、可靠性等)</span><span class="en">Predictions are based on historical data and recent form; actual results are affected by many uncontrollable factors (weather, safety car, accidents, strategy, reliability, etc.)</span><br><span class="zh">本报告仅供信息参考，不建议用于赌博或投注决策。</span><span class="en">This report is for informational reference only; not intended for gambling or betting decisions.</span>    </div>
 
     <div class="section" style="margin-top:8px;" id="sec-discussion">
         <h2><span class="icon">💬</span><span class="zh">讨论区</span><span class="en">Discussion</span></h2>
@@ -1058,30 +997,6 @@ var _hmt = _hmt || [];
 </div>
 
 <script>
-    // Driver Points Chart
-    const ctxPts = document.getElementById('driverPointsChart');
-    if (ctxPts) {
-        window._ptsChart = new Chart(ctxPts, {
-            type: 'bar',
-            data: {
-                labels: ["Antonelli", "Hamilton", "Russell", "Leclerc", "Norris", "Verstappen", "Piastri", "Hadjar", "Lawson", "Gasly"],
-                datasets: [{
-                    label: '积分',
-                    data: [219, 169, 160, 138, 128, 109, 92, 68, 43, 42],
-                    backgroundColor: ["#00D2BE", "#DC0000", "#00D2BE", "#DC0000", "#FF8000", "#1E2B5E", "#FF8000", "#1E2B5E", "#6692FF", "#0090FF"],
-                    borderRadius: 4,
-                }]
-            },
-            options: {
-                indexAxis: 'y',
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: { x: { beginAtZero: true, grid: { color: '#f0f0f0' } } }
-            }
-        });
-    }
-
     // Prediction Scores Chart
     const ctxPred = document.getElementById('predictionChart');
     if (ctxPred) {
@@ -1217,7 +1132,7 @@ function fqShareCard(){ const score=document.getElementById('fqScore').textConte
   var map = {
     'sec-drivers': {n:'车手积分榜', t:'积分榜'},
     'sec-constructors': {n:'车队积分榜', t:'积分榜'},
-    'sec-prediction': {n:'赛程与预测', t:'赛程'},
+    'sec-prediction': {n:'赛程与赛道信息', t:'赛程'},
     'sec-recent': {n:'近期比赛回顾', t:'赛程'},
     'sec-upgrades': {n:'车队升级与技术动态', t:'动态'},
     'sec-result': {n:'比赛结果', t:'比赛结果'},
@@ -1241,6 +1156,168 @@ function fqShareCard(){ const score=document.getElementById('fqScore').textConte
   window.addEventListener('resize', f1UpdateTitle);
   f1UpdateTitle();
 })();
+</script>
+<div class="f1-checkered" aria-hidden="true"></div>
+<script>
+
+(function(){
+  var codeMap = {
+    "Kimi Antonelli":"IT","Lewis Hamilton":"GB","George Russell":"GB",
+    "Charles Leclerc":"MC","Lando Norris":"GB","Max Verstappen":"NL",
+    "Oscar Piastri":"AU","Isack Hadjar":"FR","Liam Lawson":"NZ",
+    "Pierre Gasly":"FR","Arvid Lindblad":"GB","Franco Colapinto":"AR",
+    "Oliver Bearman":"GB","Gabriel Bortoleto":"BR","Carlos Sainz":"ES",
+    "Alexander Albon":"TH","Esteban Ocon":"FR","Nico Hulkenberg":"DE",
+    "Fernando Alonso":"ES","Sergio Perez":"MX","Valtteri Bottas":"FI",
+    "Lance Stroll":"CA"
+  };
+  function initials(n){ var p=n.split(/\s+/); return (p[0][0]+(p[1]?p[1][0]:"")).toUpperCase(); }
+
+  var sec=document.getElementById("sec-drivers");
+  if(sec){
+    var tbl=sec.querySelector("table");
+    var rows=tbl.querySelectorAll("tbody tr");
+    var grid=document.createElement("div"); grid.className="driver-cards";
+    rows.forEach(function(tr){
+      var tds=tr.querySelectorAll("td");
+      var pos=tds[0].textContent.trim();
+      var dcell=tds[1]; var name=dcell.textContent.trim();
+      var bar=dcell.querySelector(".team-bar"); var color=bar?bar.style.background:"#888";
+      var team=tds[2].textContent.trim();
+      var pts=tds[3].textContent.trim();
+      var code=codeMap[name]||"";
+      var card=document.createElement("div"); card.className="dcard";
+      card.innerHTML='<div class="dpos">'+pos+'</div>'+
+        '<div class="davatar" style="background:'+color+'">'+initials(name)+'</div>'+
+        '<div class="dname">'+name+(code?'<span class="dflag-badge">'+code+'</span>':'')+'</div>'+
+        '<div class="dteam">'+team+'</div>'+
+        '<div class="dpoints" data-target="'+pts+'">0</div>'+
+        '<div class="dplabel">PTS</div>';
+      grid.appendChild(card);
+    });
+    sec.insertBefore(grid, tbl);
+    var wrap=document.createElement("div"); wrap.className="table-wrap";
+    tbl.parentNode.insertBefore(wrap,tbl); wrap.appendChild(tbl);
+  }
+
+  var sp=document.getElementById("sec-prediction");
+  if(sp){
+    var h2=sp.querySelector("h2");
+    var sched=document.createElement("div"); sched.id="schedule-track"; sched.className="schedule-track";
+    var keyMap={"荷兰 GP":"netherlands","意大利 GP":"italy","阿塞拜疆 GP":"azerbaijan","新加坡 GP":"singapore","美国 GP":"usa","阿布扎比 GP":"abudhabi"};
+    var nodes=[
+      {n:"匈牙利 GP",d:"2026-07-26",s:"done"},
+      {n:"荷兰 GP",d:"2026-08-23",s:"next"},
+      {n:"意大利 GP",d:"2026-09-06",s:"todo"},
+      {n:"阿塞拜疆 GP",d:"待定",s:"todo"},
+      {n:"新加坡 GP",d:"待定",s:"todo"},
+      {n:"美国 GP",d:"待定",s:"todo"},
+      {n:"阿布扎比 GP",d:"待定",s:"todo"}
+    ];
+    sched.innerHTML=nodes.map(function(x){
+      var cls=x.s==="done"?"sch-done":x.s==="next"?"sch-next":"sch-todo";
+      var key=keyMap[x.n]||"";
+      var click = key ? ' onclick="switchRace(&quot;'+key+'&quot;)"' : '';
+      return '<div class="sch-node '+cls+'"'+click+'><div class="sch-name">'+x.n+'</div><div class="sch-date">'+x.d+'</div></div>';
+    }).join("");
+    h2.insertAdjacentElement("afterend",sched);
+  }
+
+  document.querySelectorAll(".section table").forEach(function(t){
+    if(t.closest(".table-wrap"))return;
+    var w=document.createElement("div"); w.className="table-wrap";
+    t.parentNode.insertBefore(w,t); w.appendChild(t);
+  });
+
+  function roll(el){
+    var target=parseInt(el.getAttribute("data-target"),10)||0;
+    var dur=900,start=null;
+    function step(ts){ if(!start)start=ts; var p=Math.min((ts-start)/dur,1); var e=1-Math.pow(1-p,3); el.textContent=Math.round(target*e); if(p<1)requestAnimationFrame(step); }
+    requestAnimationFrame(step);
+  }
+  document.querySelectorAll(".dpoints[data-target]").forEach(roll);
+  document.querySelectorAll("td.mono.points-cell").forEach(function(el){ if(!el.getAttribute("data-target")) el.setAttribute("data-target", el.textContent.trim()); });
+  document.querySelectorAll(".points-cell[data-target]").forEach(roll);
+
+  var secs=document.querySelectorAll(".section");
+  if("IntersectionObserver" in window){
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting) e.target.classList.add("visible"); }); },{threshold:0.06});
+    secs.forEach(function(s){ io.observe(s); });
+  } else { secs.forEach(function(s){ s.classList.add("visible"); }); }
+
+  var RACE_DATA = {
+    netherlands:{
+      zh:{name:"荷兰大奖赛", circuit:"赞德沃特赛道", country:"荷兰", weather:"8月21-23日 赞德沃特: 气温20-24°C/14-16°C, 8月平均7个雨天, 有降雨可能性, 海风影响空气动力学设定", type:"永久赛道/混合赛道", length:"4.259 km", laps:"72", distance:"306.587 km", corners:"14 (10右弯 + 4左弯)", downforce:"高下压力", tyre:"中等", overtake:"困难", drs:"2", banking:"T3 Hugenholtz (18度) + T14 Arie Luyendyk (19度)", record:"1:11.097 (Hamilton 2021)", format:"冲刺赛周末 (Sprint)"},
+      en:{name:"Dutch GP", circuit:"Zandvoort Circuit", country:"Netherlands", weather:"Aug 21-23 Zandvoort: 20-24°C/14-16°C, avg 7 rainy days in Aug, rain possible, sea breeze affects aero", type:"Permanent/Hybrid circuit", length:"4.259 km", laps:"72", distance:"306.587 km", corners:"14 (10 right + 4 left)", downforce:"High downforce", tyre:"Medium", overtake:"Hard", drs:"2", banking:"T3 Hugenholtz (18°) + T14 Arie Luyendyk (19°)", record:"1:11.097 (Hamilton 2021)", format:"Sprint weekend"}
+    },
+    italy:{
+      zh:{name:"意大利大奖赛", circuit:"蒙扎赛道", country:"意大利", weather:"9月初蒙扎: 气温22-28°C/14-18°C, 降雨概率低, 典型欧洲夏末干燥天气", type:"永久赛道", length:"5.793 km", laps:"53", distance:"306.720 km", corners:"11 (7右弯 + 4左弯)", downforce:"低下压力", tyre:"高", overtake:"中等", drs:"2", banking:"无", record:"1:21.046 (Barrichello 2004)", format:"常规赛周末"},
+      en:{name:"Italian GP", circuit:"Monza Circuit", country:"Italy", weather:"Early Sep Monza: 22-28°C/14-18°C, low rain chance, typical dry late-summer Europe", type:"Permanent circuit", length:"5.793 km", laps:"53", distance:"306.720 km", corners:"11 (7 right + 4 left)", downforce:"Low downforce", tyre:"High", overtake:"Medium", drs:"2", banking:"None", record:"1:21.046 (Barrichello 2004)", format:"Regular weekend"}
+    },
+    azerbaijan:{
+      zh:{name:"阿塞拜疆大奖赛", circuit:"巴库城市赛道", country:"阿塞拜疆", weather:"巴库街头赛: 气温25-30°C/20-24°C, 里海海风, 偶有阵风", type:"街道赛", length:"6.003 km", laps:"51", distance:"306.050 km", corners:"20 (12右弯 + 8左弯)", downforce:"低下压力", tyre:"低", overtake:"困难", drs:"2", banking:"无", record:"1:43.009 (Leclerc 2019)", format:"常规赛周末"},
+      en:{name:"Azerbaijan GP", circuit:"Baku City Circuit", country:"Azerbaijan", weather:"Baku street race: 25-30°C/20-24°C, Caspian sea breeze, occasional gusts", type:"Street circuit", length:"6.003 km", laps:"51", distance:"306.050 km", corners:"20 (12 right + 8 left)", downforce:"Low downforce", tyre:"Low", overtake:"Hard", drs:"2", banking:"None", record:"1:43.009 (Leclerc 2019)", format:"Regular weekend"}
+    },
+    singapore:{
+      zh:{name:"新加坡大奖赛", circuit:"滨海湾街道赛道", country:"新加坡", weather:"新加坡夜赛: 气温28-31°C/24-26°C, 高湿度, 雷阵雨风险较高", type:"街道赛/夜赛", length:"4.940 km", laps:"62", distance:"306.143 km", corners:"19 (10右弯 + 9左弯)", downforce:"高下压力", tyre:"高", overtake:"困难", drs:"3", banking:"无", record:"1:34.486 (Hamilton 2021)", format:"夜赛常规赛周末"},
+      en:{name:"Singapore GP", circuit:"Marina Bay Street Circuit", country:"Singapore", weather:"Singapore night race: 28-31°C/24-26°C, high humidity, high thunderstorm risk", type:"Street circuit / Night race", length:"4.940 km", laps:"62", distance:"306.143 km", corners:"19 (10 right + 9 left)", downforce:"High downforce", tyre:"High", overtake:"Hard", drs:"3", banking:"None", record:"1:34.486 (Hamilton 2021)", format:"Night race regular weekend"}
+    },
+    usa:{
+      zh:{name:"美国大奖赛", circuit:"美洲赛道 (COTA)", country:"美国", weather:"奥斯汀10月: 气温24-29°C/15-20°C, 干燥少雨, 昼夜温差大", type:"永久赛道", length:"5.513 km", laps:"56", distance:"308.405 km", corners:"20 (11右弯 + 9左弯)", downforce:"中高", tyre:"中等", overtake:"中等", drs:"2", banking:"无", record:"1:36.169 (Leclerc 2019)", format:"常规赛周末"},
+      en:{name:"United States GP", circuit:"Circuit of the Americas", country:"USA", weather:"Austin Oct: 24-29°C/15-20°C, dry, large day-night temp swing", type:"Permanent circuit", length:"5.513 km", laps:"56", distance:"308.405 km", corners:"20 (11 right + 9 left)", downforce:"Medium-high", tyre:"Medium", overtake:"Medium", drs:"2", banking:"None", record:"1:36.169 (Leclerc 2019)", format:"Regular weekend"}
+    },
+    abudhabi:{
+      zh:{name:"阿布扎比大奖赛", circuit:"亚斯码头赛道", country:"阿联酋", weather:"阿布扎比夜赛收官战: 气温26-31°C/18-22°C, 干燥, 极低降雨概率", type:"永久赛道/夜赛", length:"5.281 km", laps:"58", distance:"306.183 km", corners:"16 (9右弯 + 7左弯)", downforce:"中低", tyre:"中等", overtake:"中等", drs:"2", banking:"无", record:"1:26.103 (Verstappen 2021)", format:"夜赛常规赛周末 / 赛季收官"},
+      en:{name:"Abu Dhabi GP", circuit:"Yas Marina Circuit", country:"UAE", weather:"Abu Dhabi night finale: 26-31°C/18-22°C, dry, minimal rain chance", type:"Permanent circuit / Night race", length:"5.281 km", laps:"58", distance:"306.183 km", corners:"16 (9 right + 7 left)", downforce:"Medium-low", tyre:"Medium", overtake:"Medium", drs:"2", banking:"None", record:"1:26.103 (Verstappen 2021)", format:"Night race regular weekend / Season finale"}
+    }
+  };
+
+  window.switchRace = function(key){
+    var d = RACE_DATA[key]; if(!d) return;
+    var isEn = document.body.classList.contains('lang-en');
+    var z = isEn ? d.en : d.zh;
+    var label = document.getElementById('race-selected-label');
+    if(label) label.innerHTML = isEn ? ('Selected: '+z.name) : ('当前选择：'+z.name);
+    var info = document.getElementById('race-info-grid');
+    if(info){
+      info.innerHTML = '<div class="info-item"><div class="label"><span class="zh">赛道</span><span class="en">Circuit</span></div><div class="value"><span class="zh">'+z.circuit+'</span><span class="en">'+z.circuit+'</span></div></div>'+
+        '<div class="info-item"><div class="label"><span class="zh">日期</span><span class="en">Date</span></div><div class="value">'+document.querySelector('#schedule-track .sch-node[onclick*="'+key+'"] .sch-date').textContent+'</div></div>'+
+        '<div class="info-item"><div class="label"><span class="zh">国家</span><span class="en">Country</span></div><div class="value"><span class="zh">'+z.country+'</span><span class="en">'+z.country+'</span></div></div>'+
+        '<div class="info-item"><div class="label"><span class="zh">天气预测</span><span class="en">Weather forecast</span></div><div class="value"><span class="zh">'+z.weather+'</span><span class="en">'+z.weather+'</span></div></div>';
+    }
+    var track = document.getElementById('race-track-grid');
+    if(track){
+      track.innerHTML = '<div class=\'track-item\'><span class=\'track-label\'><span class="zh">类型</span><span class="en">Type</span></span><span class=\'track-value\'><span class="zh">'+z.type+'</span><span class="en">'+z.type+'</span></span></div>'+
+        '<div class=\'track-item\'><span class=\'track-label\'><span class="zh">长度</span><span class="en">Length</span></span><span class=\'track-value\'>'+z.length+'</span></div>'+
+        '<div class=\'track-item\'><span class=\'track-label\'><span class="zh">圈数</span><span class="en">Laps</span></span><span class=\'track-value\'>'+z.laps+'</span></div>'+
+        '<div class=\'track-item\'><span class=\'track-label\'><span class="zh">比赛距离</span><span class="en">Race distance</span></span><span class=\'track-value\'>'+z.distance+'</span></div>'+
+        '<div class=\'track-item\'><span class=\'track-label\'><span class="zh">弯道</span><span class="en">Corners</span></span><span class=\'track-value\'><span class="zh">'+z.corners+'</span><span class="en">'+z.corners+'</span></span></div>'+
+        '<div class=\'track-item\'><span class=\'track-label\'><span class="zh">下压力</span><span class="en">Downforce</span></span><span class=\'track-value\'><span class="zh">'+z.downforce+'</span><span class="en">'+z.downforce+'</span></span></div>'+
+        '<div class=\'track-item\'><span class=\'track-label\'><span class="zh">轮胎磨损</span><span class="en">Tyre wear</span></span><span class=\'track-value\'><span class="zh">'+z.tyre+'</span><span class="en">'+z.tyre+'</span></span></div>'+
+        '<div class=\'track-item\'><span class=\'track-label\'><span class="zh">超车难度</span><span class="en">Overtaking difficulty</span></span><span class=\'track-value\'><span class="zh">'+z.overtake+'</span><span class="en">'+z.overtake+'</span></span></div>'+
+        '<div class=\'track-item\'><span class=\'track-label\'><span class="zh">DRS区域</span><span class="en">DRS zones</span></span><span class=\'track-value\'>'+z.drs+'</span></div>'+
+        '<div class=\'track-item\'><span class=\'track-label\'><span class="zh">倾斜弯道</span><span class="en">Banked corners</span></span><span class=\'track-value\'><span class="zh">'+z.banking+'</span><span class="en">'+z.banking+'</span></span></div>'+
+        '<div class=\'track-item\'><span class=\'track-label\'><span class="zh">圈速纪录</span><span class="en">Lap record</span></span><span class=\'track-value\'>'+z.record+'</span></div>'+
+        '<div class=\'track-item\'><span class=\'track-label\'><span class="zh">赛制</span><span class="en">Format</span></span><span class=\'track-value\'><span class="zh">'+z.format+'</span><span class="en">'+z.format+'</span></span></div>';
+    }
+    document.querySelectorAll('#schedule-track .sch-node').forEach(function(n){ n.classList.remove('sch-next'); if(!n.classList.contains('sch-done')) n.classList.add('sch-todo'); });
+    var active = document.querySelector('#schedule-track .sch-node[onclick*="'+key+'"]');
+    if(active){ active.classList.remove('sch-todo'); active.classList.add('sch-next'); }
+  };
+
+  // Re-render track info on language switch
+  window._lastRaceKey = 'netherlands';
+  var origApplyLang = window.applyLang;
+  window.applyLang = function(){
+    if(origApplyLang) origApplyLang();
+    if(window._lastRaceKey) window.switchRace(window._lastRaceKey);
+  };
+  var _origSwitchRace = window.switchRace;
+  window.switchRace = function(key){ window._lastRaceKey = key; _origSwitchRace(key); };
+
+  setTimeout(function(){ secs.forEach(function(s){ s.classList.add("visible"); }); },3000);
+})();
+
 </script>
 </body>
 </html>

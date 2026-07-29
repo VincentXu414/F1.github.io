@@ -1308,8 +1308,8 @@ function fqShareCard(){ const score=document.getElementById('fqScore').textConte
   // Re-render track info on language switch
   window._lastRaceKey = 'netherlands';
   var origApplyLang = window.applyLang;
-  window.applyLang = function(){
-    if(origApplyLang) origApplyLang();
+  window.applyLang = function(lang){
+    if(origApplyLang) origApplyLang(lang);
     if(window._lastRaceKey) window.switchRace(window._lastRaceKey);
   };
   var _origSwitchRace = window.switchRace;

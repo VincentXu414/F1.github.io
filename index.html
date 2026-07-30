@@ -102,10 +102,11 @@
 
     /* Language switcher */
     .report-header { position: relative; }
-    .lang-switch { position: absolute; top: 0; right: 0; display: inline-flex; gap: 4px; background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.18); border-radius: 20px; padding: 3px; }
-    .lang-btn { border: none; background: transparent; padding: 5px 14px; border-radius: 16px; cursor: pointer; font-size: 13px; color: #cfcfcf; font-family: inherit; transition: background .2s, color .2s; }
+    .lang-switch { position: relative; display: inline-flex; gap: 4px; background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.18); border-radius: 20px; padding: 3px; flex: none; }
+    .lang-slider { position: absolute; top: 3px; bottom: 3px; left: 3px; width: 56px; background: #e10600; border-radius: 16px; transition: transform .28s cubic-bezier(.4,0,.2,1), width .28s cubic-bezier(.4,0,.2,1); z-index: 0; }
+    .lang-btn { position: relative; z-index: 1; border: none; background: transparent; padding: 5px 14px; min-width: 56px; text-align: center; border-radius: 16px; cursor: pointer; font-size: 13px; color: #cfcfcf; font-family: inherit; transition: color .2s; }
     .lang-btn:hover { color: #fff; }
-    .lang-btn.active { background: #e10600; color: #fff; font-weight: 600; }
+    .lang-btn.active { color: #fff; font-weight: 600; }
     .zh, .en { display: inline; }
     body.lang-en .zh { display: none; }
     body.lang-zh .en { display: none; }
@@ -377,12 +378,15 @@ var _hmt = _hmt || [];
 
 <nav class="f1-nav">
   <div class="f1-logo">F1</div>
-  <div class="f1-nav-links">
-    <a href="#sec-prediction"><span class="zh">赛程</span><span class="en">Schedule</span></a>
-    <a href="#sec-drivers"><span class="zh">车手榜</span><span class="en">Drivers</span></a>
-    <a href="#sec-constructors"><span class="zh">车队榜</span><span class="en">Constructors</span></a>
-    <a href="#sec-recent"><span class="zh">回顾</span><span class="en">Recap</span></a>
-    <a href="#sec-quiz"><span class="zh">答题</span><span class="en">Quiz</span></a>
+  <div class="f1-nav-right">
+    <div class="f1-nav-links">
+      <a href="#sec-prediction"><span class="zh">赛程</span><span class="en">Schedule</span></a>
+      <a href="#sec-drivers"><span class="zh">车手榜</span><span class="en">Drivers</span></a>
+      <a href="#sec-constructors"><span class="zh">车队榜</span><span class="en">Constructors</span></a>
+      <a href="#sec-recent"><span class="zh">回顾</span><span class="en">Recap</span></a>
+      <a href="#sec-quiz"><span class="zh">答题</span><span class="en">Quiz</span></a>
+    </div>
+    <div class="lang-switch" role="group" aria-label="Language"><span class="lang-slider"></span><button type="button" class="lang-btn active" data-lang="zh">中文</button><button type="button" class="lang-btn" data-lang="en">EN</button></div>
   </div>
 </nav>
 
@@ -400,7 +404,7 @@ var _hmt = _hmt || [];
     </div>
 
 
-    <div class="report-header"><div class="lang-switch" role="group" aria-label="Language"><button type="button" class="lang-btn active" data-lang="zh">中文</button><button type="button" class="lang-btn" data-lang="en">EN</button></div>
+    <div class="report-header">
         <h1><span class="zh">F1 2026 赛季追踪报告</span><span class="en">F1 2026 Season Tracking Report</span></h1>
         <div class="subtitle"><span class="zh">报告生成日期: 2026-07-30 08:29（北京时间）</span><span class="en">Report generated: 2026-07-30 08:29 (Beijing Time)</span></div>
         <div class="race-badge"><span class="zh">最近完赛: 匈牙利大奖赛</span><span class="en">Last race: Hungarian GP</span></div>
@@ -1028,6 +1032,14 @@ var _hmt = _hmt || [];
     }
 
     // ---- Language toggle ----
+    function moveLangSlider(lang){
+        var sw = document.querySelector('.lang-switch');
+        var slider = sw && sw.querySelector('.lang-slider');
+        var btn = sw && sw.querySelector('.lang-btn[data-lang="' + lang + '"]');
+        if(!slider || !btn || btn.offsetWidth === 0) return;
+        slider.style.width = btn.offsetWidth + 'px';
+        slider.style.transform = 'translateX(' + (btn.offsetLeft - 3) + 'px)';
+    }
     function applyLang(lang) {
         document.body.classList.toggle('lang-en', lang === 'en');
         document.body.classList.toggle('lang-zh', lang !== 'en');
@@ -1036,6 +1048,8 @@ var _hmt = _hmt || [];
         applyChartLang(lang);
         document.title = (lang === 'en') ? 'F1 2026 Season Tracking Report - 2026-07-27' : 'F1 2026 赛季追踪报告 - 2026-07-27';
         if (typeof fqResult === 'function' && document.getElementById('fqResult') && document.getElementById('fqResult').style.display === 'block') { try { fqResult(); } catch(e){} }
+        moveLangSlider(lang);
+        window.__curLang = lang;
     }
     function applyChartLang(lang) {
         var zh = ['近期状态','赛道历史','赛车性能','练习赛','综合评分'];
@@ -1057,6 +1071,7 @@ var _hmt = _hmt || [];
         try { l = localStorage.getItem('f1lang') || 'zh'; } catch(e) {}
         applyLang(l);
     })();
+    window.addEventListener('resize', function(){ if(window.__curLang) moveLangSlider(window.__curLang); });
 
     (function(){
         var target = new Date(Date.UTC(2026, 7, 23, 13, 0, 0)).getTime(); // 荷兰大奖赛正赛 = 北京时间 2026-08-23 21:00

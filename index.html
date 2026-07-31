@@ -249,6 +249,10 @@ tr.podium .pos-cell { text-shadow:0 0 6px rgba(255,215,0,0.5); }
 .pred-team { color:#AAA; }
 .score-bar label { color:#AAA; }
 .bar-track { background:#333; }
+.pred-scores .score-bar { color:#EAEAEA; }
+.pred-factors li { color:#BBBBBB; }
+.pred-factors strong { color:#FFD700; }
+.pred-factors.risk strong { color:#FF6B6B; }
 
 /* upgrade dark */
 .upgrade-card { background:#26262E !important; border:1px solid #333 !important; color:#EEEEEE !important; }
@@ -470,6 +474,40 @@ var _hmt = _hmt || [];
             <div class="info-item"><div class="label"><span class="zh">天气预测</span><span class="en">Weather forecast</span></div><div class="value"><span class="zh">8月21-23日 赞德沃特: 气温20-24°C/14-16°C, 8月平均7个雨天, 有降雨可能性, 海风影响空气动力学设定</span><span class="en">Aug 21-23 Zandvoort: temp 20-24°C/14-16°C, avg 7 rainy days in August, rain possible, sea breeze affects aero setup</span></div></div>
         </div>
         <div class='track-grid' id='race-track-grid'><div class='track-item'><span class='track-label'><span class="zh">类型</span><span class="en">Type</span></span><span class='track-value'><span class="zh">永久赛道/混合赛道</span><span class="en">Permanent/Hybrid circuit</span></span></div><div class='track-item'><span class='track-label'><span class="zh">长度</span><span class="en">Length</span></span><span class='track-value'>4.259 km</span></div><div class='track-item'><span class='track-label'><span class="zh">圈数</span><span class="en">Laps</span></span><span class='track-value'>72</span></div><div class='track-item'><span class='track-label'><span class="zh">比赛距离</span><span class="en">Race distance</span></span><span class='track-value'>306.587 km</span></div><div class='track-item'><span class='track-label'><span class="zh">弯道</span><span class="en">Corners</span></span><span class='track-value'><span class="zh">14 (10右弯 + 4左弯)</span><span class="en">14 (10 right + 4 left corners)</span></span></div><div class='track-item'><span class='track-label'><span class="zh">下压力</span><span class="en">Downforce</span></span><span class='track-value'><span class="zh">高下压力</span><span class="en">High downforce</span></span></div><div class='track-item'><span class='track-label'><span class="zh">轮胎磨损</span><span class="en">Tyre wear</span></span><span class='track-value'><span class="zh">中等</span><span class="en">Medium</span></span></div><div class='track-item'><span class='track-label'><span class="zh">超车难度</span><span class="en">Overtaking difficulty</span></span><span class='track-value'><span class="zh">困难</span><span class="en">Hard</span></span></div><div class='track-item'><span class='track-label'><span class="zh">DRS区域</span><span class="en">DRS zones</span></span><span class='track-value'>2</span></div><div class='track-item'><span class='track-label'><span class="zh">倾斜弯道</span><span class="en">Banked corners</span></span><span class='track-value'><span class="zh">T3 Hugenholtz (18度) + T14 Arie Luyendyk (19度)</span><span class="en">T3 Hugenholtz (18°) + T14 Arie Luyendyk (19°)</span></span></div><div class='track-item'><span class='track-label'><span class="zh">圈速纪录</span><span class="en">Lap record</span></span><span class='track-value'>1:11.097 (Hamilton 2021)</span></div><div class='track-item'><span class='track-label'><span class="zh">赛制</span><span class="en">Format</span></span><span class='track-value'><span class="zh">冲刺赛周末 (Sprint)</span><span class="en">Sprint weekend (Sprint)</span></span></div></div>
+    </div>
+
+    <div class="section" id="sec-nextpred">
+        <h2><span class="icon">🔮</span><span class="zh">下次大奖赛预测</span><span class="en">Next GP Prediction</span></h2>
+        <div class="pred-card">
+            <div class="pred-header" style="padding-left:0;">
+                <div style="flex:1;">
+                    <div style="font-weight:700;font-size:16px;color:#fff;"><span class="zh">荷兰大奖赛 · 赞德沃特赛道</span><span class="en">Netherlands GP · Zandvoort</span></div>
+                    <div style="font-size:13px;color:#FFD700;margin-top:2px;"><span class="zh">2026-08-23 · 冲刺赛周末</span><span class="en">2026-08-23 · Sprint weekend</span></div>
+                </div>
+            </div>
+            <div class="pred-scores" style="display:grid;grid-template-columns:1fr;gap:8px;">
+                <div class="score-bar"><span style="min-width:130px;">P1 · <b>Verstappen</b></span><div class="bar-track"><div style="height:100%;border-radius:4px;width:38%;background:#1E2B5E;"></div></div><span style="min-width:44px;text-align:right;">38%</span></div>
+                <div class="score-bar"><span style="min-width:130px;">P2 · <b>Norris</b></span><div class="bar-track"><div style="height:100%;border-radius:4px;width:26%;background:#FF8000;"></div></div><span style="min-width:44px;text-align:right;">26%</span></div>
+                <div class="score-bar"><span style="min-width:130px;">P3 · <b>Piastri</b></span><div class="bar-track"><div style="height:100%;border-radius:4px;width:18%;background:#FF8000;"></div></div><span style="min-width:44px;text-align:right;">18%</span></div>
+            </div>
+            <div class="pred-details">
+                <div class="pred-factors">
+                    <strong style="color:#FFD700;"><span class="zh">📈 利好因素</span><span class="en">📈 Upside</span></strong>
+                    <ul>
+                        <li><span class="zh">Verstappen 主场作战，赞德沃特高下压力特性契合 Red Bull，且带来新前翼升级</span><span class="en">Verstappen at home; Zandvoort's high-downforce suits Red Bull, plus a new front wing</span></li>
+                        <li><span class="zh">McLaren 匈牙利站大幅跃升，Norris 夺杆位并夺冠，状态延续</span><span class="en">McLaren surged at Hungary; Norris took pole and won, momentum continues</span></li>
+                        <li><span class="zh">冲刺赛周末仅 1 次自由练习，单圈实力强的车手更占优</span><span class="en">Sprint weekend with one FP1 favours strong qualifiers</span></li>
+                    </ul>
+                </div>
+                <div class="pred-factors risk">
+                    <strong style="color:#FF6B6B;"><span class="zh">⚠️ 风险因素</span><span class="en">⚠️ Risks</span></strong>
+                    <ul>
+                        <li><span class="zh">8 月赞德沃特降雨概率高，天气或打乱策略</span><span class="en">High August rain chance at Zandvoort may disrupt strategy</span></li>
+                        <li><span class="zh">Honda 新动力单元首秀无测试缓冲，可靠性存疑</span><span class="en">Honda's new PU debuts with no testing buffer; reliability uncertain</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 
 

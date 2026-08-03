@@ -287,12 +287,12 @@ tr.podium .pos-cell { text-shadow:0 0 6px rgba(255,215,0,0.5); }
   100% { transform: skewX(0deg)   scaleX(1)    rotate(0deg); }
 }
 @keyframes f1-flag-glow {
-  0%, 100% { box-shadow:-2px -2px 10px rgba(0,0,0,0.5), 0 0 0 rgba(225,6,0,0); }
-  50%      { box-shadow:-2px -2px 10px rgba(0,0,0,0.5), 0 0 26px 7px rgba(225,6,0,0.95); }
+  0%, 100% { box-shadow:-2px -2px 10px rgba(0,0,0,0.5), 0 0 14px 3px rgba(225,6,0,0.75); }
+  50%      { box-shadow:-2px -2px 10px rgba(0,0,0,0.5), 0 0 30px 9px rgba(225,6,0,1); }
 }
 .f1-checkered { position:fixed; right:0; bottom:92px; width:54px; height:54px; z-index:400; opacity:0.95; border-top-left-radius:10px; background:repeating-conic-gradient(#000 0% 25%, #fff 0% 50%) 0/18px 18px; box-shadow:-2px -2px 10px rgba(0,0,0,0.5); transform-origin:right center; animation:f1-flag-wave 2s ease-in-out infinite, f1-flag-glow 2s ease-in-out infinite; transition:filter .2s; }
 .f1-checkered:hover { animation-duration:0.9s, 0.9s; cursor:pointer; filter:brightness(1.15); }
-@media (prefers-reduced-motion: reduce) { .f1-checkered { animation:none; } }
+@media (prefers-reduced-motion: reduce) { .f1-checkered { animation:f1-flag-glow 3.5s ease-in-out infinite; } }
 
 /* ============ SCHEDULE TRACK ============ */
 .schedule-track { display:flex; gap:10px; overflow-x:auto; padding:4px 2px 14px; margin-bottom:18px; }

@@ -317,6 +317,21 @@ tr.podium .pos-cell { text-shadow:0 0 6px rgba(255,215,0,0.5); }
 .game-best { font-size:13px; color:#AAA; margin-top:8px; }
 .game-best #gameBest { color:#fff; font-weight:700; }
 @media (prefers-reduced-motion: reduce) { .lights.go { animation:none; } }
+.pit-timer { font-size:15px; font-weight:800; color:#FFD700; min-height:20px; margin-bottom:6px; }
+.pit-box { position:relative; width:250px; height:250px; margin:6px auto 16px; }
+.pit-car { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:86px; height:150px; background:#1b1b22; border:2px solid #3a3a44; border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:30px; }
+.pit-tire { position:absolute; width:62px; height:62px; border-radius:50%; background:#2a1414; border:3px solid #4a2222; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px; color:#bbb; cursor:pointer; user-select:none; -webkit-user-select:none; transition:background .12s, box-shadow .12s, transform .1s; box-shadow:inset 0 0 8px rgba(0,0,0,0.6); }
+.pit-tire:hover { transform:scale(1.05); }
+.pit-tire .tick { display:none; font-size:22px; }
+.pit-tire.done .tick { display:inline; }
+.pit-tire.done .label { display:none; }
+.pit-tire.active { background:#E10600; border-color:#ff3b30; color:#fff; box-shadow:0 0 18px 4px rgba(225,6,0,0.85); }
+.pit-tire.done { background:#0c2a16; border-color:#1ec760; color:#fff; box-shadow:0 0 14px 3px rgba(30,199,96,0.6); cursor:default; }
+.pit-tire.done:hover { transform:none; }
+.pit-FL { left:4px; top:28px; }
+.pit-FR { right:4px; top:28px; }
+.pit-RL { left:4px; bottom:28px; }
+.pit-RR { right:4px; bottom:28px; }
 
 /* ============ SCHEDULE TRACK ============ */
 .schedule-track { display:flex; gap:10px; overflow-x:auto; padding:4px 2px 14px; margin-bottom:18px; }
@@ -432,6 +447,7 @@ var _hmt = _hmt || [];
     <a href="#sec-recent"><span class="zh">回顾</span><span class="en">Recap</span></a>
     <a href="#sec-quiz"><span class="zh">答题</span><span class="en">Quiz</span></a>
     <a href="#sec-game"><span class="zh">游戏</span><span class="en">Game</span></a>
+    <a href="#sec-pitstop"><span class="zh">进站</span><span class="en">Pit Stop</span></a>
   </div>
 </nav>
 
@@ -566,6 +582,25 @@ var _hmt = _hmt || [];
     <button class="game-btn" id="gameBtn" onclick="gameBtnClick()"><span class="zh">开始挑战</span><span class="en">Start</span></button>
     <div class="game-result" id="gameResult"></div>
     <div class="game-best"><span class="zh">最佳：</span><span class="en">Best:</span> <span id="gameBest">--</span></div>
+  </div>
+</div>
+
+<div class="section" id="sec-pitstop">
+  <h2><span class="icon">🔧</span><span class="zh">F1 进站换胎挑战</span><span class="en">F1 Pit Stop Challenge</span></h2>
+  <div class="game-card">
+    <p class="game-tip"><span class="zh">倒计时结束后 4 个轮胎变红——在最短时间内点完 4 个轮胎完成进站，挑战 F1 顶级后勤的速度！（灯未绿就点会抢跑）</span><span class="en">After the countdown, 4 tyres turn red — click all 4 as fast as you can to complete the pit stop and beat F1's elite crews! (Clicking before green = false start)</span></p>
+    <div class="pit-timer" id="pitTimer"></div>
+    <div class="pit-box">
+      <div class="pit-car">🏎️</div>
+      <div class="pit-tire pit-FL" id="pitFL"><span class="label">FL</span><span class="tick">✓</span></div>
+      <div class="pit-tire pit-FR" id="pitFR"><span class="label">FR</span><span class="tick">✓</span></div>
+      <div class="pit-tire pit-RL" id="pitRL"><span class="label">RL</span><span class="tick">✓</span></div>
+      <div class="pit-tire pit-RR" id="pitRR"><span class="label">RR</span><span class="tick">✓</span></div>
+    </div>
+    <div class="game-status" id="pitStatus"></div>
+    <button class="game-btn" id="pitBtn"><span class="zh">开始挑战</span><span class="en">Start</span></button>
+    <div class="game-result" id="pitResult"></div>
+    <div class="game-best"><span class="zh">最佳：</span><span class="en">Best:</span> <span id="pitBest">--</span></div>
   </div>
 </div>
 
@@ -1513,5 +1548,92 @@ function fqShareCard(){ const score=document.getElementById('fqScore').textConte
   updateBest();
 })();
 </script>
+
+<script>
+(function(){
+  var tires=['FL','FR','RL','RR'];
+  var state='idle';
+  var goAt=0, rafId=null, timers=[];
+  var doneCount=0;
+  function $(id){ return document.getElementById(id); }
+  function setBtn(zh,en){ var b=$('pitBtn'); b.disabled=false; b.innerHTML='<span class="zh">'+zh+'</span><span class="en">'+en+'</span>'; }
+  function clearTimers(){ timers.forEach(function(t){clearTimeout(t);}); timers=[]; }
+  function stopRaf(){ if(rafId){ try{cancelAnimationFrame(rafId);}catch(e){} rafId=null; } }
+  function lsGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+  function lsSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+  function updateBest(){ var b=lsGet('f1pit_best'); $('pitBest').textContent = b ? b+' s' : '--'; }
+  function rank(s){
+    if(s<2.2) return ['红牛级进站','Red Bull-tier','世界纪录级进站！'];
+    if(s<2.7) return ['梅赛德斯级','Mercedes-tier','顶级后勤团队'];
+    if(s<3.2) return ['中游车队级','Midfield-tier','稳！'];
+    if(s<4.0) return ['还需训练','Needs practice','多练练手速'];
+    return ['慢慢来','Take it easy','别慌，再来'];
+  }
+  function tick(){
+    if(state!=='run'){ return; }
+    var el=(performance.now()-goAt)/1000;
+    $('pitTimer').textContent = el.toFixed(2)+' s';
+    if(typeof requestAnimationFrame==='function'){ rafId=requestAnimationFrame(tick); }
+  }
+  function start(){
+    clearTimers(); stopRaf(); doneCount=0; state='count';
+    tires.forEach(function(t){ var e=$('pit'+t); e.classList.remove('active','done'); });
+    $('pitResult').innerHTML=''; $('pitTimer').textContent='';
+    setBtn('准备中…','Get ready…'); $('pitBtn').disabled=true;
+    var s=$('pitStatus'); s.className='game-status';
+    s.innerHTML='<span class="zh">准备…</span><span class="en">Get ready…</span>';
+    var seq=['3','2','1']; var step=0;
+    function next(){
+      if(step<3){ s.innerHTML='<span class="zh">'+seq[step]+'</span><span class="en">'+seq[step]+'</span>'; step++; timers.push(setTimeout(next,700)); }
+      else { go(); }
+    }
+    timers.push(setTimeout(next,700));
+  }
+  function go(){
+    var s=$('pitStatus'); s.className='game-status go';
+    s.innerHTML='<span class="zh">🟢 换胎！</span><span class="en">🟢 Pit now!</span>';
+    tires.forEach(function(t){ $('pit'+t).classList.add('active'); });
+    state='run'; goAt=performance.now(); tick();
+    setBtn('换胎中…','Pitting…'); $('pitBtn').disabled=true;
+  }
+  function onTire(t){
+    if(state!=='run'){ if(state==='count'){ falseStart(); } return; }
+    var e=$('pit'+t);
+    if(e.classList.contains('done')) return;
+    e.classList.remove('active'); e.classList.add('done');
+    doneCount++;
+    $('pitStatus').innerHTML='<span class="zh">已换 '+doneCount+'/4</span><span class="en">'+doneCount+'/4 done</span>';
+    if(doneCount===4){ finish(); }
+  }
+  function finish(){
+    state='done'; stopRaf();
+    var s=(performance.now()-goAt)/1000;
+    tires.forEach(function(t){ $('pit'+t).classList.remove('active'); });
+    var r=rank(s);
+    $('pitResult').innerHTML='<div class="rt-ms">'+s.toFixed(2)+' s</div><span class="rank"><span class="zh">'+r[0]+'</span><span class="en">'+r[1]+'</span></span><span class="rt-note"><span class="zh">'+r[2]+'</span><span class="en">'+r[2]+'</span></span>';
+    var b=parseFloat(lsGet('f1pit_best')||'0');
+    if(!b || s<b){ lsSet('f1pit_best', s.toFixed(2)); }
+    updateBest();
+    var st=$('pitStatus'); st.className='game-status'; st.innerHTML='<span class="zh">进站完成</span><span class="en">Pit done</span>';
+    setBtn('再来一次','Retry');
+  }
+  function falseStart(){
+    clearTimers(); stopRaf(); state='false';
+    tires.forEach(function(t){ $('pit'+t).classList.remove('active','done'); });
+    var s=$('pitStatus'); s.className='game-status bad';
+    s.innerHTML='<span class="zh">🚦 抢跑了！等绿灯</span><span class="en">🚦 False start! Wait for green</span>';
+    setBtn('再来一次','Retry');
+  }
+  function btnClick(){
+    if(state==='run'){ return; }
+    start();
+  }
+  tires.forEach(function(t){ var e=$('pit'+t); if(e){ e.addEventListener('click', function(){ onTire(t); }); } });
+  $('pitBtn').addEventListener('click', btnClick);
+  updateBest();
+})();
+</script>
+</body>
+</html>
 </body>
 </html>

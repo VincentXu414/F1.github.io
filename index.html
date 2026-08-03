@@ -279,18 +279,18 @@ tr.podium .pos-cell { text-shadow:0 0 6px rgba(255,215,0,0.5); }
 /* ============ CHECKERED FLAG ============ */
 /* checkered flag: continuous wave + F1-red breathing glow */
 @keyframes f1-flag-wave {
-  0%   { transform: scaleX(1)    skewY(0deg); }
-  20%  { transform: scaleX(0.95) skewY(2.6deg); }
-  40%  { transform: scaleX(1.03) skewY(-2.6deg); }
-  60%  { transform: scaleX(0.96) skewY(1.6deg); }
-  80%  { transform: scaleX(1.02) skewY(-1.6deg); }
-  100% { transform: scaleX(1)    skewY(0deg); }
+  0%   { transform: skewX(0deg)   scaleX(1)    rotate(0deg); }
+  20%  { transform: skewX(13deg)  scaleX(0.82) rotate(-3deg); }
+  40%  { transform: skewX(-10deg) scaleX(1.10) rotate(3deg); }
+  60%  { transform: skewX(8deg)   scaleX(0.88) rotate(-2deg); }
+  80%  { transform: skewX(-5deg)  scaleX(1.05) rotate(1deg); }
+  100% { transform: skewX(0deg)   scaleX(1)    rotate(0deg); }
 }
 @keyframes f1-flag-glow {
   0%, 100% { box-shadow:-2px -2px 10px rgba(0,0,0,0.5), 0 0 0 rgba(225,6,0,0); }
-  50%      { box-shadow:-2px -2px 10px rgba(0,0,0,0.5), 0 0 16px 3px rgba(225,6,0,0.7); }
+  50%      { box-shadow:-2px -2px 10px rgba(0,0,0,0.5), 0 0 26px 7px rgba(225,6,0,0.95); }
 }
-.f1-checkered { position:fixed; right:0; bottom:92px; width:54px; height:54px; z-index:400; opacity:0.95; border-top-left-radius:10px; background:repeating-conic-gradient(#000 0% 25%, #fff 0% 50%) 0/18px 18px; box-shadow:-2px -2px 10px rgba(0,0,0,0.5); transform-origin:right center; animation:f1-flag-wave 2.6s ease-in-out infinite, f1-flag-glow 2.6s ease-in-out infinite; transition:filter .2s; }
+.f1-checkered { position:fixed; right:0; bottom:92px; width:54px; height:54px; z-index:400; opacity:0.95; border-top-left-radius:10px; background:repeating-conic-gradient(#000 0% 25%, #fff 0% 50%) 0/18px 18px; box-shadow:-2px -2px 10px rgba(0,0,0,0.5); transform-origin:right center; animation:f1-flag-wave 2s ease-in-out infinite, f1-flag-glow 2s ease-in-out infinite; transition:filter .2s; }
 .f1-checkered:hover { animation-duration:0.9s, 0.9s; cursor:pointer; filter:brightness(1.15); }
 @media (prefers-reduced-motion: reduce) { .f1-checkered { animation:none; } }
 

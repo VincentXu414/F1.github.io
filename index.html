@@ -294,6 +294,30 @@ tr.podium .pos-cell { text-shadow:0 0 6px rgba(255,215,0,0.5); }
 .f1-checkered:hover { animation-duration:0.9s, 0.9s; cursor:pointer; filter:brightness(1.15); }
 @media (prefers-reduced-motion: reduce) { .f1-checkered { animation:f1-flag-glow 3.5s ease-in-out infinite; } }
 
+/* ============ GAME: F1 start reaction ============ */
+.game-card { background:#26262E; border:1px solid #333; border-radius:14px; padding:24px 22px; max-width:580px; margin:0 auto; text-align:center; }
+.game-tip { color:#BBB; font-size:13px; line-height:1.6; margin:0 0 18px; }
+.lights { display:flex; justify-content:center; gap:14px; margin:8px 0 18px; }
+.light { width:48px; height:48px; border-radius:50%; background:#2a1414; border:2px solid #4a2222; box-shadow:inset 0 0 8px rgba(0,0,0,0.7); transition:background .1s, box-shadow .1s, transform .1s; }
+.light.on { background:#E10600; border-color:#ff3b30; box-shadow:0 0 20px 5px rgba(225,6,0,0.9), inset 0 0 6px rgba(255,255,255,0.25); }
+.lights.go .light { background:#0c2a16; border-color:#1ec760; box-shadow:0 0 16px 4px rgba(30,199,96,0.7); }
+.lights.go { animation:gameFlash .3s ease; }
+@keyframes gameFlash { 0%{transform:scale(1);} 50%{transform:scale(1.05);} 100%{transform:scale(1);} }
+.game-status { min-height:26px; font-size:16px; font-weight:800; color:#FFD700; margin-bottom:14px; }
+.game-status.go { color:#1ec760; font-size:26px; }
+.game-status.bad { color:#FF6B6B; }
+.game-btn { background:#E10600; color:#fff; border:none; padding:13px 38px; border-radius:26px; font-size:17px; font-weight:800; cursor:pointer; transition:transform .12s, background .2s; font-family:inherit; }
+.game-btn:hover:not(:disabled) { background:#ff2a1f; transform:translateY(-1px); }
+.game-btn:active:not(:disabled) { transform:scale(0.95); }
+.game-btn:disabled { background:#444; color:#999; cursor:default; }
+.game-result { min-height:40px; margin:6px 0 4px; }
+.game-result .rt-ms { font-size:34px; font-weight:900; color:#fff; }
+.game-result .rank { display:block; font-size:15px; font-weight:700; color:#FFD700; margin-top:4px; }
+.game-result .rt-note { display:block; font-size:13px; color:#AAA; margin-top:2px; }
+.game-best { font-size:13px; color:#AAA; margin-top:8px; }
+.game-best #gameBest { color:#fff; font-weight:700; }
+@media (prefers-reduced-motion: reduce) { .lights.go { animation:none; } }
+
 /* ============ SCHEDULE TRACK ============ */
 .schedule-track { display:flex; gap:10px; overflow-x:auto; padding:4px 2px 14px; margin-bottom:18px; }
 .sch-node { flex:0 0 auto; min-width:124px; padding:12px 14px; border-radius:10px; text-align:center; }
@@ -407,6 +431,7 @@ var _hmt = _hmt || [];
     <a href="#sec-constructors"><span class="zh">车队榜</span><span class="en">Constructors</span></a>
     <a href="#sec-recent"><span class="zh">回顾</span><span class="en">Recap</span></a>
     <a href="#sec-quiz"><span class="zh">答题</span><span class="en">Quiz</span></a>
+    <a href="#sec-game"><span class="zh">游戏</span><span class="en">Game</span></a>
   </div>
 </nav>
 
@@ -525,6 +550,24 @@ var _hmt = _hmt || [];
         </div>
     </div>
 
+
+<div class="section" id="sec-game">
+  <h2><span class="icon">🏁</span><span class="zh">F1 起步反应挑战</span><span class="en">F1 Start Reaction Challenge</span></h2>
+  <div class="game-card">
+    <p class="game-tip"><span class="zh">5 盏红灯依次亮起，全部熄灭的瞬间点击「GO！」——测测你的起步反应有多快。</span><span class="en">Five red lights turn on one by one. The instant they all go out, hit GO! — test how fast your launch reaction is.</span></p>
+    <div class="lights" id="lights">
+      <div class="light" data-i="0"></div>
+      <div class="light" data-i="1"></div>
+      <div class="light" data-i="2"></div>
+      <div class="light" data-i="3"></div>
+      <div class="light" data-i="4"></div>
+    </div>
+    <div class="game-status" id="gameStatus"></div>
+    <button class="game-btn" id="gameBtn" onclick="gameBtnClick()"><span class="zh">开始挑战</span><span class="en">Start</span></button>
+    <div class="game-result" id="gameResult"></div>
+    <div class="game-best"><span class="zh">最佳：</span><span class="en">Best:</span> <span id="gameBest">--</span></div>
+  </div>
+</div>
 
 <div class="section" id="sec-upgrades">
         <h2><span class="icon">🔧</span><span class="zh">车队升级与技术动态</span><span class="en">Team Upgrades & Technical Updates</span></h2>
@@ -1388,6 +1431,87 @@ function fqShareCard(){ const score=document.getElementById('fqScore').textConte
   setTimeout(function(){ secs.forEach(function(s){ s.classList.add("visible"); }); },3000);
 })();
 
+</script>
+
+<script>
+(function(){
+  var gameState='idle';
+  var timers=[];
+  var goTime=0;
+  function $(id){ return document.getElementById(id); }
+  function setBtn(zh,en){ var b=$('gameBtn'); b.disabled=false; b.innerHTML='<span class="zh">'+zh+'</span><span class="en">'+en+'</span>'; }
+  function clearTimers(){ timers.forEach(function(t){clearTimeout(t);}); timers=[]; }
+  function updateBest(){
+    var best = localStorage.getItem('f1game_best');
+    $('gameBest').textContent = best ? best+' ms' : '--';
+  }
+  function rankFor(ms){
+    if(ms<180) return ['维斯塔潘级','Verstappen-tier','神级起步反应！'];
+    if(ms<220) return ['汉密尔顿级','Hamilton-tier','顶级反应速度'];
+    if(ms<260) return ['勒克莱尔级','Leclerc-tier','稳健的车手反应'];
+    if(ms<320) return ['中游车手级','Midfield-tier','还不错，继续练'];
+    return ['还需训练','Needs practice','多练练起步'];
+  }
+  window.gameStart = function(){
+    clearTimers();
+    var lights=document.querySelectorAll('#lights .light');
+    lights.forEach(function(l){l.classList.remove('on');});
+    $('lights').classList.remove('go');
+    var status=$('gameStatus'); status.className='game-status';
+    $('gameResult').innerHTML='';
+    setBtn('等待灯灭…','Wait…');
+    gameState='lighting';
+    status.innerHTML='<span class="zh">红灯亮起中…</span><span class="en">Lights on…</span>';
+    for(var i=0;i<5;i++){
+      (function(idx){
+        timers.push(setTimeout(function(){
+          lights[idx].classList.add('on');
+          if(idx===4){
+            var wait = 900 + Math.random()*2200;
+            timers.push(setTimeout(function(){
+              lights.forEach(function(l){l.classList.remove('on');});
+              $('lights').classList.add('go');
+              gameState='go';
+              goTime=performance.now();
+              var s=$('gameStatus'); s.className='game-status go';
+              s.innerHTML='<span class="zh">🟢 GO!</span><span class="en">🟢 GO!</span>';
+              setBtn('GO!','GO!');
+            }, wait));
+          }
+        }, 600*(idx+1)));
+      })(i);
+    }
+  };
+  window.gameReact = function(){
+    if(gameState==='go'){
+      var rt = Math.round(performance.now()-goTime);
+      gameState='done';
+      var r = rankFor(rt);
+      $('gameResult').innerHTML =
+        '<div class="rt-ms">'+rt+' ms</div>'+
+        '<span class="rank"><span class="zh">'+r[0]+'</span><span class="en">'+r[1]+'</span></span>'+
+        '<span class="rt-note"><span class="zh">'+r[2]+'</span><span class="en">'+r[2]+'</span></span>';
+      var best = parseInt(localStorage.getItem('f1game_best')||'0',10);
+      if(!best || rt<best){ localStorage.setItem('f1game_best', rt); }
+      updateBest();
+      var s=$('gameStatus'); s.className='game-status'; s.innerHTML='<span class="zh">反应时间</span><span class="en">Your time</span>';
+      setBtn('再来一次','Retry');
+    } else if(gameState==='lighting'){
+      clearTimers();
+      gameState='falsestart';
+      document.querySelectorAll('#lights .light').forEach(function(l){l.classList.remove('on');});
+      $('lights').classList.remove('go');
+      var s=$('gameStatus'); s.className='game-status bad';
+      s.innerHTML='<span class="zh">🚦 抢跑了！灯还没灭</span><span class="en">🚦 False start! Lights still on</span>';
+      setBtn('再来一次','Retry');
+    }
+  };
+  window.gameBtnClick = function(){
+    if(gameState==='go' || gameState==='lighting'){ gameReact(); }
+    else { gameStart(); }
+  };
+  updateBest();
+})();
 </script>
 </body>
 </html>

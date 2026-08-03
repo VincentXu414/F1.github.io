@@ -317,21 +317,13 @@ tr.podium .pos-cell { text-shadow:0 0 6px rgba(255,215,0,0.5); }
 .game-best { font-size:13px; color:#AAA; margin-top:8px; }
 .game-best #gameBest { color:#fff; font-weight:700; }
 @media (prefers-reduced-motion: reduce) { .lights.go { animation:none; } }
-.pit-timer { font-size:15px; font-weight:800; color:#FFD700; min-height:20px; margin-bottom:6px; }
-.pit-box { position:relative; width:250px; height:250px; margin:6px auto 16px; }
-.pit-car { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:86px; height:150px; background:#1b1b22; border:2px solid #3a3a44; border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:30px; }
-.pit-tire { position:absolute; width:62px; height:62px; border-radius:50%; background:#2a1414; border:3px solid #4a2222; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px; color:#bbb; cursor:pointer; user-select:none; -webkit-user-select:none; transition:background .12s, box-shadow .12s, transform .1s; box-shadow:inset 0 0 8px rgba(0,0,0,0.6); }
-.pit-tire:hover { transform:scale(1.05); }
-.pit-tire .tick { display:none; font-size:22px; }
-.pit-tire.done .tick { display:inline; }
-.pit-tire.done .label { display:none; }
-.pit-tire.active { background:#E10600; border-color:#ff3b30; color:#fff; box-shadow:0 0 18px 4px rgba(225,6,0,0.85); }
-.pit-tire.done { background:#0c2a16; border-color:#1ec760; color:#fff; box-shadow:0 0 14px 3px rgba(30,199,96,0.6); cursor:default; }
-.pit-tire.done:hover { transform:none; }
-.pit-FL { left:4px; top:28px; }
-.pit-FR { right:4px; top:28px; }
-.pit-RL { left:4px; bottom:28px; }
-.pit-RR { right:4px; bottom:28px; }
+.bp-info { display:flex; justify-content:space-between; font-size:13px; color:#BBB; margin:0 2px 8px; }
+.bp-info b { color:#FFD700; }
+.bp-track { position:relative; height:76px; background:linear-gradient(90deg,#16161e,#23232e); border:1px solid #333; border-radius:12px; margin:4px 0 14px; overflow:hidden; }
+.bp-zone { position:absolute; top:0; bottom:0; background:linear-gradient(90deg, rgba(30,199,96,0.04), rgba(30,199,96,0.42), rgba(30,199,96,0.04)); border-left:2px solid #1ec760; border-right:2px solid #1ec760; }
+.bp-corner { position:absolute; right:0; top:0; bottom:0; width:14px; background:repeating-linear-gradient(45deg,#fff 0 6px,#111 6px 12px); }
+.bp-car { position:absolute; top:50%; left:0; transform:translate(-50%,-50%); font-size:32px; line-height:1; filter:drop-shadow(0 0 6px rgba(225,6,0,0.6)); }
+.bp-car.braking { filter:drop-shadow(0 0 14px rgba(225,6,0,0.95)); }
 
 /* ============ SCHEDULE TRACK ============ */
 .schedule-track { display:flex; gap:10px; overflow-x:auto; padding:4px 2px 14px; margin-bottom:18px; }
@@ -447,7 +439,7 @@ var _hmt = _hmt || [];
     <a href="#sec-recent"><span class="zh">回顾</span><span class="en">Recap</span></a>
     <a href="#sec-quiz"><span class="zh">答题</span><span class="en">Quiz</span></a>
     <a href="#sec-game"><span class="zh">游戏</span><span class="en">Game</span></a>
-    <a href="#sec-pitstop"><span class="zh">进站</span><span class="en">Pit Stop</span></a>
+    <a href="#sec-brake"><span class="zh">刹车点</span><span class="en">Brake</span></a>
   </div>
 </nav>
 
@@ -585,22 +577,20 @@ var _hmt = _hmt || [];
   </div>
 </div>
 
-<div class="section" id="sec-pitstop">
-  <h2><span class="icon">🔧</span><span class="zh">F1 进站换胎挑战</span><span class="en">F1 Pit Stop Challenge</span></h2>
+<div class="section" id="sec-brake">
+  <h2><span class="icon">🛑</span><span class="zh">F1 刹车点精准挑战</span><span class="en">F1 Braking Point Challenge</span></h2>
   <div class="game-card">
-    <p class="game-tip"><span class="zh">倒计时结束后 4 个轮胎变红——在最短时间内点完 4 个轮胎完成进站，挑战 F1 顶级后勤的速度！（灯未绿就点会抢跑）</span><span class="en">After the countdown, 4 tyres turn red — click all 4 as fast as you can to complete the pit stop and beat F1's elite crews! (Clicking before green = false start)</span></p>
-    <div class="pit-timer" id="pitTimer"></div>
-    <div class="pit-box">
-      <div class="pit-car">🏎️</div>
-      <div class="pit-tire pit-FL" id="pitFL"><span class="label">FL</span><span class="tick">✓</span></div>
-      <div class="pit-tire pit-FR" id="pitFR"><span class="label">FR</span><span class="tick">✓</span></div>
-      <div class="pit-tire pit-RL" id="pitRL"><span class="label">RL</span><span class="tick">✓</span></div>
-      <div class="pit-tire pit-RR" id="pitRR"><span class="label">RR</span><span class="tick">✓</span></div>
+    <p class="game-tip"><span class="zh">赛车冲向弯心，在绿色「刹车区」精准点下刹车——太早会锁死拖慢圈速，太晚直接撞墙退赛。3 个弯速度递增，越后面越难！（也可按空格刹车）</span><span class="en">The car races toward the apex — hit BRAKE inside the green zone. Too early = lock-up &amp; slow lap; too late = crash. 3 corners, each faster! (Space also brakes)</span></p>
+    <div class="bp-info"><span><span class="zh">弯道</span><span class="en">Corner</span> <b id="bpCorner">1</b>/3</span><span><span class="zh">速度</span><span class="en">Speed</span> <b id="bpSpeed">--</b></span></div>
+    <div class="bp-track" id="bpTrack">
+      <div class="bp-zone" id="bpZone"></div>
+      <div class="bp-corner"></div>
+      <div class="bp-car" id="bpCar">🏎️</div>
     </div>
-    <div class="game-status" id="pitStatus"></div>
-    <button class="game-btn" id="pitBtn"><span class="zh">开始挑战</span><span class="en">Start</span></button>
-    <div class="game-result" id="pitResult"></div>
-    <div class="game-best"><span class="zh">最佳：</span><span class="en">Best:</span> <span id="pitBest">--</span></div>
+    <div class="game-status" id="bpStatus"></div>
+    <button class="game-btn" id="bpBtn"><span class="zh">开始挑战</span><span class="en">Start</span></button>
+    <div class="game-result" id="bpResult"></div>
+    <div class="game-best"><span class="zh">最佳圈速：</span><span class="en">Best lap:</span> <span id="bpBest">--</span></div>
   </div>
 </div>
 
@@ -1551,89 +1541,91 @@ function fqShareCard(){ const score=document.getElementById('fqScore').textConte
 
 <script>
 (function(){
-  var tires=['FL','FR','RL','RR'];
-  var state='idle';
-  var goAt=0, rafId=null, timers=[];
-  var doneCount=0;
+  var TRACK=600, A=900;
+  var corners=[ {v:300}, {v:360}, {v:430} ];
+  var state='idle', ci=0, x=0, v=0, lastT=0, rafId=null, timers=[];
+  var lapTime=0, perfectTotal=0;
   function $(id){ return document.getElementById(id); }
-  function setBtn(zh,en){ var b=$('pitBtn'); b.disabled=false; b.innerHTML='<span class="zh">'+zh+'</span><span class="en">'+en+'</span>'; }
+  function lsGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+  function lsSet(k,val){ try{ localStorage.setItem(k,val); }catch(e){} }
   function clearTimers(){ timers.forEach(function(t){clearTimeout(t);}); timers=[]; }
   function stopRaf(){ if(rafId){ try{cancelAnimationFrame(rafId);}catch(e){} rafId=null; } }
-  function lsGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
-  function lsSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
-  function updateBest(){ var b=lsGet('f1pit_best'); $('pitBest').textContent = b ? b+' s' : '--'; }
-  function rank(s){
-    if(s<2.2) return ['红牛级进站','Red Bull-tier','世界纪录级进站！'];
-    if(s<2.7) return ['梅赛德斯级','Mercedes-tier','顶级后勤团队'];
-    if(s<3.2) return ['中游车队级','Midfield-tier','稳！'];
-    if(s<4.0) return ['还需训练','Needs practice','多练练手速'];
-    return ['慢慢来','Take it easy','别慌，再来'];
+  function setBtn(zh,en,disabled){ var b=$('bpBtn'); b.disabled=!!disabled; if(zh!==undefined) b.innerHTML='<span class="zh">'+zh+'</span><span class="en">'+en+'</span>'; }
+  function setStatus(zh,en,cls){ var s=$('bpStatus'); s.className='game-status'+(cls?(' '+cls):''); s.innerHTML='<span class="zh">'+zh+'</span><span class="en">'+en+'</span>'; }
+  function updateBest(){ var b=lsGet('f1brake_best'); $('bpBest').textContent = b ? b+' s' : '--'; }
+  function xTargetFor(vv){ return TRACK - (vv*vv)/(2*A); }
+  function render(){ var pct=Math.max(0,Math.min(100, x/TRACK*100)); $('bpCar').style.left=pct+'%'; }
+  function placeZone(){
+    var vv=corners[ci].v, xt=xTargetFor(vv);
+    var half=[16,13,10][ci]||10;
+    var centerPct=xt/TRACK*100, widthPct=(2*half)/TRACK*100;
+    var z=$('bpZone'); z.style.left=(centerPct-widthPct/2)+'%'; z.style.width=widthPct+'%';
+    $('bpSpeed').textContent=Math.round(vv*0.7)+' km/h';
   }
-  function tick(){
-    if(state!=='run'){ return; }
-    var el=(performance.now()-goAt)/1000;
-    $('pitTimer').textContent = el.toFixed(2)+' s';
-    if(typeof requestAnimationFrame==='function'){ rafId=requestAnimationFrame(tick); }
+  function startLap(){ clearTimers(); stopRaf(); ci=0; lapTime=0; perfectTotal=0; $('bpResult').innerHTML=''; beginCorner(); }
+  function beginCorner(){
+    v=corners[ci].v; x=0; state='driving'; lastT=performance.now();
+    render(); placeZone(); $('bpCorner').textContent=(ci+1);
+    $('bpCar').classList.remove('braking');
+    setStatus('刹车区亮起，准备刹车！','Brake zone active!','go');
+    setBtn('刹车！','BRAKE!',false);
+    if(typeof requestAnimationFrame==='function'){ rafId=requestAnimationFrame(loop); }
   }
-  function start(){
-    clearTimers(); stopRaf(); doneCount=0; state='count';
-    tires.forEach(function(t){ var e=$('pit'+t); e.classList.remove('active','done'); });
-    $('pitResult').innerHTML=''; $('pitTimer').textContent='';
-    setBtn('准备中…','Get ready…'); $('pitBtn').disabled=true;
-    var s=$('pitStatus'); s.className='game-status';
-    s.innerHTML='<span class="zh">准备…</span><span class="en">Get ready…</span>';
-    var seq=['3','2','1']; var step=0;
-    function next(){
-      if(step<3){ s.innerHTML='<span class="zh">'+seq[step]+'</span><span class="en">'+seq[step]+'</span>'; step++; timers.push(setTimeout(next,700)); }
-      else { go(); }
-    }
-    timers.push(setTimeout(next,700));
+  function loop(){
+    if(state!=='driving'){ return; }
+    var now=performance.now(); var dt=(now-lastT)/1000; if(dt>0.1) dt=0.1; lastT=now;
+    x += v*dt;
+    if(x>=TRACK){ crash(); return; }
+    render();
+    if(typeof requestAnimationFrame==='function'){ rafId=requestAnimationFrame(loop); }
   }
-  function go(){
-    var s=$('pitStatus'); s.className='game-status go';
-    s.innerHTML='<span class="zh">🟢 换胎！</span><span class="en">🟢 Pit now!</span>';
-    tires.forEach(function(t){ $('pit'+t).classList.add('active'); });
-    state='run'; goAt=performance.now(); tick();
-    setBtn('换胎中…','Pitting…'); $('pitBtn').disabled=true;
+  function brakePressed(){
+    if(state!=='driving'){ return; }
+    stopRaf(); $('bpCar').classList.add('braking'); evaluate(x);
   }
-  function onTire(t){
-    if(state!=='run'){ if(state==='count'){ falseStart(); } return; }
-    var e=$('pit'+t);
-    if(e.classList.contains('done')) return;
-    e.classList.remove('active'); e.classList.add('done');
-    doneCount++;
-    $('pitStatus').innerHTML='<span class="zh">已换 '+doneCount+'/4</span><span class="en">'+doneCount+'/4 done</span>';
-    if(doneCount===4){ finish(); }
+  function evaluate(xp){
+    var vv=corners[ci].v, xt=xTargetFor(vv);
+    var err=xp-xt, crashLate=45;
+    if(err>crashLate || xp>=TRACK){ crash(); return; }
+    var base=xt/vv + vv/A;
+    perfectTotal += base;
+    var penalty=Math.abs(err)*0.02;
+    lapTime += (xp/vv) + (vv/A) + penalty;
+    var tag, cls;
+    if(Math.abs(err)<=8){ tag=['完美刹车点！','Perfect brake!']; cls='go'; }
+    else if(err>0){ tag=['偏晚，损失速度','A bit late']; cls=''; }
+    else { tag=['偏早，锁死拖慢','Locked up early']; cls=''; }
+    setStatus(tag[0],tag[1],cls);
+    if(ci<corners.length-1){
+      state='between'; setBtn('下一个弯…','Next…',true);
+      timers.push(setTimeout(function(){ ci++; beginCorner(); }, 900));
+    } else { finish(); }
   }
   function finish(){
     state='done'; stopRaf();
-    var s=(performance.now()-goAt)/1000;
-    tires.forEach(function(t){ $('pit'+t).classList.remove('active'); });
-    var r=rank(s);
-    $('pitResult').innerHTML='<div class="rt-ms">'+s.toFixed(2)+' s</div><span class="rank"><span class="zh">'+r[0]+'</span><span class="en">'+r[1]+'</span></span><span class="rt-note"><span class="zh">'+r[2]+'</span><span class="en">'+r[2]+'</span></span>';
-    var b=parseFloat(lsGet('f1pit_best')||'0');
-    if(!b || s<b){ lsSet('f1pit_best', s.toFixed(2)); }
-    updateBest();
-    var st=$('pitStatus'); st.className='game-status'; st.innerHTML='<span class="zh">进站完成</span><span class="en">Pit done</span>';
-    setBtn('再来一次','Retry');
+    var delta=lapTime-perfectTotal, r=rank(delta);
+    $('bpResult').innerHTML='<div class="rt-ms">'+lapTime.toFixed(2)+' s</div><span class="rank"><span class="zh">'+r[0]+'</span><span class="en">'+r[1]+'</span></span><span class="rt-note"><span class="zh">'+r[2]+'（对比完美 +'+delta.toFixed(2)+'s）</span><span class="en">'+r[2]+' (+'+delta.toFixed(2)+'s vs perfect)</span></span>';
+    var b=parseFloat(lsGet('f1brake_best')||'0');
+    if(!b || lapTime<b){ lsSet('f1brake_best', lapTime.toFixed(2)); }
+    updateBest(); setStatus('完赛！','Finished!',''); setBtn('再来一次','Retry',false);
   }
-  function falseStart(){
-    clearTimers(); stopRaf(); state='false';
-    tires.forEach(function(t){ $('pit'+t).classList.remove('active','done'); });
-    var s=$('pitStatus'); s.className='game-status bad';
-    s.innerHTML='<span class="zh">🚦 抢跑了！等绿灯</span><span class="en">🚦 False start! Wait for green</span>';
-    setBtn('再来一次','Retry');
+  function crash(){
+    state='crash'; stopRaf();
+    $('bpResult').innerHTML='<div class="rt-ms" style="color:#FF6B6B">💥 撞墙</div><span class="rank" style="color:#FF6B6B"><span class="zh">退赛 DNF</span><span class="en">DNF</span></span><span class="rt-note"><span class="zh">刹车太晚，冲出弯心！</span><span class="en">Braked too late — off track!</span></span>';
+    setStatus('💥 撞墙退赛','💥 Crash!','bad'); setBtn('再来一次','Retry',false);
   }
-  function btnClick(){
-    if(state==='run'){ return; }
-    start();
+  function rank(d){
+    if(d<=0.3) return ['杆位级','Pole position','神级刹车控制！'];
+    if(d<=0.9) return ['头排起步','Front row','顶级刹车点'];
+    if(d<=1.8) return ['积分区','Points finish','稳健精准'];
+    if(d<=3.2) return ['中游完赛','Midfield','还不错'];
+    return ['惊险完赛','Survived','勉强守住'];
   }
-  tires.forEach(function(t){ var e=$('pit'+t); if(e){ e.addEventListener('click', function(){ onTire(t); }); } });
-  $('pitBtn').addEventListener('click', btnClick);
-  updateBest();
+  function btnClick(){ var b=$('bpBtn'); if(b.disabled) return; if(state==='driving'){ brakePressed(); } else { startLap(); } }
+  $('bpBtn').addEventListener('click', btnClick);
+  document.addEventListener('keydown', function(e){ if(e.code==='Space'){ e.preventDefault(); if(state==='driving'){ brakePressed(); } } });
+  updateBest(); setStatus('点击开始，冲刺 3 个弯','Press start, 3 corners','');
 })();
 </script>
-</body>
-</html>
 </body>
 </html>

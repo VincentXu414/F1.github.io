@@ -317,28 +317,6 @@ tr.podium .pos-cell { text-shadow:0 0 6px rgba(255,215,0,0.5); }
 .game-best { font-size:13px; color:#AAA; margin-top:8px; }
 .game-best #gameBest { color:#fff; font-weight:700; }
 @media (prefers-reduced-motion: reduce) { .lights.go { animation:none; } }
-.rush-hud { display:flex; justify-content:space-between; align-items:center; gap:6px; font-size:13px; color:#BBB; margin:0 2px 10px; flex-wrap:wrap; }
-.rush-hud .item { background:rgba(255,255,255,0.04); border:1px solid #333; border-radius:8px; padding:4px 9px; }
-.rush-hud b { color:#FFD700; }
-.rush-lives { color:#E10600; letter-spacing:2px; }
-.rush-stage { position:relative; height:360px; background:linear-gradient(180deg,#101019,#1c1c28); border:1px solid #333; border-radius:12px; overflow:hidden; touch-action:none; user-select:none; -webkit-user-select:none; }
-.rush-lane { position:absolute; top:0; bottom:0; width:33.3333%; border-left:1px dashed rgba(255,255,255,0.07); border-right:1px dashed rgba(255,255,255,0.07); }
-.rush-speed { position:absolute; inset:0; pointer-events:none; background:repeating-linear-gradient(180deg, transparent 0 22px, rgba(255,255,255,0.05) 22px 24px); animation:rushScroll .45s linear infinite; }
-@keyframes rushScroll { from{background-position:0 0;} to{background-position:0 24px;} }
-.rush-car { position:absolute; font-size:30px; line-height:1; transform:translate(-50%,-50%); text-align:center; }
-.rush-player { bottom:26px; filter:drop-shadow(0 0 8px rgba(225,6,0,0.85)); z-index:6; transition:left .09s ease-out; }
-.rush-player.hot { filter:drop-shadow(0 0 14px rgba(255,215,0,0.95)); }
-.rush-player.flash { animation:rushBlink .2s steps(1) infinite; }
-@keyframes rushBlink { 0%{opacity:1;} 50%{opacity:.25;} }
-.rush-ob { z-index:4; opacity:.95; }
-.rush-float { position:absolute; font-size:14px; font-weight:800; color:#FFD700; pointer-events:none; transform:translate(-50%,-50%); z-index:7; animation:rushFloat .7s ease-out forwards; text-shadow:0 1px 3px #000; }
-@keyframes rushFloat { from{opacity:1;} to{opacity:0; transform:translate(-50%,-200%);} }
-.rush-stage.shake { animation:rushShake .3s; }
-@keyframes rushShake { 0%,100%{transform:translateX(0);} 25%{transform:translateX(-7px);} 75%{transform:translateX(7px);} }
-.rush-stage.flash { box-shadow:inset 0 0 70px rgba(225,6,0,0.75); }
-.rush-ctrl { display:flex; gap:10px; justify-content:center; margin-top:12px; }
-.rush-ctrl button { flex:1; max-width:120px; }
-@media (prefers-reduced-motion: reduce) { .rush-speed, .rush-stage.shake, .rush-float, .rush-player.flash { animation:none; } .rush-player { transition:none; } }
 
 /* ============ SCHEDULE TRACK ============ */
 .schedule-track { display:flex; gap:10px; overflow-x:auto; padding:4px 2px 14px; margin-bottom:18px; }
@@ -454,8 +432,7 @@ var _hmt = _hmt || [];
     <a href="#sec-recent"><span class="zh">回顾</span><span class="en">Recap</span></a>
     <a href="#sec-quiz"><span class="zh">答题</span><span class="en">Quiz</span></a>
     <a href="#sec-game"><span class="zh">游戏</span><span class="en">Game</span></a>
-    <a href="#sec-rush"><span class="zh">超车</span><span class="en">Overtake</span></a>
-  </div>
+      </div>
 </nav>
 
 <div class="container">
@@ -589,34 +566,6 @@ var _hmt = _hmt || [];
     <button class="game-btn" id="gameBtn" onclick="gameBtnClick()"><span class="zh">开始挑战</span><span class="en">Start</span></button>
     <div class="game-result" id="gameResult"></div>
     <div class="game-best"><span class="zh">最佳：</span><span class="en">Best:</span> <span id="gameBest">--</span></div>
-  </div>
-</div>
-
-<div class="section" id="sec-rush">
-  <h2><span class="icon">🏎️</span><span class="zh">F1 极速超车</span><span class="en">F1 Overtake Rush</span></h2>
-  <div class="game-card">
-    <p class="game-tip"><span class="zh">用 ← → 方向键、屏幕按钮或左右滑动切换车道，躲避对手赛车并漂亮超车得分！连击越高分越多，车速会越来越快，看你能撑多远。</span><span class="en">Use ← → keys, the buttons, or swipe to switch lanes. Dodge rivals and overtake cleanly for points! Higher combos = more points. Speed keeps rising — how far can you go?</span></p>
-    <div class="rush-hud">
-      <span class="item"><span class="zh">得分</span><span class="en">Score</span> <b id="rushScore">0</b></span>
-      <span class="item"><span class="zh">距离</span><span class="en">Dist</span> <b id="rushDist">0 m</b></span>
-      <span class="item"><span class="zh">连击</span><span class="en">Combo</span> <b id="rushCombo">x1</b></span>
-      <span class="item"><span class="zh">生命</span><span class="en">Lives</span> <b class="rush-lives" id="rushLives">♥♥♥</b></span>
-    </div>
-    <div class="rush-stage" id="rushStage">
-      <div class="rush-lane" style="left:0"></div>
-      <div class="rush-lane" style="left:33.3333%"></div>
-      <div class="rush-lane" style="left:66.6666%"></div>
-      <div class="rush-speed"></div>
-      <div class="rush-car rush-player" id="rushPlayer" style="left:50%">🏎️</div>
-    </div>
-    <div class="rush-ctrl">
-      <button class="game-btn" id="rushLeft"><span class="zh">◀ 左</span><span class="en">◀ Left</span></button>
-      <button class="game-btn" id="rushRight"><span class="zh">右 ▶</span><span class="en">Right ▶</span></button>
-    </div>
-    <div class="game-status" id="rushStatus"></div>
-    <button class="game-btn" id="rushBtn"><span class="zh">开始挑战</span><span class="en">Start</span></button>
-    <div class="game-result" id="rushResult"></div>
-    <div class="game-best"><span class="zh">最高分：</span><span class="en">Best:</span> <span id="rushBest">--</span></div>
   </div>
 </div>
 
@@ -1565,137 +1514,6 @@ function fqShareCard(){ const score=document.getElementById('fqScore').textConte
 })();
 </script>
 
-<script>
-(function(){
-  var LANES=3;
-  var state='idle', lives=3, score=0, dist=0, combo=1, bestCombo=1;
-  var playerLane=1, obstacles=[], rafId=null, lastT=0, spawnAcc=0;
-  var speed=200, spawnEvery=1.05, stageH=360, invuln=0;
-  function $(id){ return document.getElementById(id); }
-  function lsGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
-  function lsSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
-  function setBtn(zh,en,disabled){ var b=$('rushBtn'); b.disabled=!!disabled; if(zh!==undefined) b.innerHTML='<span class="zh">'+zh+'</span><span class="en">'+en+'</span>'; }
-  function setStatus(zh,en,cls){ var s=$('rushStatus'); s.className='game-status'+(cls?(' '+cls):''); s.innerHTML='<span class="zh">'+zh+'</span><span class="en">'+en+'</span>'; }
-  function updateBest(){ var b=lsGet('f1rush_best'); $('rushBest').textContent = b ? b : '--'; }
-  function laneX(l){ return (l+0.5)/LANES*100; }
-  function updateHUD(){
-    $('rushScore').textContent=score;
-    $('rushDist').textContent=Math.floor(dist)+' m';
-    $('rushCombo').textContent='x'+combo;
-    $('rushLives').textContent='♥'.repeat(lives)+'♡'.repeat(Math.max(0,3-lives));
-    $('rushPlayer').classList.toggle('hot', combo>=4);
-  }
-  function clearObstacles(){ obstacles.forEach(function(o){ if(o.el&&o.el.parentNode) o.el.parentNode.removeChild(o.el); }); obstacles=[]; }
-  function spawnObstacle(){
-    var lane=Math.floor(Math.random()*LANES);
-    var el=document.createElement('div');
-    el.className='rush-car rush-ob';
-    el.textContent=(Math.random()<0.5)?'🚗':'🏎️';
-    el.style.left=laneX(lane)+'%';
-    el.style.top='-40px';
-    $('rushStage').appendChild(el);
-    obstacles.push({lane:lane, y:-40, el:el, counted:false});
-  }
-  function floatText(txt){
-    var f=document.createElement('div');
-    f.className='rush-float'; f.textContent=txt;
-    f.style.left='50%'; f.style.top=(stageH-72)+'px';
-    $('rushStage').appendChild(f);
-    setTimeout(function(){ if(f.parentNode) f.parentNode.removeChild(f); }, 720);
-  }
-  function start(){
-    if(rafId){ try{cancelAnimationFrame(rafId);}catch(e){} rafId=null; }
-    clearObstacles();
-    state='run'; lives=3; score=0; dist=0; combo=1; bestCombo=1; speed=200; spawnEvery=1.05; spawnAcc=0; invuln=0;
-    playerLane=1; $('rushPlayer').style.left=laneX(1)+'%'; $('rushPlayer').classList.remove('hot','flash');
-    $('rushResult').innerHTML=''; updateHUD();
-    setStatus('冲！','Go!','go'); setBtn('进行中…','Racing…',true);
-    lastT=performance.now(); rafId=requestAnimationFrame(loop);
-  }
-  function loop(){
-    if(state!=='run'){ return; }
-    var now=performance.now(); var dt=(now-lastT)/1000; if(dt>0.05) dt=0.05; lastT=now;
-    dist += speed*dt*0.12;
-    speed = Math.min(560, 200 + dist*0.18);
-    spawnEvery = Math.max(0.42, 1.05 - dist*0.0009);
-    if(invuln>0){ invuln-=dt; if(invuln<=0){ $('rushPlayer').classList.remove('flash'); } }
-    spawnAcc += dt;
-    if(spawnAcc>=spawnEvery){ spawnAcc=0; spawnObstacle(); }
-    var playerY = stageH-26;
-    for(var i=obstacles.length-1;i>=0;i--){
-      if(state!=='run'){ return; }
-      var o=obstacles[i];
-      if(!o){ continue; }
-      o.y += speed*dt;
-      o.el.style.top=o.y+'px';
-      var cy=o.y;
-      if(!o.counted){
-        if(o.lane===playerLane && Math.abs(cy-playerY)<26){
-          if(invuln<=0){ crash(o,i); continue; }
-        } else if(cy>playerY+26){
-          o.counted=true;
-          combo=Math.min(9, combo+1); if(combo>bestCombo) bestCombo=combo;
-          var gain=10*combo; score+=gain; floatText('+'+gain); updateHUD();
-        }
-      }
-    }
-    rafId=requestAnimationFrame(loop);
-  }
-  function crash(o,i){
-    lives--; combo=1; updateHUD();
-    var st=$('rushStage'); st.classList.add('shake','flash');
-    setTimeout(function(){ st.classList.remove('shake','flash'); },300);
-    if(o&&o.el&&o.el.parentNode){ o.el.parentNode.removeChild(o.el); }
-    obstacles.splice(i,1);
-    if(lives<=0){ gameOver(); return; }
-    invuln=1.0; $('rushPlayer').classList.add('flash');
-    setStatus('撞车！剩余生命 '+(lives),'Crash! Lives left '+lives,'bad');
-  }
-  function gameOver(){
-    state='over'; if(rafId){ try{cancelAnimationFrame(rafId);}catch(e){} rafId=null; }
-    clearObstacles();
-    var r=rank(score);
-    var b=parseInt(lsGet('f1rush_best')||'0',10);
-    var isNew = (!b || score>b);
-    if(isNew){ lsSet('f1rush_best', String(score)); }
-    updateBest();
-    $('rushResult').innerHTML='<div class="rt-ms">'+score+' <span style="font-size:14px;color:#BBB"><span class="zh">分</span><span class="en">pts</span></span></div><span class="rank"><span class="zh">'+r[0]+'</span><span class="en">'+r[1]+'</span></span><span class="rt-note"><span class="zh">'+r[2]+' · 最高连击 x'+bestCombo+(isNew?' · 新纪录！':'')+'</span><span class="en">'+r[2]+' · Best combo x'+bestCombo+(isNew?' · New record!':'')+'</span></span>';
-    setStatus('比赛结束','Race over',''); setBtn('再来一次','Retry',false);
-  }
-  function rank(s){
-    if(s>=700) return ['传奇车手','Legend','F1 史上最强超车机器'];
-    if(s>=400) return ['世界冠军级','Champion','统治级表现'];
-    if(s>=220) return ['领奖台','Podium','稳稳上位圈'];
-    if(s>=100) return ['积分区','Points','锁定积分'];
-    return ['新秀','Rookie','再练练手感'];
-  }
-  function move(dir){
-    if(state!=='run') return;
-    playerLane=Math.max(0,Math.min(LANES-1, playerLane+dir));
-    $('rushPlayer').style.left=laneX(playerLane)+'%';
-  }
-  function btnClick(){ if($('rushBtn').disabled) return; if(state==='run'){ return; } start(); }
-  $('rushBtn').addEventListener('click', btnClick);
-  $('rushLeft').addEventListener('click', function(){ move(-1); });
-  $('rushRight').addEventListener('click', function(){ move(1); });
-  document.addEventListener('keydown', function(e){
-    if(e.code==='ArrowLeft'){ e.preventDefault(); move(-1); }
-    else if(e.code==='ArrowRight'){ e.preventDefault(); move(1); }
-    else if(e.code==='Space'||e.code==='Enter'){ if(state!=='run'){ e.preventDefault(); start(); } }
-  });
-  var stage=$('rushStage');
-  var touchX=null;
-  stage.addEventListener('touchstart', function(e){ if(e.touches&&e.touches[0]) touchX=e.touches[0].clientX; }, {passive:true});
-  stage.addEventListener('touchend', function(e){
-    if(touchX===null) return;
-    var rect=stage.getBoundingClientRect();
-    var x=(e.changedTouches&&e.changedTouches[0])?e.changedTouches[0].clientX:touchX;
-    var rel=(x-rect.left)/rect.width;
-    if(rel<0.4) move(-1); else if(rel>0.6) move(1);
-    touchX=null;
-  }, {passive:true});
-  updateBest(); setStatus('点击开始，极速超车！','Press start, overtake!','');
-})();
-</script>
+
 </body>
 </html>

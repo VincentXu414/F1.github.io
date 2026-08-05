@@ -324,6 +324,30 @@ tr.podium .pos-cell { text-shadow:0 0 6px rgba(255,215,0,0.5); }
 .game-best #gameBest { color:#fff; font-weight:700; }
 @media (prefers-reduced-motion: reduce) { .lights.go { animation:none; } }
 
+/* ============ GAME: Tyre Wear Manager ============ */
+.cmp-selectors { display:flex; align-items:center; gap:12px; justify-content:center; margin:4px 0 18px; flex-wrap:wrap; }
+.cmp-selectors select { background:#1b1b22; color:#fff; border:1px solid #3a3a44; border-radius:10px; padding:10px 14px; font-size:15px; font-family:inherit; min-width:190px; cursor:pointer; max-width:46%; }
+.cmp-vs { font-weight:900; color:#E10600; font-size:18px; letter-spacing:1px; }
+.cmp-arena { display:flex; gap:14px; justify-content:center; margin-bottom:18px; flex-wrap:wrap; }
+.cmp-card { flex:1; min-width:200px; max-width:300px; background:#1b1b22; border:1px solid #333; border-radius:14px; padding:22px 16px 16px; text-align:center; position:relative; }
+.cmp-card.win { border-color:#FFD700; box-shadow:0 0 18px rgba(255,215,0,0.28); }
+.cmp-rank-badge { position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:#E10600; color:#fff; font-weight:800; font-size:12px; padding:3px 12px; border-radius:20px; white-space:nowrap; }
+.cmp-driver { font-size:18px; font-weight:800; margin:6px 0 5px; }
+.cmp-team { display:inline-flex; align-items:center; gap:6px; font-size:13px; color:#BBB; }
+.cmp-team .tb { width:10px; height:10px; border-radius:50%; display:inline-block; }
+.cmp-big { font-size:34px; font-weight:900; color:#FFD700; margin:10px 0 0; }
+.cmp-big small { font-size:13px; color:#AAA; font-weight:600; }
+.cmp-metrics { display:flex; flex-direction:column; gap:12px; }
+.cmp-metric { background:#1b1b22; border:1px solid #2a2a33; border-radius:12px; padding:12px 14px; }
+.cmp-metric-head { font-size:13px; color:#CCC; margin-bottom:9px; font-weight:700; }
+.cmp-bars { display:flex; flex-direction:column; gap:7px; }
+.cmp-bar-row { display:flex; align-items:center; gap:8px; font-size:12px; }
+.cmp-bar-row .lbl { width:74px; color:#BBB; flex-shrink:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.cmp-track { flex:1; height:14px; background:#0d0d12; border-radius:7px; overflow:hidden; }
+.cmp-fill { height:100%; border-radius:7px; transition:width .6s ease; }
+.cmp-val { width:56px; text-align:right; font-weight:700; flex-shrink:0; }
+@media (max-width:520px){ .cmp-selectors{ flex-direction:column; } .cmp-selectors select{ max-width:100%; } }
+
 /* ============ SCHEDULE TRACK ============ */
 .schedule-track { display:flex; gap:10px; overflow-x:auto; padding:4px 2px 14px; margin-bottom:18px; }
 .sch-node { flex:0 0 auto; min-width:124px; padding:12px 14px; border-radius:10px; text-align:center; }
@@ -441,6 +465,7 @@ var _hmt = _hmt || [];
     <a href="#sec-recent"><span class="zh">回顾</span><span class="en">Recap</span></a>
     <a href="#sec-quiz"><span class="zh">答题</span><span class="en">Quiz</span></a>
     <a href="#sec-game"><span class="zh">游戏</span><span class="en">Game</span></a>
+    <a href="#sec-compare"><span class="zh">对比</span><span class="en">Compare</span></a>
     <a href="#sec-result"><span class="zh">结果</span><span class="en">Result</span></a>
     <a href="#sec-nextpred"><span class="zh">预测</span><span class="en">Predict</span></a>
     <a href="#sec-upgrades"><span class="zh">升级</span><span class="en">Upgrades</span></a>
@@ -579,6 +604,23 @@ var _hmt = _hmt || [];
     <button class="game-btn" id="gameBtn" onclick="gameBtnClick()"><span class="zh">开始挑战</span><span class="en">Start</span></button>
     <div class="game-result" id="gameResult"></div>
     <div class="game-best"><span class="zh">最佳：</span><span class="en">Best:</span> <span id="gameBest">--</span></div>
+  </div>
+</div>
+
+<div class="section" id="sec-compare">
+  <h2><span class="icon">🆚</span><span class="zh">F1 车手数据对比器</span><span class="en">F1 Driver Comparator</span></h2>
+  <div class="game-card">
+    <p class="game-tip"><span class="zh">选择两位车手，并排对比本赛季积分、排名与最近一站表现——绿色为该项占优方。</span><span class="en">Pick two drivers to compare championship points, ranking and last-race form side by side — green marks the better side.</span></p>
+    <div class="cmp-selectors">
+      <select id="cmpA"></select>
+      <span class="cmp-vs">VS</span>
+      <select id="cmpB"></select>
+    </div>
+    <div class="cmp-arena">
+      <div class="cmp-card" id="cmpCardA"></div>
+      <div class="cmp-card" id="cmpCardB"></div>
+    </div>
+    <div class="cmp-metrics" id="cmpMetrics"></div>
   </div>
 </div>
 
@@ -1633,6 +1675,63 @@ function fqShareCard(){ const score=document.getElementById('fqScore').textConte
     else { gameStart(); }
   };
   updateBest();
+})();
+
+(function(){
+  var D = window.F1_DATA; if(!D || !D.drivers) return;
+  function $(id){ return document.getElementById(id); }
+  var sa=$('cmpA'), sb=$('cmpB'); if(!sa||!sb) return;
+  D.drivers.forEach(function(d){
+    var oa=document.createElement('option'); oa.value=d.name; oa.textContent=d.name+' (#'+d.p+')'; sa.appendChild(oa);
+    var ob=document.createElement('option'); ob.value=d.name; ob.textContent=d.name+' (#'+d.p+')'; sb.appendChild(ob);
+  });
+  sa.value=D.drivers[0].name; sb.value=(D.drivers[1]||D.drivers[0]).name;
+  function findDriver(n){ for(var i=0;i<D.drivers.length;i++){ if(D.drivers[i].name===n) return D.drivers[i]; } return null; }
+  function findResult(n){ if(!D.results) return null; for(var i=0;i<D.results.length;i++){ if(D.results[i].name===n) return D.results[i]; } return null; }
+  function teamColor(t){ return (D.teamColors&&D.teamColors[t])||'#888'; }
+  function surname(n){ var p=n.split(' '); return p[p.length-1]; }
+  function renderCard(id,d){
+    var c=$(id); if(!c||!d) return;
+    c.innerHTML='<div class="cmp-rank-badge">P'+d.p+'</div>'+
+      '<div class="cmp-driver">'+d.name+'</div>'+
+      '<div class="cmp-team"><span class="tb" style="background:'+teamColor(d.team)+'"></span>'+d.team+'</div>'+
+      '<div class="cmp-big">'+d.pts+'<small> pts</small></div>';
+  }
+  function renderMetrics(da,db){
+    var wrap=$('cmpMetrics'); if(!wrap) return;
+    var ra=findResult(da.name), rb=findResult(db.name);
+    var m=[
+      {zh:'赛季积分',en:'Championship pts',a:da.pts,b:db.pts,high:true,fmt:function(v){return v;}},
+      {zh:'车手榜名次',en:'Drivers rank',a:da.p,b:db.p,high:false,fmt:function(v){return 'P'+v;}},
+      {zh:'最近一站名次',en:'Last race pos',a:ra?ra.p:99,b:rb?rb.p:99,high:false,fmt:function(v){return 'P'+v;}},
+      {zh:'最近一站积分',en:'Last race pts',a:ra?ra.pts:0,b:rb?rb.pts:0,high:true,fmt:function(v){return v;}}
+    ];
+    var RANGE=22, html='';
+    m.forEach(function(it){
+      var sa_s = it.high ? it.a : (RANGE - it.a);
+      var sb_s = it.high ? it.b : (RANGE - it.b);
+      var mx = Math.max(sa_s, sb_s, 1);
+      var aWins = sa_s >= sb_s;
+      var aPct = sa_s/mx*100, bPct = sb_s/mx*100;
+      var ca = aWins ? '#1ec760' : '#7a2230';
+      var cb = aWins ? '#7a2230' : '#1ec760';
+      html+='<div class="cmp-metric"><div class="cmp-metric-head"><span class="zh">'+it.zh+'</span><span class="en">'+it.en+'</span></div><div class="cmp-bars">'+
+        '<div class="cmp-bar-row"><span class="lbl">'+surname(da.name)+'</span><div class="cmp-track"><div class="cmp-fill" style="width:'+aPct.toFixed(1)+'%;background:'+ca+'"></div></div><span class="cmp-val">'+it.fmt(it.a)+'</span></div>'+
+        '<div class="cmp-bar-row"><span class="lbl">'+surname(db.name)+'</span><div class="cmp-track"><div class="cmp-fill" style="width:'+bPct.toFixed(1)+'%;background:'+cb+'"></div></div><span class="cmp-val">'+it.fmt(it.b)+'</span></div>'+
+        '</div></div>';
+    });
+    wrap.innerHTML=html;
+    var wa = da.pts>db.pts;
+    if($('cmpCardA')) $('cmpCardA').classList.toggle('win', wa);
+    if($('cmpCardB')) $('cmpCardB').classList.toggle('win', !wa);
+  }
+  function render(){
+    var da=findDriver(sa.value), db=findDriver(sb.value);
+    if(!da||!db) return;
+    renderCard('cmpCardA',da); renderCard('cmpCardB',db); renderMetrics(da,db);
+  }
+  sa.addEventListener('change',render); sb.addEventListener('change',render);
+  render();
 })();
 </script>
 

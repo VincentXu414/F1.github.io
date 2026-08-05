@@ -275,6 +275,12 @@ tr.podium .pos-cell { text-shadow:0 0 6px rgba(255,215,0,0.5); }
 .f1-nav-left { display:flex; align-items:center; gap:14px; }
 .f1-nav-links a { color:#CCC; text-decoration:none; font-size:14px; font-weight:600; transition:color .2s, border-color .2s; border-bottom:2px solid transparent; padding-bottom:2px; }
 .f1-nav-links a:hover { color:#fff; border-bottom-color:#E10600; }
+.data-asof { display:inline-block; margin-top:8px; background:rgba(255,215,0,0.12); border:1px solid #FFD700; color:#FFD700; font-size:12px; font-weight:700; padding:3px 12px; border-radius:20px; }
+.f1-footer { margin-top:18px; border-top:1px solid #333; background:#1b1b22; padding:18px 16px; text-align:center; }
+.f1-footer-inner { max-width:1100px; margin:0 auto; font-size:12px; }
+.f1-footer-row { margin-bottom:6px; color:#999; }
+.f1-footer .dot { margin:0 8px; color:#555; }
+.f1-footer-note { color:#666; font-size:11px; margin-top:4px; }
 
 /* ============ CHECKERED FLAG ============ */
 /* checkered flag: continuous wave + F1-red breathing glow */
@@ -353,9 +359,12 @@ tr.podium .pos-cell { text-shadow:0 0 6px rgba(255,215,0,0.5); }
 .table-wrap { width:100%; overflow-x:auto; }
 @media (max-width:768px) {
   .driver-cards { grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); }
-  .f1-nav-links { gap:11px; }
-  .f1-nav-links a { font-size:12px; }
-  .f1-logo { font-size:22px; }
+  .f1-nav { padding:8px 12px; }
+  .f1-nav-links { gap:14px; overflow-x:auto; flex-wrap:nowrap; flex:1 1 auto; min-width:0; scrollbar-width:none; -ms-overflow-style:none; }
+  .f1-nav-links::-webkit-scrollbar { display:none; }
+  .f1-nav-links a { white-space:nowrap; font-size:13px; }
+  .f1-logo { font-size:20px; flex:0 0 auto; }
+  .lang-switch { flex:0 0 auto; }
 }
 
 </style>
@@ -432,6 +441,9 @@ var _hmt = _hmt || [];
     <a href="#sec-recent"><span class="zh">回顾</span><span class="en">Recap</span></a>
     <a href="#sec-quiz"><span class="zh">答题</span><span class="en">Quiz</span></a>
     <a href="#sec-game"><span class="zh">游戏</span><span class="en">Game</span></a>
+    <a href="#sec-result"><span class="zh">结果</span><span class="en">Result</span></a>
+    <a href="#sec-nextpred"><span class="zh">预测</span><span class="en">Predict</span></a>
+    <a href="#sec-upgrades"><span class="zh">升级</span><span class="en">Upgrades</span></a>
       </div>
 </nav>
 
@@ -453,6 +465,7 @@ var _hmt = _hmt || [];
         <h1><span class="zh">F1 2026 赛季追踪报告</span><span class="en">F1 2026 Season Tracking Report</span></h1>
         <div class="subtitle"><span class="zh">报告生成日期: 2026-08-05 09:19（北京时间）</span><span class="en">Report generated: 2026-08-05 09:19 (Beijing Time)</span></div>
         <div class="race-badge"><span class="zh">最近完赛: 匈牙利大奖赛</span><span class="en">Last race: Hungarian GP</span></div>
+        <div class="data-asof" id="dataAsOf"></div>
     </div>
 
 
@@ -655,7 +668,7 @@ var _hmt = _hmt || [];
         </div>
         <table>
             <thead><tr><th><span class="zh">名次</span><span class="en">Pos</span></th><th><span class="zh">车手</span><span class="en">Driver</span></th><th><span class="zh">车队</span><span class="en">Team</span></th><th><span class="zh">用时/状态</span><span class="en">Time/Status</span></th><th><span class="zh">积分</span><span class="en">Points</span></th></tr></thead>
-            <tbody>
+            <tbody id="resultsTbody">
                 <tr class="podium">
                     <td class="pos-cell">1</td>
                     <td class="driver-cell"><span class="team-bar" style="background:#FF8000"></span>Lando Norris</td>
@@ -818,7 +831,7 @@ var _hmt = _hmt || [];
         <h2><span class="icon">🏆</span><span class="zh">车手积分榜</span><span class="en">Drivers' Standings</span></h2>
         <table>
             <thead><tr><th><span class="zh">名次</span><span class="en">Pos</span></th><th><span class="zh">车手</span><span class="en">Driver</span></th><th><span class="zh">车队</span><span class="en">Team</span></th><th><span class="zh">积分</span><span class="en">Points</span></th></tr></thead>
-            <tbody>
+            <tbody id="driversTbody">
                 <tr class="podium">
                     <td class="pos-cell">1</td>
                     <td class="driver-cell"><span class="team-bar" style="background:#00D2BE"></span>Kimi Antonelli</td>
@@ -960,7 +973,7 @@ var _hmt = _hmt || [];
         <h2><span class="icon">🏭</span><span class="zh">车队积分榜</span><span class="en">Constructors' Standings</span></h2>
         <table>
             <thead><tr><th><span class="zh">名次</span><span class="en">Pos</span></th><th><span class="zh">车队</span><span class="en">Team</span></th><th><span class="zh">积分</span><span class="en">Points</span></th></tr></thead>
-            <tbody>
+            <tbody id="constructorsTbody">
                 <tr class="podium">
                     <td class="pos-cell">1</td>
                     <td class="driver-cell"><span class="team-bar" style="background:#00D2BE"></span>Mercedes</td>
@@ -1103,6 +1116,103 @@ var _hmt = _hmt || [];
     </div>
 
 </div>
+
+<footer class="f1-footer">
+  <div class="f1-footer-inner">
+    <div class="f1-footer-row">
+      <span class="zh">数据来源：F1 官方公开资料整理 · 成绩与积分截至匈牙利大奖赛（2026-07-26）</span>
+      <span class="en">Data: compiled from public F1 sources · results &amp; standings as of Hungarian GP (2026-07-26)</span>
+    </div>
+    <div class="f1-footer-row">
+      <span class="zh">最后更新：2026-08-05</span><span class="en">Last updated: 2026-08-05</span>
+      <span class="dot">·</span>
+      <span class="zh">© 2026 VincentXu · F1 2026 赛季追踪</span><span class="en">© 2026 VincentXu · F1 2026 Tracker</span>
+    </div>
+    <div class="f1-footer-note"><span class="zh">本站为爱好者非官方站点，仅供学习与交流使用。</span><span class="en">Unofficial fan site for educational &amp; fan use only.</span></div>
+  </div>
+</footer>
+
+<script>
+/* ===== F1_DATA: 单一数据源，更新赛季数据只需修改本对象 ===== */
+window.F1_DATA = {
+  asOf: "2026-07-26",
+  asOfLabel: { zh: "数据截至匈牙利大奖赛（2026-07-26）", en: "Data as of Hungarian GP (2026-07-26)" },
+  teamColors: {
+    "Mercedes":"#00D2BE","Ferrari":"#DC0000","McLaren":"#FF8000","Red Bull":"#1E2B5E",
+    "Racing Bulls":"#6692FF","Alpine":"#0090FF","Haas":"#B6BABD","Audi":"#C4FF4F",
+    "Williams":"#005AFF","Aston Martin":"#006F62","Cadillac":"#1A1A1A"
+  },
+  drivers: [
+    {p:1,name:"Kimi Antonelli",team:"Mercedes",pts:219},
+    {p:2,name:"Lewis Hamilton",team:"Ferrari",pts:169},
+    {p:3,name:"George Russell",team:"Mercedes",pts:160},
+    {p:4,name:"Charles Leclerc",team:"Ferrari",pts:138},
+    {p:5,name:"Lando Norris",team:"McLaren",pts:128},
+    {p:6,name:"Max Verstappen",team:"Red Bull",pts:109},
+    {p:7,name:"Oscar Piastri",team:"McLaren",pts:92},
+    {p:8,name:"Isack Hadjar",team:"Red Bull",pts:68},
+    {p:9,name:"Liam Lawson",team:"Racing Bulls",pts:43},
+    {p:10,name:"Pierre Gasly",team:"Alpine",pts:42},
+    {p:11,name:"Arvid Lindblad",team:"Racing Bulls",pts:23},
+    {p:12,name:"Franco Colapinto",team:"Alpine",pts:19},
+    {p:13,name:"Oliver Bearman",team:"Haas",pts:18},
+    {p:14,name:"Gabriel Bortoleto",team:"Audi",pts:10},
+    {p:15,name:"Carlos Sainz",team:"Williams",pts:6},
+    {p:16,name:"Alexander Albon",team:"Williams",pts:5},
+    {p:17,name:"Esteban Ocon",team:"Haas",pts:3},
+    {p:18,name:"Nico Hulkenberg",team:"Audi",pts:2},
+    {p:19,name:"Fernando Alonso",team:"Aston Martin",pts:1},
+    {p:20,name:"Sergio Perez",team:"Cadillac",pts:0},
+    {p:21,name:"Valtteri Bottas",team:"Cadillac",pts:0},
+    {p:22,name:"Lance Stroll",team:"Aston Martin",pts:0}
+  ],
+  constructors: [
+    {p:1,team:"Mercedes",pts:379},{p:2,team:"Ferrari",pts:307},{p:3,team:"McLaren",pts:220},
+    {p:4,team:"Red Bull",pts:177},{p:5,team:"Racing Bulls",pts:66},{p:6,team:"Alpine",pts:61},
+    {p:7,team:"Haas",pts:21},{p:8,team:"Audi",pts:12},{p:9,team:"Williams",pts:11},
+    {p:10,team:"Aston Martin",pts:1},{p:11,team:"Cadillac",pts:0}
+  ],
+  results: [
+    {p:1,name:"Lando Norris",team:"McLaren",time:"1:39:56.180",pts:25},
+    {p:2,name:"Max Verstappen",team:"Red Bull",time:"+15.080s",pts:18},
+    {p:3,name:"Kimi Antonelli",team:"Mercedes",time:"+18.728s",pts:15},
+    {p:4,name:"Charles Leclerc",team:"Ferrari",time:"+23.840s",pts:12},
+    {p:5,name:"Lewis Hamilton",team:"Ferrari",time:"+24.540s (5s penalty)",pts:10},
+    {p:6,name:"Isack Hadjar",team:"Red Bull",time:"+55.488s",pts:8},
+    {p:7,name:"George Russell",team:"Mercedes",time:"+57.503s",pts:6},
+    {p:8,name:"Liam Lawson",team:"Racing Bulls",time:"+1 lap",pts:4},
+    {p:9,name:"Nico Hulkenberg",team:"Audi",time:"+1 lap",pts:2},
+    {p:10,name:"Arvid Lindblad",team:"Racing Bulls",time:"+1 lap",pts:1},
+    {p:11,name:"Gabriel Bortoleto",team:"Audi",time:"+1 lap",pts:0},
+    {p:12,name:"Pierre Gasly",team:"Alpine",time:"+1 lap",pts:0},
+    {p:13,name:"Lance Stroll",team:"Aston Martin",time:"+1 lap",pts:0},
+    {p:14,name:"Fernando Alonso",team:"Aston Martin",time:"+1 lap",pts:0},
+    {p:15,name:"Franco Colapinto",team:"Alpine",time:"+2 laps",pts:0},
+    {p:16,name:"Esteban Ocon",team:"Haas",time:"+2 laps",pts:0},
+    {p:17,name:"Alexander Albon",team:"Williams",time:"+2 laps",pts:0},
+    {p:18,name:"Carlos Sainz",team:"Williams",time:"+2 laps",pts:0},
+    {p:19,name:"Oliver Bearman",team:"Haas",time:"+2 laps (5s penalty)",pts:0},
+    {p:20,name:"Oscar Piastri",team:"McLaren",time:"DNF (gearbox)",pts:0},
+    {p:21,name:"Sergio Perez",team:"Cadillac",time:"DNF (front-left)",pts:0},
+    {p:22,name:"Valtteri Bottas",team:"Cadillac",time:"DNF (overheating brakes)",pts:0}
+  ]
+};
+(function(){
+  var D = window.F1_DATA;
+  if(!D) return;
+  function colorOf(t){ return (D.teamColors && D.teamColors[t]) || "#888"; }
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function cell(txt,cls){ return '<td class="'+(cls||'')+'">'+esc(txt)+'</td>'; }
+  var dt=document.getElementById('driversTbody');
+  if(dt){ dt.innerHTML = D.drivers.map(function(d){ var pod=d.p<=3?'podium':''; return '<tr class="'+pod+'">'+cell(d.p,'pos-cell')+'<td class="driver-cell"><span class="team-bar" style="background:'+colorOf(d.team)+'"></span>'+esc(d.name)+'</td>'+cell(d.team)+cell(d.pts,'mono points-cell')+'</tr>'; }).join(''); }
+  var ct=document.getElementById('constructorsTbody');
+  if(ct){ ct.innerHTML = D.constructors.map(function(c){ var pod=c.p<=3?'podium':''; return '<tr class="'+pod+'">'+cell(c.p,'pos-cell')+'<td class="driver-cell"><span class="team-bar" style="background:'+colorOf(c.team)+'"></span>'+esc(c.team)+'</td>'+cell(c.pts,'mono points-cell')+'</tr>'; }).join(''); }
+  var rt=document.getElementById('resultsTbody');
+  if(rt){ rt.innerHTML = D.results.map(function(r){ var pod=r.p<=3?'podium':''; return '<tr class="'+pod+'">'+cell(r.p,'pos-cell')+'<td class="driver-cell"><span class="team-bar" style="background:'+colorOf(r.team)+'"></span>'+esc(r.name)+'</td>'+cell(r.team)+cell(r.time,'mono')+cell(r.pts,'mono')+'</tr>'; }).join(''); }
+  var b=document.getElementById('dataAsOf');
+  if(b){ b.innerHTML='<span class="zh">'+esc(D.asOfLabel.zh)+'</span><span class="en">'+esc(D.asOfLabel.en)+'</span>'; }
+})();
+</script>
 
 <script>
     // Prediction Scores Chart

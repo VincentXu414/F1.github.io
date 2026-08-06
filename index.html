@@ -353,13 +353,17 @@ tr.podium .pos-cell { text-shadow:0 0 6px rgba(255,215,0,0.5); }
 .sch-node { flex:0 0 auto; min-width:124px; padding:12px 14px; border-radius:10px; text-align:center; }
 .sch-name { font-weight:700; font-size:14px; }
 .sch-date { font-size:12px; opacity:0.85; margin-top:4px; }
-.sch-done { background:#16261B; border:1px solid #198754; color:#9FE3B5; }
+.sch-done { background:#16261B; border:1px solid #198754; color:#9FE3B5; cursor:pointer; transition:all .2s; }
+.sch-done:hover { background:#1d3326; border-color:#22c55e; color:#fff; transform:translateY(-2px); }
 .sch-done .sch-name::before { content:"\2713  "; color:#198754; font-weight:900; }
-.sch-next { background:linear-gradient(135deg,#E10600,#B00500); color:#fff; animation:f1pulse 1.4s ease-in-out infinite; }
+.sch-next { background:linear-gradient(135deg,#E10600,#B00500); color:#fff; animation:f1pulse 1.4s ease-in-out infinite; cursor:pointer; }
 @keyframes f1pulse { 0%,100% { box-shadow:0 0 0 0 rgba(225,6,0,0.6); } 50% { box-shadow:0 0 0 9px rgba(225,6,0,0); } }
 .sch-todo { background:#23232B; border:1px solid #333; color:#888; cursor:pointer; transition:all .2s; }
 .sch-todo:hover { background:#2E2E38; border-color:#E10600; color:#fff; transform:translateY(-2px); }
-.sch-next { cursor:pointer; }
+.sch-active { border-color:#FFD700 !important; box-shadow:0 0 0 2px rgba(255,215,0,0.45), 0 4px 12px rgba(0,0,0,0.35); transform:translateY(-2px); color:#fff !important; }
+.sch-active.sch-done { background:#1d3326; }
+.sch-active.sch-todo { background:#2E2E38; }
+.sch-active .sch-name::before { color:#FFD700 !important; }
 
 /* ============ DRIVER CARDS ============ */
 .driver-cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:14px; margin:6px 0 22px; }
@@ -1481,7 +1485,7 @@ function fqShareCard(){ const score=document.getElementById('fqScore').textConte
   if(sp){
     var h2=sp.querySelector("h2");
     var sched=document.createElement("div"); sched.id="schedule-track"; sched.className="schedule-track";
-    var keyMap={"匈牙利 GP":"hungary","荷兰 GP":"netherlands","意大利 GP":"italy","阿塞拜疆 GP":"azerbaijan","新加坡 GP":"singapore","美国 GP":"usa","阿布扎比 GP":"abudhabi"};
+    var keyMap={"匈牙利 GP":"hungary","荷兰 GP":"netherlands","意大利 GP":"italy","西班牙 GP":"spain","阿塞拜疆 GP":"azerbaijan","巴林 GP":"bahrain","新加坡 GP":"singapore","美国 GP":"usa","墨西哥 GP":"mexico","巴西 GP":"brazil","拉斯维加斯 GP":"lasvegas","卡塔尔 GP":"qatar","阿布扎比 GP":"abudhabi"};
     var nodes=[
       {n:"匈牙利 GP",e:"Hungarian GP",d:"2026-07-26",s:"done"},
       {n:"荷兰 GP",e:"Netherlands GP",d:"2026-08-23",s:"next"},
@@ -1529,6 +1533,10 @@ function fqShareCard(){ const score=document.getElementById('fqScore').textConte
   } else { secs.forEach(function(s){ s.classList.add("visible"); }); }
 
   var RACE_DATA = {
+    hungary:{
+      zh:{name:"匈牙利大奖赛", circuit:"亨格罗林赛道", country:"匈牙利", weather:"7月下旬亨格罗林: 气温26-32°C/16-20°C, 干燥炎热, 偶发雷阵雨", type:"永久赛道", length:"4.381 km", laps:"70", distance:"306.630 km", corners:"14 (8右弯 + 6左弯)", downforce:"高下压力", tyre:"高", overtake:"困难", drs:"1", banking:"无", record:"1:16.627 (Hamilton 2020)", format:"常规赛周末"},
+      en:{name:"Hungarian GP", circuit:"Hungaroring", country:"Hungary", weather:"Late Jul Hungaroring: 26-32°C/16-20°C, dry and hot, occasional thunderstorms", type:"Permanent circuit", length:"4.381 km", laps:"70", distance:"306.630 km", corners:"14 (8 right + 6 left)", downforce:"High downforce", tyre:"High", overtake:"Hard", drs:"1", banking:"None", record:"1:16.627 (Hamilton 2020)", format:"Regular weekend"}
+    },
     netherlands:{
       zh:{name:"荷兰大奖赛", circuit:"赞德沃特赛道", country:"荷兰", weather:"8月21-23日 赞德沃特: 气温20-24°C/14-16°C, 8月平均7个雨天, 有降雨可能性, 海风影响空气动力学设定", type:"永久赛道/混合赛道", length:"4.259 km", laps:"72", distance:"306.587 km", corners:"14 (10右弯 + 4左弯)", downforce:"高下压力", tyre:"中等", overtake:"困难", drs:"2", banking:"T3 Hugenholtz (18度) + T14 Arie Luyendyk (19度)", record:"1:11.097 (Hamilton 2021)", format:"冲刺赛周末 (Sprint)"},
       en:{name:"Netherlands GP", circuit:"Zandvoort Circuit", country:"Netherlands", weather:"Aug 21-23 Zandvoort: 20-24°C/14-16°C, avg 7 rainy days in Aug, rain possible, sea breeze affects aero", type:"Permanent/Hybrid circuit", length:"4.259 km", laps:"72", distance:"306.587 km", corners:"14 (10 right + 4 left)", downforce:"High downforce", tyre:"Medium", overtake:"Hard", drs:"2", banking:"T3 Hugenholtz (18°) + T14 Arie Luyendyk (19°)", record:"1:11.097 (Hamilton 2021)", format:"Sprint weekend"}
@@ -1537,9 +1545,17 @@ function fqShareCard(){ const score=document.getElementById('fqScore').textConte
       zh:{name:"意大利大奖赛", circuit:"蒙扎赛道", country:"意大利", weather:"9月初蒙扎: 气温22-28°C/14-18°C, 降雨概率低, 典型欧洲夏末干燥天气", type:"永久赛道", length:"5.793 km", laps:"53", distance:"306.720 km", corners:"11 (7右弯 + 4左弯)", downforce:"低下压力", tyre:"高", overtake:"中等", drs:"2", banking:"无", record:"1:21.046 (Barrichello 2004)", format:"常规赛周末"},
       en:{name:"Italian GP", circuit:"Monza Circuit", country:"Italy", weather:"Early Sep Monza: 22-28°C/14-18°C, low rain chance, typical dry late-summer Europe", type:"Permanent circuit", length:"5.793 km", laps:"53", distance:"306.720 km", corners:"11 (7 right + 4 left)", downforce:"Low downforce", tyre:"High", overtake:"Medium", drs:"2", banking:"None", record:"1:21.046 (Barrichello 2004)", format:"Regular weekend"}
     },
+    spain:{
+      zh:{name:"西班牙大奖赛", circuit:"巴塞罗那-加泰罗尼亚赛道", country:"西班牙", weather:"9月中旬巴塞罗那: 气温22-27°C/16-20°C, 降雨概率中等, 海风影响", type:"永久赛道", length:"4.657 km", laps:"66", distance:"307.362 km", corners:"16 (8右弯 + 8左弯)", downforce:"中高", tyre:"高", overtake:"中等", drs:"2", banking:"无", record:"1:16.330 (Verstappen 2023)", format:"常规赛周末"},
+      en:{name:"Spanish GP", circuit:"Circuit de Barcelona-Catalunya", country:"Spain", weather:"Mid-Sep Barcelona: 22-27°C/16-20°C, moderate rain chance, sea breeze", type:"Permanent circuit", length:"4.657 km", laps:"66", distance:"307.362 km", corners:"16 (8 right + 8 left)", downforce:"Medium-high", tyre:"High", overtake:"Medium", drs:"2", banking:"None", record:"1:16.330 (Verstappen 2023)", format:"Regular weekend"}
+    },
     azerbaijan:{
       zh:{name:"阿塞拜疆大奖赛", circuit:"巴库城市赛道", country:"阿塞拜疆", weather:"巴库街头赛: 气温25-30°C/20-24°C, 里海海风, 偶有阵风", type:"街道赛", length:"6.003 km", laps:"51", distance:"306.050 km", corners:"20 (12右弯 + 8左弯)", downforce:"低下压力", tyre:"低", overtake:"困难", drs:"2", banking:"无", record:"1:43.009 (Leclerc 2019)", format:"常规赛周末"},
       en:{name:"Azerbaijan GP", circuit:"Baku City Circuit", country:"Azerbaijan", weather:"Baku street race: 25-30°C/20-24°C, Caspian sea breeze, occasional gusts", type:"Street circuit", length:"6.003 km", laps:"51", distance:"306.050 km", corners:"20 (12 right + 8 left)", downforce:"Low downforce", tyre:"Low", overtake:"Hard", drs:"2", banking:"None", record:"1:43.009 (Leclerc 2019)", format:"Regular weekend"}
+    },
+    bahrain:{
+      zh:{name:"巴林大奖赛", circuit:"巴林国际赛道", country:"巴林", weather:"10月初巴林: 气温32-36°C/24-28°C, 干燥少雨, 沙漠高温", type:"永久赛道", length:"5.412 km", laps:"57", distance:"308.484 km", corners:"15 (10右弯 + 5左弯)", downforce:"中高下压力", tyre:"高", overtake:"中等", drs:"3", banking:"无", record:"1:31.447 (De la Rosa 2005)", format:"常规赛周末"},
+      en:{name:"Bahrain GP", circuit:"Bahrain International Circuit", country:"Bahrain", weather:"Early Oct Bahrain: 32-36°C/24-28°C, dry, desert heat", type:"Permanent circuit", length:"5.412 km", laps:"57", distance:"308.484 km", corners:"15 (10 right + 5 left)", downforce:"Medium-high downforce", tyre:"High", overtake:"Medium", drs:"3", banking:"None", record:"1:31.447 (De la Rosa 2005)", format:"Regular weekend"}
     },
     singapore:{
       zh:{name:"新加坡大奖赛", circuit:"滨海湾街道赛道", country:"新加坡", weather:"新加坡夜赛: 气温28-31°C/24-26°C, 高湿度, 雷阵雨风险较高", type:"街道赛/夜赛", length:"4.940 km", laps:"62", distance:"306.143 km", corners:"19 (10右弯 + 9左弯)", downforce:"高下压力", tyre:"高", overtake:"困难", drs:"3", banking:"无", record:"1:34.486 (Hamilton 2021)", format:"夜赛常规赛周末"},
@@ -1548,6 +1564,22 @@ function fqShareCard(){ const score=document.getElementById('fqScore').textConte
     usa:{
       zh:{name:"美国大奖赛", circuit:"美洲赛道 (COTA)", country:"美国", weather:"奥斯汀10月: 气温24-29°C/15-20°C, 干燥少雨, 昼夜温差大", type:"永久赛道", length:"5.513 km", laps:"56", distance:"308.405 km", corners:"20 (11右弯 + 9左弯)", downforce:"中高", tyre:"中等", overtake:"中等", drs:"2", banking:"无", record:"1:36.169 (Leclerc 2019)", format:"常规赛周末"},
       en:{name:"United States GP", circuit:"Circuit of the Americas", country:"USA", weather:"Austin Oct: 24-29°C/15-20°C, dry, large day-night temp swing", type:"Permanent circuit", length:"5.513 km", laps:"56", distance:"308.405 km", corners:"20 (11 right + 9 left)", downforce:"Medium-high", tyre:"Medium", overtake:"Medium", drs:"2", banking:"None", record:"1:36.169 (Leclerc 2019)", format:"Regular weekend"}
+    },
+    mexico:{
+      zh:{name:"墨西哥大奖赛", circuit:"罗德里格斯兄弟赛道", country:"墨西哥", weather:"11月初墨西哥城: 气温18-22°C/8-12°C, 干燥, 高海拔空气稀薄", type:"永久赛道", length:"4.304 km", laps:"71", distance:"305.354 km", corners:"17 (10右弯 + 7左弯)", downforce:"高下压力", tyre:"中等", overtake:"中等", drs:"3", banking:"无", record:"1:17.774 (Verstappen 2023)", format:"常规赛周末"},
+      en:{name:"Mexico GP", circuit:"Autódromo Hermanos Rodríguez", country:"Mexico", weather:"Early Nov Mexico City: 18-22°C/8-12°C, dry, high altitude thin air", type:"Permanent circuit", length:"4.304 km", laps:"71", distance:"305.354 km", corners:"17 (10 right + 7 left)", downforce:"High downforce", tyre:"Medium", overtake:"Medium", drs:"3", banking:"None", record:"1:17.774 (Verstappen 2023)", format:"Regular weekend"}
+    },
+    brazil:{
+      zh:{name:"巴西大奖赛", circuit:"英特拉格斯赛道", country:"巴西", weather:"11月上旬圣保罗: 气温20-26°C/14-18°C, 雷雨多发, 天气多变", type:"永久赛道", length:"4.309 km", laps:"71", distance:"305.879 km", corners:"15 (6右弯 + 9左弯)", downforce:"中下压力", tyre:"中等", overtake:"容易", drs:"2", banking:"无", record:"1:10.540 (Bottas 2018)", format:"冲刺赛周末 (Sprint)"},
+      en:{name:"Brazilian GP", circuit:"Interlagos Circuit", country:"Brazil", weather:"Early Nov São Paulo: 20-26°C/14-18°C, thunderstorms, changeable", type:"Permanent circuit", length:"4.309 km", laps:"71", distance:"305.879 km", corners:"15 (6 right + 9 left)", downforce:"Medium-low", tyre:"Medium", overtake:"Easy", drs:"2", banking:"None", record:"1:10.540 (Bottas 2018)", format:"Sprint weekend"}
+    },
+    lasvegas:{
+      zh:{name:"拉斯维加斯大奖赛", circuit:"拉斯维加斯大道赛道", country:"美国", weather:"11月下旬拉斯维加斯: 气温12-18°C/4-8°C, 干燥寒冷, 夜间比赛", type:"街道赛/夜赛", length:"6.201 km", laps:"50", distance:"310.050 km", corners:"17 (10右弯 + 7左弯)", downforce:"低下压力", tyre:"低", overtake:"容易", drs:"2", banking:"无", record:"1:35.490 (Leclerc 2024)", format:"夜赛常规赛周末"},
+      en:{name:"Las Vegas GP", circuit:"Las Vegas Strip Circuit", country:"USA", weather:"Late Nov Las Vegas: 12-18°C/4-8°C, dry and cold, night race", type:"Street circuit / Night race", length:"6.201 km", laps:"50", distance:"310.050 km", corners:"17 (10 right + 7 left)", downforce:"Low downforce", tyre:"Low", overtake:"Easy", drs:"2", banking:"None", record:"1:35.490 (Leclerc 2024)", format:"Night race regular weekend"}
+    },
+    qatar:{
+      zh:{name:"卡塔尔大奖赛", circuit:"卢塞尔国际赛道", country:"卡塔尔", weather:"11月底卡塔尔: 气温22-28°C/16-20°C, 干燥, 夜间比赛", type:"永久赛道", length:"5.419 km", laps:"57", distance:"308.883 km", corners:"16 (10右弯 + 6左弯)", downforce:"中高下压力", tyre:"高", overtake:"中等", drs:"3", banking:"无", record:"1:24.319 (Verstappen 2023)", format:"冲刺赛周末 (Sprint)"},
+      en:{name:"Qatar GP", circuit:"Lusail International Circuit", country:"Qatar", weather:"Late Nov Qatar: 22-28°C/16-20°C, dry, night race", type:"Permanent circuit", length:"5.419 km", laps:"57", distance:"308.883 km", corners:"16 (10 right + 6 left)", downforce:"Medium-high downforce", tyre:"High", overtake:"Medium", drs:"3", banking:"None", record:"1:24.319 (Verstappen 2023)", format:"Sprint weekend"}
     },
     abudhabi:{
       zh:{name:"阿布扎比大奖赛", circuit:"亚斯码头赛道", country:"阿联酋", weather:"阿布扎比夜赛收官战: 气温26-31°C/18-22°C, 干燥, 极低降雨概率", type:"永久赛道/夜赛", length:"5.281 km", laps:"58", distance:"306.183 km", corners:"16 (9右弯 + 7左弯)", downforce:"中低", tyre:"中等", overtake:"中等", drs:"2", banking:"无", record:"1:26.103 (Verstappen 2021)", format:"夜赛常规赛周末 / 赛季收官"},
@@ -1583,9 +1615,9 @@ function fqShareCard(){ const score=document.getElementById('fqScore').textConte
         '<div class=\'track-item\'><span class=\'track-label\'><span class="zh">圈速纪录</span><span class="en">Lap record</span></span><span class=\'track-value\'>'+z.record+'</span></div>'+
         '<div class=\'track-item\'><span class=\'track-label\'><span class="zh">赛制</span><span class="en">Format</span></span><span class=\'track-value\'><span class="zh">'+z.format+'</span><span class="en">'+z.format+'</span></span></div>';
     }
-    document.querySelectorAll('#schedule-track .sch-node').forEach(function(n){ n.classList.remove('sch-next'); if(!n.classList.contains('sch-done')) n.classList.add('sch-todo'); });
+    document.querySelectorAll('#schedule-track .sch-node').forEach(function(n){ n.classList.remove('sch-active'); });
     var active = document.querySelector('#schedule-track .sch-node[onclick*="'+key+'"]');
-    if(active){ active.classList.remove('sch-todo'); active.classList.add('sch-next'); }
+    if(active){ active.classList.add('sch-active'); }
   };
 
   // Re-render track info on language switch

@@ -349,7 +349,9 @@ tr.podium .pos-cell { text-shadow:0 0 6px rgba(255,215,0,0.5); }
 @media (max-width:520px){ .cmp-selectors{ flex-direction:column; } .cmp-selectors select{ max-width:100%; } }
 
 /* ============ SCHEDULE TRACK ============ */
-.schedule-track { display:flex; gap:10px; overflow-x:auto; padding:4px 2px 14px; margin-bottom:18px; }
+.schedule-track { display:flex; gap:10px; overflow-x:auto; padding:4px 2px 14px; margin-bottom:18px; cursor:grab; }
+.schedule-track.dragging { cursor:grabbing; user-select:none; -webkit-user-select:none; }
+.schedule-track.dragging * { cursor:grabbing !important; }
 .sch-node { flex:0 0 auto; min-width:124px; padding:12px 14px; border-radius:10px; text-align:center; }
 .sch-name { font-weight:700; font-size:14px; }
 .sch-date { font-size:12px; opacity:0.85; margin-top:4px; }
@@ -1508,6 +1510,29 @@ function fqShareCard(){ const score=document.getElementById('fqScore').textConte
       return '<div class="sch-node '+cls+'"'+click+'><div class="sch-name"><span class="zh">'+x.n+'</span><span class="en">'+x.e+'</span></div><div class="sch-date">'+x.d+'</div></div>';
     }).join("");
     h2.insertAdjacentElement("afterend",sched);
+
+    // ---- drag-to-scroll: hold and drag to pan the schedule (order unchanged) ----
+    (function(){
+      var isDown=false, startX=0, startScroll=0, moved=false;
+      sched.addEventListener('mousedown', function(e){
+        isDown=true; moved=false; startX=e.clientX; startScroll=sched.scrollLeft;
+        sched.classList.add('dragging');
+      });
+      window.addEventListener('mousemove', function(e){
+        if(!isDown) return;
+        var dx = e.clientX - startX;
+        if(Math.abs(dx) > 5) moved=true;
+        sched.scrollLeft = startScroll - dx;
+      });
+      window.addEventListener('mouseup', function(){
+        isDown=false; sched.classList.remove('dragging');
+      });
+      sched.addEventListener('dragstart', function(e){ e.preventDefault(); });
+      // Suppress the click on a node if the user was actually dragging
+      sched.addEventListener('click', function(e){
+        if(moved){ e.stopPropagation(); e.preventDefault(); moved=false; }
+      }, true);
+    })();
   }
 
   document.querySelectorAll(".section table").forEach(function(t){

@@ -42,12 +42,8 @@
     .pos-cell { font-weight: 700; font-size: 16px; color: #e10600; width: 50px; text-align: center; }
     .driver-cell { font-weight: 600; display: flex; align-items: center; gap: 8px; }
     .team-bar { display: inline-block; width: 4px; height: 20px; border-radius: 2px; flex-shrink: 0; }
-    .mini-photo { width:30px; height:30px; border-radius:50%; object-fit:cover; flex:0 0 auto; box-shadow:0 0 0 2px rgba(255,255,255,.12); background:#333; }
     .dcard .davatar { position:relative; overflow:hidden; }
-    .davatar-img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border-radius:inherit; }
-    .davatar-initials { position:relative; z-index:0; }
     .cmp-photo { width:72px; height:72px; border-radius:50%; margin:6px auto 4px; position:relative; overflow:hidden; background:#333; box-shadow:0 0 0 3px rgba(225,6,0,.25); }
-    .cmp-photo-img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
     .cmp-initials { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:24px; color:#fff; }
 
     .mono { font-family: 'Consolas', 'Courier New', monospace; }
@@ -1235,30 +1231,6 @@ window.F1_DATA = {
     {p:7,team:"Haas",pts:21},{p:8,team:"Audi",pts:12},{p:9,team:"Williams",pts:11},
     {p:10,team:"Aston Martin",pts:1},{p:11,team:"Cadillac",pts:0}
   ],
-  driverPhotos: {
-    "Kimi Antonelli": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Kimi_Antonelli_at_the_2025_US_Grand_Prix_in_Austin%2C_TX_%28cropped%29.jpg/330px-Kimi_Antonelli_at_the_2025_US_Grand_Prix_in_Austin%2C_TX_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "Lewis Hamilton": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Prime_Minister_Keir_Starmer_meets_Sir_Lewis_Hamilton_%2854566928382%29_%28cropped%29.jpg/330px-Prime_Minister_Keir_Starmer_meets_Sir_Lewis_Hamilton_%2854566928382%29_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "George Russell": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/KingsLeonSilverstne040724_%2828_of_112%29_%2853838006028%29_%28cropped%29.jpg/330px-KingsLeonSilverstne040724_%2828_of_112%29_%2853838006028%29_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "Charles Leclerc": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/2024-08-25_Motorsport%2C_Formel_1%2C_Gro%C3%9Fer_Preis_der_Niederlande_2024_STP_3978_by_Stepro_%28cropped2%29.jpg/330px-2024-08-25_Motorsport%2C_Formel_1%2C_Gro%C3%9Fer_Preis_der_Niederlande_2024_STP_3978_by_Stepro_%28cropped2%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "Lando Norris": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/2024-08-25_Motorsport%2C_Formel_1%2C_Gro%C3%9Fer_Preis_der_Niederlande_2024_STP_3968_by_Stepro_%28cropped2%29.jpg/330px-2024-08-25_Motorsport%2C_Formel_1%2C_Gro%C3%9Fer_Preis_der_Niederlande_2024_STP_3968_by_Stepro_%28cropped2%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "Max Verstappen": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/2024-08-25_Motorsport%2C_Formel_1%2C_Gro%C3%9Fer_Preis_der_Niederlande_2024_STP_3973_by_Stepro_%28medium_crop%29.jpg/330px-2024-08-25_Motorsport%2C_Formel_1%2C_Gro%C3%9Fer_Preis_der_Niederlande_2024_STP_3973_by_Stepro_%28medium_crop%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "Oscar Piastri": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/2026_Chinese_GP_-_Oscar_Piastri_%28cropped%29_%28cropped%29.jpg/330px-2026_Chinese_GP_-_Oscar_Piastri_%28cropped%29_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "Isack Hadjar": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Isack_Hadjar_at_the_Melbourne_Walk_during_the_2026_Australian_Grand_Prix_%28028A8753%29_%28cropped%29.jpg/330px-Isack_Hadjar_at_the_Melbourne_Walk_during_the_2026_Australian_Grand_Prix_%28028A8753%29_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "Liam Lawson": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Liam_Lawson_at_the_Red_Bull_Fan_Zone_%E2%80%93_Crown_Riverwalk%2C_Melbourne_%28028A7795%29.jpg/330px-Liam_Lawson_at_the_Red_Bull_Fan_Zone_%E2%80%93_Crown_Riverwalk%2C_Melbourne_%28028A7795%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "Pierre Gasly": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/2022_French_Grand_Prix_%2852279065728%29_%28midcrop%29.png/330px-2022_French_Grand_Prix_%2852279065728%29_%28midcrop%29.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "Arvid Lindblad": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Arvid_Lindblad_at_the_Red_Bull_Fan_Zone_%E2%80%93_Crown_Riverwalk%2C_Melbourne_%28028A7869%29_%28cropped%29.jpg/330px-Arvid_Lindblad_at_the_Red_Bull_Fan_Zone_%E2%80%93_Crown_Riverwalk%2C_Melbourne_%28028A7869%29_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "Franco Colapinto": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Franco_Colapinto_at_the_Melbourne_Walk_during_the_2026_Australian_Grand_Prix_%28028A8698%29_cropped.jpg/330px-Franco_Colapinto_at_the_Melbourne_Walk_during_the_2026_Australian_Grand_Prix_%28028A8698%29_cropped.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "Oliver Bearman": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/2025_Japan_GP_-_Haas_-_Oliver_Bearman_-_Thursday_%28cropped%29.jpg/330px-2025_Japan_GP_-_Haas_-_Oliver_Bearman_-_Thursday_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "Gabriel Bortoleto": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Gabriel_Bortoleto_at_the_Melbourne_Walk_during_the_2026_Australian_Grand_Prix_%28028A8581%29_cropped.jpg/330px-Gabriel_Bortoleto_at_the_Melbourne_Walk_during_the_2026_Australian_Grand_Prix_%28028A8581%29_cropped.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "Carlos Sainz": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Formula1Gabelhofen2022_%2804%29_%28cropped2%29.jpg/330px-Formula1Gabelhofen2022_%2804%29_%28cropped2%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "Alexander Albon": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Alex_Albon_at_the_Melbourne_Walk_during_the_2026_Australian_Grand_Prix_%28028A8626%29_%28cropped%29.jpg/330px-Alex_Albon_at_the_Melbourne_Walk_during_the_2026_Australian_Grand_Prix_%28028A8626%29_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "Esteban Ocon": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Esteban_Ocon_2024_Suzuka_%28cropped%29.jpg/330px-Esteban_Ocon_2024_Suzuka_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "Nico Hulkenberg": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/2019_Formula_One_tests_Barcelona%2C_Hulkenberg_%2840287128313%29.jpg/330px-2019_Formula_One_tests_Barcelona%2C_Hulkenberg_%2840287128313%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "Fernando Alonso": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Alonso-68_%2824710447098%29.jpg/330px-Alonso-68_%2824710447098%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "Sergio Perez": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/2021_US_GP_driver_parade_%28cropped2%29.jpg/330px-2021_US_GP_driver_parade_%28cropped2%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "Valtteri Bottas": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Valtteri_Bottas_at_the_2026_Adelaide_Motorsport_Festival_%28028A7556%29.jpg/330px-Valtteri_Bottas_at_the_2026_Adelaide_Motorsport_Festival_%28028A7556%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "Lance Stroll": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/2025_Japan_GP_-_Aston_Martin_-_Lance_Stroll_-_Fanzone_Stage_%28cropped%29.jpg/330px-2025_Japan_GP_-_Aston_Martin_-_Lance_Stroll_-_Fanzone_Stage_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-  },
   results: [
     {p:1,name:"Lando Norris",team:"McLaren",time:"1:39:56.180",pts:25},
     {p:2,name:"Max Verstappen",team:"Red Bull",time:"+15.080s",pts:18},
@@ -1284,11 +1256,6 @@ window.F1_DATA = {
     {p:22,name:"Valtteri Bottas",team:"Cadillac",time:"DNF (overheating brakes)",pts:0}
   ]
 };
-function __driverPhoto(name, cls){
-  var m = window.F1_DATA && window.F1_DATA.driverPhotos;
-  if(!m || !m[name]) return '';
-  var u = m[name].replace(/&/g,'&amp;');
-  return '<img class="'+cls+'" src="'+u+'" alt="'+name+'" onerror="this.remove()">';}
 (function(){
   var D = window.F1_DATA;
   if(!D) return;
@@ -1296,11 +1263,11 @@ function __driverPhoto(name, cls){
   function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
   function cell(txt,cls){ return '<td class="'+(cls||'')+'">'+esc(txt)+'</td>'; }
   var dt=document.getElementById('driversTbody');
-  if(dt){ dt.innerHTML = D.drivers.map(function(d){ var pod=d.p<=3?'podium':''; return '<tr class="'+pod+'">'+cell(d.p,'pos-cell')+'<td class="driver-cell"><span class="team-bar" style="background:'+colorOf(d.team)+'"></span>'+__driverPhoto(d.name,'mini-photo')+esc(d.name)+'</td>'+cell(d.team)+cell(d.pts,'mono points-cell')+'</tr>'; }).join(''); }
+  if(dt){ dt.innerHTML = D.drivers.map(function(d){ var pod=d.p<=3?'podium':''; return '<tr class="'+pod+'">'+cell(d.p,'pos-cell')+'<td class="driver-cell"><span class="team-bar" style="background:'+colorOf(d.team)+'"></span>'+esc(d.name)+'</td>'+cell(d.team)+cell(d.pts,'mono points-cell')+'</tr>'; }).join(''); }
   var ct=document.getElementById('constructorsTbody');
   if(ct){ ct.innerHTML = D.constructors.map(function(c){ var pod=c.p<=3?'podium':''; return '<tr class="'+pod+'">'+cell(c.p,'pos-cell')+'<td class="driver-cell"><span class="team-bar" style="background:'+colorOf(c.team)+'"></span>'+esc(c.team)+'</td>'+cell(c.pts,'mono points-cell')+'</tr>'; }).join(''); }
   var rt=document.getElementById('resultsTbody');
-  if(rt){ rt.innerHTML = D.results.map(function(r){ var pod=r.p<=3?'podium':''; return '<tr class="'+pod+'">'+cell(r.p,'pos-cell')+'<td class="driver-cell"><span class="team-bar" style="background:'+colorOf(r.team)+'"></span>'+__driverPhoto(r.name,'mini-photo')+esc(r.name)+'</td>'+cell(r.team)+cell(r.time,'mono')+cell(r.pts,'mono')+'</tr>'; }).join(''); }
+  if(rt){ rt.innerHTML = D.results.map(function(r){ var pod=r.p<=3?'podium':''; return '<tr class="'+pod+'">'+cell(r.p,'pos-cell')+'<td class="driver-cell"><span class="team-bar" style="background:'+colorOf(r.team)+'"></span>'+esc(r.name)+'</td>'+cell(r.team)+cell(r.time,'mono')+cell(r.pts,'mono')+'</tr>'; }).join(''); }
   var b=document.getElementById('dataAsOf');
   if(b){ b.innerHTML='<span class="zh">'+esc(D.asOfLabel.zh)+'</span><span class="en">'+esc(D.asOfLabel.en)+'</span>'; }
 })();
@@ -1509,7 +1476,7 @@ function fqShareCard(){ const score=document.getElementById('fqScore').textConte
       var code=codeMap[name]||"";
       var card=document.createElement("div"); card.className="dcard";
       card.innerHTML='<div class="dpos">'+pos+'</div>'+
-        '<div class="davatar" style="background:'+color+'">'+__driverPhoto(name,'davatar-img')+'<span class="davatar-initials">'+initials(name)+'</span></div>'+
+        '<div class="davatar" style="background:'+color+'">'+initials(name)+'</div>'+
         '<div class="dname">'+name+(code?'<span class="dflag-badge">'+code+'</span>':'')+'</div>'+
         '<div class="dteam">'+team+'</div>'+
         '<div class="dpoints" data-target="'+pts+'">0</div>'+
@@ -1794,7 +1761,7 @@ function fqShareCard(){ const score=document.getElementById('fqScore').textConte
   function initialsOf(n){ var p=n.split(/\s+/); return (p[0][0]+(p[1]?p[1][0]:'')).toUpperCase(); }
   function renderCard(id,d){
     var c=$(id); if(!c||!d) return;
-    c.innerHTML='<div class="cmp-photo">'+__driverPhoto(d.name,'cmp-photo-img')+'<span class="cmp-initials">'+initialsOf(d.name)+'</span></div>'+
+    c.innerHTML='<div class="cmp-photo">'+'<span class="cmp-initials">'+initialsOf(d.name)+'</span></div>'+
       '<div class="cmp-rank-badge">P'+d.p+'</div>'+
       '<div class="cmp-driver">'+d.name+'</div>'+
       '<div class="cmp-team"><span class="tb" style="background:'+teamColor(d.team)+'"></span>'+d.team+'</div>'+

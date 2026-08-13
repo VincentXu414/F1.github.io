@@ -344,6 +344,13 @@ tr.podium .pos-cell { text-shadow:0 0 6px rgba(255,215,0,0.5); }
   transition: transform .12s;
 }
 .sunset-fab .sf-btn:hover { transform: translateY(-1px); }
+
+/* SUNSET notice + FAB shown ONLY on the github.io deployment; hidden on all other sites */
+.sunset-banner { display: none; }
+body.sunset-on .sunset-banner { display: block; }
+.sunset-fab { display: none; }
+body.sunset-on .sunset-fab { display: block; }
+
 @media (prefers-reduced-motion: reduce) {
   .sunset-fab { transition: opacity .2s ease; transform: translateY(-50%) translateX(170%); }
   .sunset-fab.show { transform: translateY(-50%) translateX(0); }
@@ -507,6 +514,7 @@ var _hmt = _hmt || [];
 
 </head>
 <body class="lang-zh">
+<script>if(/vincentxu414\.github\.io\/F1\.github\.io/.test(location.href))document.body.classList.add('sunset-on');</script>
 
 <nav class="f1-nav">
   <div class="f1-nav-left">
@@ -1498,8 +1506,9 @@ function fqShareCard(){ const score=document.getElementById('fqScore').textConte
 (function(){
   var fab = document.getElementById('sunsetFab');
   if(!fab) return;
+  var isGithubIo = document.body.classList.contains('sunset-on');
   function update(){
-    if(window.scrollY > 350) fab.classList.add('show');
+    if(isGithubIo && window.scrollY > 350) fab.classList.add('show');
     else fab.classList.remove('show');
   }
   window.addEventListener('scroll', update, { passive: true });

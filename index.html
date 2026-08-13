@@ -1514,8 +1514,7 @@ function fqShareCard(){ const score=document.getElementById('fqScore').textConte
   var fab = document.getElementById('sunsetFab');
   var closeBtn = document.getElementById('sunsetFabClose');
   if(!fab) return;
-  var dismissed = false;
-  try { dismissed = (localStorage.getItem('sunsetFabDismissed') === '1'); } catch(e) {}
+  var dismissed = false;  // 仅本次访问有效：关闭后本次不再弹，刷新/下次访问重新出现
   function update(){
     if(dismissed || window.scrollY > 350) fab.classList.add('show');
     else fab.classList.remove('show');
@@ -1526,7 +1525,6 @@ function fqShareCard(){ const score=document.getElementById('fqScore').textConte
     closeBtn.addEventListener('click', function(){
       dismissed = true;
       fab.classList.remove('show');
-      try { localStorage.setItem('sunsetFabDismissed', '1'); } catch(e) {}
     });
   }
 })();

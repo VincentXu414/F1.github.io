@@ -304,6 +304,65 @@ tr.podium .pos-cell { text-shadow:0 0 6px rgba(255,215,0,0.5); }
 .f1-checkered:hover { animation-duration:0.9s, 0.9s; cursor:pointer; filter:brightness(1.15); }
 @media (prefers-reduced-motion: reduce) { .f1-checkered { animation:f1-flag-glow 3.5s ease-in-out infinite; } }
 
+/* ============ SUNSET FAB: scroll-triggered right-side box ============ */
+.sunset-fab {
+  position: fixed;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%) translateX(170%);
+  width: 250px;
+  max-width: calc(100vw - 32px);
+  z-index: 380;
+  background: linear-gradient(150deg, #7a0000 0%, #e10600 100%);
+  color: #fff;
+  border-radius: 14px;
+  padding: 16px 16px 18px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.10);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform .45s cubic-bezier(.22,1,.36,1), opacity .35s ease;
+}
+.sunset-fab.show {
+  transform: translateY(-50%) translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+.sunset-fab .sf-close {
+  position: absolute;
+  top: 8px; right: 10px;
+  background: rgba(255,255,255,0.15);
+  border: none;
+  color: #fff;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background .2s;
+}
+.sunset-fab .sf-close:hover { background: rgba(255,255,255,0.32); }
+.sunset-fab .sf-icon { font-size: 20px; margin-bottom: 4px; }
+.sunset-fab .sf-title { font-size: 17px; font-weight: 900; line-height: 1.3; margin-bottom: 6px; }
+.sunset-fab .sf-text { font-size: 12.5px; line-height: 1.6; opacity: .95; margin-bottom: 12px; }
+.sunset-fab .sf-btn {
+  display: block;
+  text-align: center;
+  background: #fff;
+  color: #e10600;
+  font-weight: 800;
+  font-size: 14px;
+  padding: 9px 12px;
+  border-radius: 24px;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  transition: transform .12s;
+}
+.sunset-fab .sf-btn:hover { transform: translateY(-1px); }
+@media (prefers-reduced-motion: reduce) {
+  .sunset-fab { transition: opacity .2s ease; transform: translateY(-50%) translateX(170%); }
+  .sunset-fab.show { transform: translateY(-50%) translateX(0); }
+}
+
 /* ============ GAME: F1 start reaction ============ */
 .game-card { background:#26262E; border:1px solid #333; border-radius:14px; padding:24px 22px; max-width:580px; margin:0 auto; text-align:center; }
 .game-tip { color:#BBB; font-size:13px; line-height:1.6; margin:0 0 18px; }
@@ -1438,6 +1497,40 @@ function fqShareCard(){ const score=document.getElementById('fqScore').textConte
 })();
 </script>
 <div class="f1-checkered" aria-hidden="true"></div>
+
+<!-- SUNSET FAB: scroll-triggered right-side notice box -->
+<div class="sunset-fab" id="sunsetFab" role="complementary" aria-label="Site sunset notice">
+  <button class="sf-close" id="sunsetFabClose" type="button" aria-label="关闭">×</button>
+  <div class="sf-icon">⚠️</div>
+  <div class="sf-title"><span class="zh">本站即将停用</span><span class="en">This site is closing</span></div>
+  <div class="sf-text">
+    <span class="zh">我们将停止更新本网站，请前往新站点继续使用 F1 追踪报告：</span>
+    <span class="en">We will stop updating this site. Please visit the new site to keep using the F1 tracking report:</span>
+  </div>
+  <a class="sf-btn" href="https://www.racingcarhome.com" target="_blank" rel="noopener">www.racingcarhome.com</a>
+</div>
+<script>
+(function(){
+  var fab = document.getElementById('sunsetFab');
+  var closeBtn = document.getElementById('sunsetFabClose');
+  if(!fab) return;
+  var dismissed = false;
+  try { dismissed = (localStorage.getItem('sunsetFabDismissed') === '1'); } catch(e) {}
+  function update(){
+    if(dismissed || window.scrollY > 350) fab.classList.add('show');
+    else fab.classList.remove('show');
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+  if(closeBtn){
+    closeBtn.addEventListener('click', function(){
+      dismissed = true;
+      fab.classList.remove('show');
+      try { localStorage.setItem('sunsetFabDismissed', '1'); } catch(e) {}
+    });
+  }
+})();
+</script>
 <script>
 
 (function(){

@@ -557,15 +557,15 @@ var _hmt = _hmt || [];
         <span class="sb-text"><span class="zh">夏休期中 — 赛季未结束</span><span class="en">Summer break -- season not over</span></span>
         <span class="sb-countdown"><span class="zh">下场比赛: 荷兰大奖赛 (2026-08-23)</span><span class="en">Next race: Netherlands GP (2026-08-23)</span></span>
         <div id="race-countdown" class="race-timer">
-            <span class="zh" id="rc-zh">距荷兰大奖赛开赛还有 --</span>
-            <span class="en" id="rc-en">Netherlands GP starts in --</span>
+            <span class="zh" id="rc-zh">距荷兰大奖赛一练还有 --</span>
+            <span class="en" id="rc-en">Netherlands GP FP1 in --</span>
         </div>
     </div>
 
 
     <div class="report-header">
         <h1><span class="zh">F1 2026 赛季追踪报告</span><span class="en">F1 2026 Season Tracking Report</span></h1>
-        <div class="subtitle"><span class="zh">报告生成日期: 2026-08-13 09:53（北京时间）</span><span class="en">Report generated: 2026-08-13 09:53 (Beijing Time)</span></div>
+        <div class="subtitle"><span class="zh">报告生成日期: 2026-08-14 09:47（北京时间）</span><span class="en">Report generated: 2026-08-14 09:47 (Beijing Time)</span></div>
         <div class="race-badge"><span class="zh">最近完赛: 匈牙利大奖赛</span><span class="en">Last race: Hungarian GP</span></div>
         <div class="data-asof" id="dataAsOf"></div>
     </div>
@@ -1219,7 +1219,7 @@ var _hmt = _hmt || [];
       <span class="en">Data: compiled from F1.com official sources · results &amp; standings as of Hungarian GP (2026-07-26)</span>
     </div>
     <div class="f1-footer-row">
-      <span class="zh">报告生成时间：2026-08-13 09:53（北京时间）</span>
+      <span class="zh">报告生成时间：2026-08-14 09:47（北京时间）</span>
       <span class="en">Report generated: 2026-08-13 09:53 (Beijing Time)</span>
     </div>
     <div class="f1-footer-row">
@@ -1392,7 +1392,7 @@ window.F1_DATA = {
     window.addEventListener('resize', function(){ if(window.__curLang) moveLangSlider(window.__curLang); });
 
     (function(){
-        var target = new Date(Date.UTC(2026, 7, 23, 13, 0, 0)).getTime(); // 荷兰大奖赛正赛 = 北京时间 2026-08-23 21:00
+        var target = new Date(Date.UTC(2026, 7, 21, 10, 30, 0)).getTime(); // 荷兰大奖赛一练 FP1 = 北京时间 2026-08-21 18:30
         function pad(n){ return (n < 10 ? '0' : '') + n; }
         var timer = null;
         function tick(){
@@ -1401,8 +1401,8 @@ window.F1_DATA = {
             if(!zh || !en) return;
             var diff = target - Date.now();
             if(diff <= 0){
-                zh.textContent = '荷兰大奖赛正在进行中！';
-                en.textContent = 'The Netherlands GP is LIVE now!';
+                zh.textContent = '荷兰大奖赛一练正在进行中！';
+                en.textContent = 'Netherlands GP FP1 is LIVE now!';
                 if(timer) clearInterval(timer);
                 return;
             }
@@ -1410,8 +1410,8 @@ window.F1_DATA = {
             var d = Math.floor(s / 86400); s -= d * 86400;
             var h = Math.floor(s / 3600); s -= h * 3600;
             var m = Math.floor(s / 60); s -= m * 60;
-            zh.textContent = '距荷兰大奖赛开赛还有 ' + d + ' 天 ' + pad(h) + ' 时 ' + pad(m) + ' 分 ' + pad(s) + ' 秒';
-            en.textContent = 'Netherlands GP starts in ' + d + 'd ' + pad(h) + 'h ' + pad(m) + 'm ' + pad(s) + 's';
+            zh.textContent = '距荷兰大奖赛一练还有 ' + d + ' 天 ' + pad(h) + ' 时 ' + pad(m) + ' 分 ' + pad(s) + ' 秒';
+            en.textContent = 'Netherlands GP FP1 in ' + d + 'd ' + pad(h) + 'h ' + pad(m) + 'm ' + pad(s) + 's';
         }
         timer = setInterval(tick, 1000);
         tick();
